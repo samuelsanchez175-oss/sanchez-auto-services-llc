@@ -3,12 +3,34 @@
 import Link from "next/link";
 import { Phone, MapPin, ExternalLink } from "lucide-react";
 
-import { formatAddressInline, site, schedule } from "@/lib/site-content";
+import { formatAddressInline, site, schedule, services as siteServices } from "@/lib/site-content";
+import type { ServiceId } from "@/lib/catalog/types";
 import { useCatalog } from "@/lib/locale";
+
+/** Footer line order: general mechanics first, then other `site-content` offerings (no per-service routes). */
+const FOOTER_SERVICES_LINE_ORDER: ServiceId[] = [
+  "mechanics",
+  "collision",
+  "paint",
+  "engine",
+  "brakes",
+  "diagnostics",
+  "transmission",
+  "oil",
+  "suspension",
+  "electrical",
+  "ac",
+  "tires",
+];
 
 export function Footer() {
   const year = new Date().getFullYear();
   const c = useCatalog();
+
+  const servicesFooterLine = FOOTER_SERVICES_LINE_ORDER.map((id) => {
+    const fromSite = siteServices.find((s) => s.id === id);
+    return c.serviceCopy[id]?.title ?? fromSite?.title ?? id;
+  }).join(" · ");
 
   return (
     <footer style={{ background: "#0d0d0f", color: "#a09cb0" }}>
@@ -53,22 +75,20 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Services links */}
+          {/* Services — single listing page; offerings grouped on one line under general mechanics */}
           <div className="space-y-4">
-            <p className="text-xs font-bold uppercase tracking-[0.20em] text-white">Services</p>
+            <p className="text-xs font-bold uppercase tracking-[0.20em] text-white">{c.nav.pagesServices}</p>
             <ul className="space-y-2 text-sm">
-              {["Collision Repair", "Paint & Refinishing", "Engine Repair", "General Mechanics",
-                "Diagnostics", "Brake Service", "Oil Changes"].map((s) => (
-                <li key={s}>
-                  <Link
-                    href="/services"
-                    className="no-underline transition-colors hover:text-white"
-                    style={{ color: "inherit" }}
-                  >
-                    {s}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link
+                  href="/services"
+                  aria-label={c.footer.servicesBrowseAria}
+                  className="no-underline transition-colors hover:text-white"
+                  style={{ color: "inherit" }}
+                >
+                  {servicesFooterLine}
+                </Link>
+              </li>
             </ul>
           </div>
 

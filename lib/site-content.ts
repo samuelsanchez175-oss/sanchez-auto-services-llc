@@ -1,3 +1,5 @@
+import type { ServiceDashKind, ServiceId } from "@/lib/catalog/types";
+
 export const site = {
   name: "Sanchez Auto Services LLC",
   tagline: "Collision repair, mechanical maintenance, and refinishing — Paterson, NJ.",
@@ -17,8 +19,37 @@ export const site = {
   social: {
     facebook: "https://www.facebook.com/SanchezAutoService.LLC/",
   },
+  /** WhatsApp Business — digits only for `https://wa.me/{whatsappPhone}` (matches primary line). */
+  whatsappPhone: "19736094586",
   googleRatingSummary: "~4.8-star average on Google Reviews (public listing).",
 };
+
+/** SEO `<meta name="keywords">` source — centralized; avoid repeating in page copy. */
+export const siteSeoKeywords = [
+  "Sanchez Auto Services LLC",
+  "auto repair Paterson NJ",
+  "collision repair Paterson",
+  "body shop Paterson NJ",
+  "East Railway Ave auto shop Paterson",
+  "WhatsApp auto repair quote",
+  "commercial van repair Paterson",
+  "fleet vehicle repair Paterson NJ",
+  "brake service near Route 80",
+  "automotive diagnostics Paterson",
+  "paint and refinishing Paterson",
+  "engine repair Paterson NJ",
+  "transmission service Paterson",
+  "suspension and alignment Paterson",
+  "AC repair auto Paterson",
+  "oil change Paterson NJ",
+  "Passaic County auto repair",
+  "family owned body shop Paterson",
+] as const satisfies readonly string[];
+
+/** Google Maps turn-by-turn directions to the shop (single source: `site.address`). */
+export const mapDirectionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+  `${site.address.line1}, ${site.address.city}, ${site.address.state} ${site.address.postalCode}`,
+)}`;
 
 export const schedule = [
   { days: "Monday – Friday", hours: "9:00 AM – 6:00 PM" },
@@ -26,13 +57,22 @@ export const schedule = [
   { days: "Sunday", hours: "Call ahead — hours may vary" },
 ];
 
-export const services = [
+export type SiteService = {
+  id: ServiceId;
+  title: string;
+  description: string;
+  icon: string;
+  dashIndicator?: ServiceDashKind | null;
+};
+
+export const services: SiteService[] = [
   {
     id: "collision",
     title: "Collision & Body Repair",
     description:
       "Expert structural and panel repair after accidents. We restore your vehicle's factory geometry, safety integrity, and appearance.",
     icon: "car-front",
+    dashIndicator: "airbag_srs",
   },
   {
     id: "paint",
@@ -47,6 +87,7 @@ export const services = [
     description:
       "Diagnosis, repair, and full engine rebuilds for all makes and models. From head gaskets to complete overhauls — we fix it right.",
     icon: "cog",
+    dashIndicator: "oil_pressure",
   },
   {
     id: "mechanics",
@@ -61,6 +102,7 @@ export const services = [
     description:
       "Pads, rotors, calipers, brake lines, and fluid flushes. We ensure your stopping power is always reliable and safe.",
     icon: "circle-stop",
+    dashIndicator: "brake_warning",
   },
   {
     id: "diagnostics",
@@ -68,6 +110,7 @@ export const services = [
     description:
       "Advanced OBD scanning and system diagnostics. We read codes, test components, and give you clear answers — not guesses.",
     icon: "scan-line",
+    dashIndicator: "check_engine",
   },
   {
     id: "transmission",
@@ -75,6 +118,7 @@ export const services = [
     description:
       "Fluid changes, filter replacements, adjustments, and full transmission rebuilds for both automatic and manual vehicles.",
     icon: "gauge",
+    dashIndicator: "transmission_temp",
   },
   {
     id: "oil",
@@ -82,6 +126,7 @@ export const services = [
     description:
       "Conventional, synthetic, and high-mileage oil changes. We also handle filter replacements and routine maintenance schedules.",
     icon: "droplets",
+    dashIndicator: "maintenance",
   },
   {
     id: "suspension",
@@ -96,6 +141,7 @@ export const services = [
     description:
       "Battery testing and replacement, alternators, starters, wiring, and electrical diagnostics for all modern vehicle systems.",
     icon: "zap",
+    dashIndicator: "battery_charge",
   },
   {
     id: "ac",
@@ -110,6 +156,7 @@ export const services = [
     description:
       "Tire mounting, balancing, rotation, and pressure checks. We'll help you find the right tires for your vehicle and budget.",
     icon: "circle-dot",
+    dashIndicator: "tpms",
   },
 ];
 

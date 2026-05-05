@@ -1,39 +1,126 @@
 "use client";
 
+import Image from "next/image";
 import { MessageCircle, Phone, ChevronDown } from "lucide-react";
-import { site } from "@/lib/site-content";
+import { useEffect, useState } from "react";
 import { useCatalog } from "@/lib/locale";
+import { ServiceQuoteModal } from "@/components/marketing/service-quote-modal1515";
 
 const WA_NUMBER = "19736094586";
 const WA_GREETING = "Hi! I'd like to get a quote or ask about your services. Can you help me?";
+
+/** Visible time per slide before crossfading to the next. */
+export const HERO_SLIDESHOW_HOLD_MS = 7000;
+/** Crossfade duration; blur eases with opacity via the same transition. */
+export const HERO_SLIDESHOW_TRANSITION_MS = 750;
+/** Peak blur (px) at the midpoint of the crossfade. */
+export const HERO_SLIDESHOW_BLUR_PX = 12;
+
+const HERO_SLIDE_PATHS = [
+  "/hero-slideshow/slide-01.png",
+  "/hero-slideshow/slide-02.png",
+  "/hero-slideshow/slide-03.png",
+  "/hero-slideshow/slide-04.png",
+  "/hero-slideshow/slide-05.png",
+  "/hero-slideshow/slide-06.png",
+  "/hero-slideshow/slide-07.png",
+] as const;
 
 function waUrl(text: string) {
   return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
 }
 
+function HeroSlideshowBackground() {
+  const [state, setState] = useState<{
+    top: 0 | 1;
+    idx0: number;
+    idx1: number;
+  }>({ top: 0, idx0: 0, idx1: 1 });
+
+  useEffect(() => {
+    let holdTimer: ReturnType<typeof setTimeout> | undefined;
+    let transTimer: ReturnType<typeof setTimeout> | undefined;
+
+    const scheduleCycle = () => {
+      holdTimer = setTimeout(() => {
+        setState((s) => {
+          const hidden = (1 - s.top) as 0 | 1;
+          const curIdx = s.top === 0 ? s.idx0 : s.idx1;
+          const nextIdx = (curIdx + 1) % HERO_SLIDE_PATHS.length;
+          return {
+            top: hidden,
+            idx0: hidden === 0 ? nextIdx : s.idx0,
+            idx1: hidden === 1 ? nextIdx : s.idx1,
+          };
+        });
+        transTimer = setTimeout(scheduleCycle, HERO_SLIDESHOW_TRANSITION_MS);
+      }, HERO_SLIDESHOW_HOLD_MS);
+    };
+
+    scheduleCycle();
+    return () => {
+      if (holdTimer !== undefined) clearTimeout(holdTimer);
+      if (transTimer !== undefined) clearTimeout(transTimer);
+    };
+  }, []);
+
+  const { top, idx0, idx1 } = state;
+
+  const layers: { slot: 0 | 1; slideIndex: number }[] = [
+    { slot: 0, slideIndex: idx0 },
+    { slot: 1, slideIndex: idx1 },
+  ];
+
+  return (
+    <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden>
+      {layers.map(({ slot, slideIndex }) => {
+        const isTop = top === slot;
+        return (
+          <div
+            key={slot}
+            className="absolute inset-0"
+            style={{
+              zIndex: isTop ? 2 : 1,
+              opacity: isTop ? 1 : 0,
+              filter: isTop ? "blur(0px)" : `blur(${HERO_SLIDESHOW_BLUR_PX}px)`,
+              transition: `opacity ${HERO_SLIDESHOW_TRANSITION_MS}ms ease-in-out, filter ${HERO_SLIDESHOW_TRANSITION_MS}ms ease-in-out`,
+            }}
+          >
+            <Image
+              src={HERO_SLIDE_PATHS[slideIndex]}
+              alt=""
+              fill
+              sizes="100vw"
+              priority={slot === 0 && slideIndex === 0}
+              className="object-cover object-center"
+            />
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export function WhatsAppHero() {
   const c = useCatalog();
+  const [quoteOpen, setQuoteOpen] = useState(false);
 
   function scrollToServices() {
     document.getElementById("services")?.scrollIntoView({ behavior: "smooth" });
   }
 
   return (
+    <>
     <section
       id="home"
       className="relative flex min-h-[100svh] flex-col overflow-hidden"
     >
-      {/* ── Hero background image (real shop photo) ── */}
+      {/* ── Hero background slideshow ── */}
       <div className="absolute inset-0 z-0">
-        <img
-          src="/gallery/shop-1.jpg"
-          alt="Sanchez Auto Services shop floor"
-          className="h-full w-full object-cover object-center"
-          fetchPriority="high"
-        />
+        <HeroSlideshowBackground />
         {/* Multi-layer dark gradient overlay for legibility */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 z-[1]"
           style={{
             background:
               "linear-gradient(to bottom, rgba(10,8,16,0.30) 0%, rgba(10,8,16,0.45) 30%, rgba(10,8,16,0.50) 65%, rgba(10,8,16,0.88) 100%)",
@@ -43,7 +130,7 @@ export function WhatsAppHero() {
       </div>
 
       {/* ── Content ── */}
-      <div className="relative z-10 flex flex-1 flex-col items-center justify-end px-5 pb-10 pt-20 text-center sm:justify-center sm:pt-20">
+      <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-5 pt-20 text-center">
 
         {/* Badge */}
         <div
@@ -60,9 +147,9 @@ export function WhatsAppHero() {
           style={{ color: "#ffffff" }}
         >
           {c.locale === "es" ? (
-            <>Respuestas Rápidas.<br /><span style={{ color: "#25d366" }}>Cotizaciones Reales.</span></>
+            <>Respuestas Rápidas.<br /><span style={{ color: "#e04e28" }}>Cotizaciones Reales.</span></>
           ) : (
-            <>Fast Answers.<br /><span style={{ color: "#25d366" }}>Real Quotes.</span></>
+            <>Fast Answers.<br /><span style={{ color: "#e04e28" }}>Real Quotes.</span></>
           )}
         </h1>
 
@@ -91,19 +178,19 @@ export function WhatsAppHero() {
           {c.locale === "es" ? "Chatear por WhatsApp" : "Chat with Us on WhatsApp"}
         </a>
 
-        {/* Phone buttons */}
-        <div className="mb-8 flex w-full max-w-xs gap-2">
-          {site.phones.map((p) => (
-            <a
-              key={p.tel}
-              href={p.tel}
-              className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border py-3 text-xs font-bold text-white no-underline transition-all"
-              style={{ borderColor: "rgba(255,255,255,0.18)", background: "rgba(255,255,255,0.06)", backdropFilter: "blur(6px)" }}
-            >
-              <Phone className="size-3.5" aria-hidden />
-              {p.display}
-            </a>
-          ))}
+        {/* Quote request (same flow as service tiles in SeoServicesSection) */}
+        <div className="mb-8 flex w-full max-w-xs justify-center">
+          <button
+            type="button"
+            onClick={() => setQuoteOpen(true)}
+            aria-expanded={quoteOpen}
+            aria-haspopup="dialog"
+            className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl border py-3 text-xs font-bold text-white transition-all active:scale-[0.98]"
+            style={{ borderColor: "rgba(255,255,255,0.18)", background: "rgba(255,255,255,0.06)", backdropFilter: "blur(6px)" }}
+          >
+            <Phone className="size-3.5 shrink-0" aria-hidden />
+            {c.quote.title}
+          </button>
         </div>
 
         {/* ── See All Services button ── */}
@@ -121,5 +208,12 @@ export function WhatsAppHero() {
         </button>
       </div>
     </section>
+    {quoteOpen ? (
+      <ServiceQuoteModal
+        service={c.quote.title}
+        onClose={() => setQuoteOpen(false)}
+      />
+    ) : null}
+    </>
   );
 }

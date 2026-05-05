@@ -15,6 +15,7 @@ export const esCatalog: Catalog = {
     hours: "Horarios y ubicación",
     quote: "Cotización",
     faq: "Preguntas",
+    directions: "Cómo llegar",
     pagesServices: "Servicios",
     privacy: "Privacidad",
     terms: "Términos",
@@ -106,61 +107,85 @@ export const esCatalog: Catalog = {
       title: "Chapa y estructuras",
       description:
         "Alineaciones, reemplazo paneles externos, trabajo en paragolpes/unibody y protección anticorrosión.",
+      whenToService:
+        "Tras un golpe: paneles desalineados, huecos en puertas, testigo de airbag o cuando la aseguradora pide presupuesto por escrito.",
     },
     paint: {
       title: "Pintura y acabados",
       description:
         "Mezclas multi‑capas, fusión de paneles, re‑recubrimientos, corrección menor y barnices uniformes tras preparación controlada.",
+      whenToService:
+        "Barniz levantado, rayones profundos, color apagado o zona reparada que ya no coincide—suelen pedir mezcla o repintado total.",
     },
     engine: {
       title: "Motor reconstruye / rectifica",
       description:
         "Compresiones, juntas, culatas, distribución turbo/diesel y caminos antes de reposición total.",
+      whenToService:
+        "Golpeteo, humo, recalentamiento, gran pérdida de potencia o consumo de aceite—común con mantenimiento atrasado o muchos km.",
     },
     mechanics: {
       title: "Mecánica general",
       description:
         "Correas, radiadores tuberías, enfriamiento, escape, líquidos rutinarios.",
+      whenToService:
+        "Pérdidas de refrigerante o aceite, olor a quemado, escape ruidoso, correas chillando o fallos vagos entre servicios programados.",
     },
     brakes: {
       title: "Frenos",
       description:
         "Pastillas/zapatas, discos/tambores, calipers, pulsos ABS, sangrado líquidos.",
+      whenToService:
+        "Pedal esponjoso, rechinar o rechinido, tironeo al frenar, pedal que vibra o testigo de frenos que no se apaga.",
     },
     diagnostics: {
       title: "Diagnóstico & MIL",
       description:
         "Escaneos profundos, prueba componentes guiada, soporte codificaciones donde aplica.",
+      whenToService:
+        "Testigo de motor u otros avisos, ralentí brusco, caladas, rechazo en inspección o códigos que reaparecen tras cambiar piezas.",
     },
     transmission: {
       title: "Transmisión",
       description:
         "Servicios líquidos, ajustes, modos manuales, coordinación reconstructiva externa cuando justifica tiempo.",
+      whenToService:
+        "Patinado entre marchas, cambios bruscos, retardo al engranar, líquido con olor a quemado o goteo rojizo bajo el centro del auto.",
     },
     oil: {
       title: "Aceites & mantenimiento",
       description:
         "Sintético/convencional, cartuchos especiales inspecciones acumula kilometraje.",
+      whenToService:
+        "Aceite vencido por fecha o km, dipstick muy oscuro y denso, ruido de válvulas al arranque frío o antes de un viaje largo.",
     },
     suspension: {
       title: "Suspensión y dirección",
       description:
         "Amortiguadores homocinéticas, dirección axial, revisión paralelo colaborativo.",
+      whenToService:
+        "Golpes en baches, desgaste irregular de gomas, dirección inestable o un lado más bajo tras bache o berma.",
     },
     electrical: {
       title: "Electricidad vehicular",
       description:
         "Carga/partida diagnosticada, masa mala fusibles módulos ruidos fantasmas.",
+      whenToService:
+        "Arranque lento, luces tenues, batería muerta por las mañanas, testigos intermitentes o accesorios que fallan de vez en cuando.",
     },
     ac: {
       title: "Clima cabina",
       description:
         "Evac/recarga fugas compressor expansión núcleos calefactor.",
+      whenToService:
+        "Poco frío, solo calor cuando quieren aire, tarda en desempañar o olor a humedad al encender el ventilador.",
     },
     tires: {
       title: "Neumáticos & llantas",
       description:
         "Montaje/equilibrio TPMS consejo medida temporada.",
+      whenToService:
+        "Banda baja, corte en el flanco, vibración en ruta, TPMS encendido o cambio de temporada con montaje y balanceo.",
     },
   },
   testimonials: {
@@ -270,6 +295,10 @@ export const esCatalog: Catalog = {
     facebook: "Facebook",
     directions: "Mapa direcciones",
     legalNote: "© {year} {name}. Atendemos Paterson y alrededores NJ.",
+    servicesBrowseAria:
+      "Ver la página de servicios — mecánica general, chapa y pintura, motor, frenos, diagnóstico y más.",
+    stickyWhatsApp: "Chatear por WhatsApp",
+    stickyWhatsAppAria: "Abrir chat de WhatsApp",
   },
   servicesPage: {
     title: "Catálogo completo",

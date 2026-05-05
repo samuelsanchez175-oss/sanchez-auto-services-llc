@@ -14,6 +14,7 @@ export const enCatalog: Catalog = {
     hours: "Hours & location",
     quote: "Get a quote",
     faq: "FAQ",
+    directions: "Directions",
     pagesServices: "Services",
     privacy: "Privacy",
     terms: "Terms",
@@ -106,61 +107,85 @@ export const enCatalog: Catalog = {
       title: "Collision & body repair",
       description:
         "Structural pulls, outer panel replacement, bumper and fascia work, corrosion protection, and unibody alignment—we focus on restoring safe geometry.",
+      whenToService:
+        "After an impact—misaligned panels or gaps by doors, airbag light, or you need a written estimate before the insurer approves repairs.",
     },
     paint: {
       title: "Paint & refinishing",
       description:
         "Tri-stage and single-stage coatings, feathered blend panels, bumper respray, correction, chip repair, and clear-coat leveling with controlled booth prep.",
+      whenToService:
+        "Clear coat peeling, deep scratches, faded panels, or a repaired area where color no longer matches—customers usually want a blend or respray.",
     },
     engine: {
       title: "Engine repair & rebuilds",
       description:
         "Compression tests, gasket jobs, cylinder head service, timing systems, turbo/diesel basics, and full rebuild planning when longevity demands it.",
+      whenToService:
+        "Knocking or ticking, smoke, overheating, big power loss, or oil consumption—often after deferred maintenance or very high miles.",
     },
     mechanics: {
       title: "General mechanical",
       description:
         "Accessory belts, hoses, cooling systems, exhaust repairs, mounts, fluids, inspections, and preventative maintenance queues.",
+      whenToService:
+        "Coolant or oil leaks, burning smells, loud exhaust, squealing belts, or vague drivability issues between scheduled visits.",
     },
     brakes: {
       title: "Brake systems",
       description:
         "Pads/shoes, rotors/drums, calipers, hydraulics, ABS diagnostics, machining when appropriate, brake fluid exchanges.",
+      whenToService:
+        "Spongy pedal, grind or squeal, pull when stopping, pulsation in the pedal, or a brake warning lamp that will not clear.",
     },
     diagnostics: {
       title: "Diagnostics & check-engine",
       description:
         "OBD-II deep dives, oscilloscope leads when needed, software/calibration support, documenting proof for warranty or resale.",
+      whenToService:
+        "Check-engine or other warnings, rough idle, stalling, failed inspection, or fault codes that return after parts were already replaced.",
     },
     transmission: {
       title: "Transmission service",
       description:
         "Fluid/filter services, linkage adjustments, valve body concerns, clutch hydraulics, and rebuilt units coordinated with specialty partners.",
+      whenToService:
+        "Slipping, harsh shifts, delayed engagement, burnt-smelling fluid, or red drips under the middle of the vehicle.",
     },
     oil: {
       title: "Oil changes & upkeep",
       description:
         "Conventional, synthetic blend, full synthetic schedules, cartridges, magnets, preventive inspections tied to mileage.",
+      whenToService:
+        "Overdue by sticker or mileage, very dark gritty oil on the dipstick, top-end noise on cold start, or prep before a long trip.",
     },
     suspension: {
       title: "Suspension & steering",
       description:
         "Struts/shocks, control arms, bushings, ball joints, inner/outer ties, racks, hubs, geometry corrections via partner alignments.",
+      whenToService:
+        "Clunks over bumps, uneven tire wear, wandering steering, or one corner sitting low after a pothole or curb hit.",
     },
     electrical: {
       title: "Electrical systems",
       description:
         "Charging diagnostics, starters, grounding issues, fused circuits, BCM quirks, aftermarket accessory integration troubleshooting.",
+      whenToService:
+        "Slow cranking, dim lights, dead mornings, random warning lights, or accessories that only work sometimes.",
     },
     ac: {
       title: "HVAC climate",
       description:
         "R-134a/R-1234yf readiness, evacuation/recharge with leak sniffers, compressor and HVAC box access work.",
+      whenToService:
+        "Weak cooling, heat when you want A/C, long defrost times in winter, or musty smell whenever the blower runs.",
     },
     tires: {
       title: "Tires & wheels",
       description:
         "Mount/balance/rotate, pressure sensors, pothole bends evaluated, sourcing recommendations when supply tight.",
+      whenToService:
+        "Low tread, sidewall damage, vibration at speed, TPMS warning, or seasonal swap plus mount and balance.",
     },
   },
   testimonials: {
@@ -268,6 +293,10 @@ export const enCatalog: Catalog = {
     facebook: "Facebook",
     directions: "Directions (Google Maps)",
     legalNote: "© {year} {name}. Serving Paterson & nearby New Jersey communities.",
+    servicesBrowseAria:
+      "View the full services page — general mechanics, collision and body repair, paint, engine, brakes, diagnostics, and more.",
+    stickyWhatsApp: "Chat with us on WhatsApp",
+    stickyWhatsAppAria: "Open WhatsApp chat",
   },
   servicesPage: {
     title: "Full service catalog",

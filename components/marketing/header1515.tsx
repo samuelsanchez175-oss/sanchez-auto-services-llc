@@ -1,10 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Phone, X, ChevronRight } from "lucide-react";
-import { site } from "@/lib/site-content";
+import { mapDirectionsUrl, site } from "@/lib/site-content";
 import { useLocaleActions } from "@/lib/locale";
 
 export function Header() {
@@ -13,6 +14,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const main = site.phones[0];
+  const mainWhatsAppDigits = main.tel.replace(/\D/g, "");
   const root = pathname === "/" ? "" : "/";
 
   useEffect(() => {
@@ -41,29 +43,33 @@ export function Header() {
       >
         <div className="flex h-14 items-center px-4 sm:px-5">
           {/* Logo */}
-          <Link href="/" className="flex flex-col leading-none no-underline" aria-label="Home">
-            <span className="text-[13px] font-black tracking-[0.08em] text-white">
-              SANCHEZ AUTO
-            </span>
-            <span
-              className="text-[8px] font-bold uppercase tracking-[0.28em]"
-              style={{ color: "#e04e28" }}
-            >
-              Services LLC
-            </span>
+          <Link
+            href="/"
+            className="flex shrink-0 items-center py-1.5 no-underline"
+            aria-label="Home"
+          >
+            <Image
+              src="/logo-sanchez-auto-services.png"
+              alt="Sanchez Auto Services LLC"
+              width={451}
+              height={174}
+              className="h-7 w-auto max-w-[115px] object-contain object-left sm:h-9 sm:max-w-[152px]"
+              sizes="(max-width: 640px) 115px, 152px"
+              priority
+            />
           </Link>
 
           {/* Right controls */}
           <div className="ml-auto flex items-center gap-2">
-            {/* Language pill */}
+            {/* Language pill — h-9 to align with adjacent size-9 icon circles */}
             <div
-              className="flex items-center rounded-full text-[10px] font-bold overflow-hidden"
+              className="flex h-9 min-h-9 shrink-0 items-stretch overflow-hidden rounded-full text-xs font-bold leading-none"
               style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.12)" }}
             >
               <button
                 type="button"
                 onClick={() => setLocale("en")}
-                className="px-2.5 py-1 transition-all"
+                className="flex flex-1 items-center justify-center px-3.5 transition-all sm:px-4"
                 style={{
                   color: locale === "en" ? "#fff" : "rgba(255,255,255,0.45)",
                   background: locale === "en" ? "rgba(255,255,255,0.15)" : "transparent",
@@ -71,11 +77,17 @@ export function Header() {
               >
                 EN
               </button>
-              <span style={{ color: "rgba(255,255,255,0.2)" }}>|</span>
+              <span
+                className="flex shrink-0 select-none items-center px-0.5 text-[10px] font-normal"
+                style={{ color: "rgba(255,255,255,0.2)" }}
+                aria-hidden
+              >
+                |
+              </span>
               <button
                 type="button"
                 onClick={() => setLocale("es")}
-                className="px-2.5 py-1 transition-all"
+                className="flex flex-1 items-center justify-center px-3.5 transition-all sm:px-4"
                 style={{
                   color: locale === "es" ? "#fff" : "rgba(255,255,255,0.45)",
                   background: locale === "es" ? "rgba(255,255,255,0.15)" : "transparent",
@@ -85,15 +97,69 @@ export function Header() {
               </button>
             </div>
 
-            {/* Call button */}
-            <a
-              href={main.tel}
-              aria-label={`Call ${main.display}`}
-              className="flex size-9 items-center justify-center rounded-full no-underline transition-all active:scale-95"
-              style={{ background: "#e04e28" }}
-            >
-              <Phone className="size-[15px] text-white" aria-hidden />
-            </a>
+            {/* Directions + WhatsApp: tighter pair so map pin hugs chat */}
+            <div className="flex items-center gap-1">
+              {/* Directions (Google Maps) */}
+              <a
+                href={mapDirectionsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={c.hours.directionsLink}
+                className="flex size-9 shrink-0 items-center justify-center rounded-full text-white no-underline transition-all hover:bg-white/12 active:scale-95"
+                style={{
+                  background: "rgba(255,255,255,0.08)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                }}
+              >
+                <svg
+                  className="size-[15px] shrink-0"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <defs>
+                    <clipPath id="sanchezDirectionsMapsPinClip">
+                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+                    </clipPath>
+                  </defs>
+                  <g clipPath="url(#sanchezDirectionsMapsPinClip)">
+                    {/* Orthogonal quad split (~Google marker cues), readable at 14px */}
+                    <path fill="#4285F4" d="M0 0H12V9H0z" />
+                    <path fill="#EA4335" d="M12 0H24V9H12z" />
+                    <path fill="#34A853" d="M0 9H12V24H0z" />
+                    <path fill="#FBBC04" d="M12 9H24V24H12z" />
+                    <circle cx="12" cy="8.75" r="2.35" fill="#fff" />
+                  </g>
+                  <path
+                    fill="none"
+                    stroke="rgba(255,255,255,0.35)"
+                    strokeWidth="0.65"
+                    strokeLinejoin="round"
+                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
+                  />
+                </svg>
+              </a>
+
+              {/* WhatsApp */}
+              <a
+                href={`https://wa.me/${mainWhatsAppDigits}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`WhatsApp ${main.display}`}
+                className="flex size-9 shrink-0 items-center justify-center rounded-full no-underline transition-all active:scale-95"
+                style={{
+                  background: "linear-gradient(145deg, #25d366, #128c7e)",
+                }}
+              >
+                <svg
+                  className="size-[15px] shrink-0 text-white"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  aria-hidden
+                >
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+                </svg>
+              </a>
+            </div>
 
             {/* Hamburger */}
             <button

@@ -1,3 +1,14 @@
+/** Small dash-warning embellishment for SEO service tiles (decorative). */
+export type ServiceDashKind =
+  | "airbag_srs"
+  | "brake_warning"
+  | "check_engine"
+  | "battery_charge"
+  | "tpms"
+  | "oil_pressure"
+  | "maintenance"
+  | "transmission_temp";
+
 /** Service identifiers — must mirror `services[].id` in `lib/site-content.ts`. */
 export type ServiceId =
   | "collision"
@@ -40,6 +51,7 @@ export type Catalog = {
     hours: string;
     quote: string;
     faq: string;
+    directions: string;
     pagesServices: string;
     privacy: string;
     terms: string;
@@ -78,7 +90,10 @@ export type Catalog = {
     title: string;
     leadTemplate: string; // `{name}` replaced with site.name
   };
-  serviceCopy: Record<ServiceId, { title: string; description: string }>;
+  serviceCopy: Record<
+    ServiceId,
+    { title: string; description: string; whenToService: string }
+  >;
   testimonials: {
     title: string;
     googleNote: string;
@@ -124,6 +139,12 @@ export type Catalog = {
     facebook: string;
     directions: string;
     legalNote: string;
+    /** Concise aria-label for the single SERVICES column link to `/services`. */
+    servicesBrowseAria: string;
+    /** Mobile sticky bar — visible WhatsApp CTA label. */
+    stickyWhatsApp: string;
+    /** `title` + `aria-label` for the sticky WhatsApp link. */
+    stickyWhatsAppAria: string;
   };
   servicesPage: {
     title: string;
