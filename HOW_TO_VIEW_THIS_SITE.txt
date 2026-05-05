@@ -1,0 +1,47 @@
+HOW TO SEE THE WEBSITE IN A BROWSER
+====================================
+
+This project is built with Next.js (not one hand-edited HTML file). You have three easy options:
+
+
+A) QUICKEST WHILE EDITING CODE
+------------------------------
+In Terminal:
+
+  cd "/Users/samuel/Desktop/CLAUDE WORLD/sanchez-auto-llc"
+  npm run dev
+
+Then open:
+
+  http://localhost:3000
+
+
+B) OPEN THE BUILT WEB PAGE FILES (STATIC)
+----------------------------------------
+After ANY content change, run a fresh build:
+
+  npm run build
+
+Double-click THIS file (or open from Finder):
+
+  sanchez-auto-llc/out/index.html
+
+Full path:
+
+  "/Users/samuel/Desktop/CLAUDE WORLD/sanchez-auto-llc/out/index.html"
+
+
+If styling looks wrong in the browser, use a tiny local server instead of double‑click:
+
+  npm run preview:site
+
+Then open http://localhost:4173
+
+
+C) IN CURSOR / VS CODE
+----------------------
+Open the repo folder:
+
+  "/Users/samuel/Desktop/CLAUDE WORLD/sanchez-auto-llc"
+
+Use “Terminal → Run Task” / integrated terminal → `npm run dev` → Cursor Simple Browser → http://localhost:3000
