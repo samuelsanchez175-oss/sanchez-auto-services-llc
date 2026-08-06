@@ -46,24 +46,24 @@ export const esCatalog: Catalog = {
     ],
   },
   process: {
-    title: "Proceso sencillo",
-    lead: "Menos papel sorpresa, más claridad mientras tu carro vuelva a estar seguro.",
+    title: "Del reclamo a las llaves — camino claro",
+    lead: "Seguros bienvenidos. Documentamos el daño, explicamos el estimado y mantenemos al tanto a ti y al ajustador.",
     steps: [
       {
-        title: "Recepción",
-        body: "Escuchamos, documentamos golpes cuando aplica y alineamos expectativas (tiempos, seguro, OEM vs aftermarket).",
+        title: "Envía datos del reclamo",
+        body: "WhatsApp con fotos, número de reclamo si lo tienes, y año/marca/modelo. Empezamos el expediente antes de que dejes el auto.",
       },
       {
-        title: "Diagnóstico y cotización",
-        body: "Inspeccionamos, generamos cotización antes de iniciar trabajo no urgente.",
+        title: "Inspección y estimado",
+        body: "Inspección completa, estimado claro y soporte en suplementos si aparece daño oculto — sin sorpresas en el deducible.",
       },
       {
-        title: "Reparación / pintura",
-        body: "Coordinamos chapa‑pintura y mecánica para menos días ociosos en el taller.",
+        title: "Reparación y pintura",
+        body: "Colisión, pintura y mecánica bajo un techo para que el reclamo quede coordinado y el auto menos tiempo en espera.",
       },
       {
         title: "Control y entrega",
-        body: "Validamos nivelación, funcionamiento final y revisamos puntos antes de cerrar cuenta.",
+        body: "Revisamos ajuste, acabado y función contigo. Fotos disponibles si el seguro o tu agenda lo piden.",
       },
     ],
   },
@@ -231,7 +231,7 @@ export const esCatalog: Catalog = {
   ],
   quote: {
     title: "Solicite cotización",
-    lead: "Texto corto bastante—respondemos llamando rápido.",
+    lead: "Dinos el auto y el problema — abrimos WhatsApp con un mensaje estructurado listo para el taller.",
     name: "Nombre",
     phone: "Teléfono",
     emailOptional: "Correo (opcional)",
@@ -243,50 +243,59 @@ export const esCatalog: Catalog = {
       { value: "paint", label: "Pintura / retoques" },
       { value: "other", label: "Otro / sin certeza" },
     ],
-    vehicleOptional: "Vehículo (opcional)",
+    vehicleOptional: "Vehículo (año / marca / modelo)",
     message: "Cuéntenos el problema",
-    submit: "Enviar",
+    submit: "Abrir WhatsApp con esta cotización",
     selectPlaceholder: "Seleccionar…",
     noEndpointLead:
-      "Conecte un endpoint público tipo Formspree/Web3Forms para recibir estos envíos.",
+      "Las cotizaciones van directo al WhatsApp del taller con cliente, vehículo y problema.",
     noEndpointFormspreeHint:
-      "Defina NEXT_PUBLIC_FORM_ENDPOINT antes de lanzar público.",
+      "No hace falta Formspree — el canal principal es WhatsApp.",
     noEndpointPhoneCue: "¿Prefiere llamar?",
   },
   faq: {
     title: "FAQ rápidas",
-    lead: "Ahorran una llamada común antes de llegar.",
-
+    lead: "Preguntas comunes de conductores en Paterson antes de escribirnos por WhatsApp.",
     items: [
       {
-        question: "¿Tramitan seguros de colisión?",
+        question: "¿Trabajan con todas las aseguradoras?",
         answer:
-          "Sí — traiga claim/adjuntos; coordinamos extensiones llamando antes de ejecutar trabajo no acordado.",
+          "Sí — todos los seguros principales son bienvenidos. No necesitas un taller “preferido”. Envía # de reclamo, fotos y datos del auto por WhatsApp y ayudamos con el ajustador.",
       },
       {
-        question: "¿Pueden mezcla OEM aftermarket?",
+        question: "¿Cómo funcionan las cotizaciones por WhatsApp?",
         answer:
-          "Explicamos balance costo/desempeño y queda reflejado en estimados.",
+          "Completa nombre, teléfono, año/marca/modelo, problema y opcionalmente el reclamo. WhatsApp abre un mensaje estructurado — toca Enviar y adjunta 3–6 fotos.",
       },
       {
-        question: "¿Remolques o rent?",
+        question: "¿Qué fotos debo enviar para un reclamo?",
         answer:
-          "Lista de socios cercanos cuando solicita soporte día mismo.",
+          "Las cuatro esquinas del auto, detalle de cada daño y el tablero si hay luces. Más ángulos = mejor estimado inicial.",
       },
       {
-        question: "¿Español en recepción?",
+        question: "¿Pueden mezclar OEM y aftermarket?",
         answer:
-          "Use interruptor idioma aquí — personal bilingüe varía por turnos; llamar ayuda garantizar disponibilidad.",
+          "Sí. Explicamos opciones según deducible, tiempo y cuánto piensas quedarte el auto — sin cargos misteriosos.",
       },
       {
-        question: "¿Formas de pago?",
+        question: "¿Qué tan rápido puedo dejar el carro?",
         answer:
-          "Tarjetas comunes efectivo cheque certificado — casos empresa consultar escritorio.",
+          "Escríbenos primero con fotos. Suele haber citas en la misma semana; urgencias dependen de bahías y partes. Domingos varían — llama o WhatsApp antes.",
       },
       {
-        question: "¿Garantías?",
+        question: "¿Hay personal que hable español?",
         answer:
-          "Piezas llevan garantía proveedor — horas siguen tabla interna revisable en papel.",
+          "Usa el interruptor ES en el sitio. A menudo hay ayuda bilingüe — menciónalo en WhatsApp y te atendemos.",
+      },
+      {
+        question: "¿Atienden flotas o vans comerciales?",
+        answer:
+          "Sí — flota ligera y trabajo comercial es bienvenido. Envía datos de la unidad por WhatsApp y pregunta por tiempos de flota.",
+      },
+      {
+        question: "¿Qué formas de pago aceptan?",
+        answer:
+          "Tarjetas principales, efectivo y cheques certificados. Para flotas o pagos divididos, llama antes.",
       },
     ],
   },

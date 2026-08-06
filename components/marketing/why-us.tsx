@@ -15,13 +15,13 @@ export function WhyUsSection() {
     <section
       id="why-us"
       className="scroll-mt-20 py-16 sm:py-20"
-      style={{ background: "#1a1520" }}
+      style={{ background: "#07253F" }}
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         {/* Section label */}
         <div
           className="section-label-line mb-5"
-          style={{ color: "#e04e28", borderColor: "rgba(255,255,255,0.08)" }}
+          style={{ color: "#FB8C33", borderColor: "rgba(255,255,255,0.08)" }}
           aria-hidden
         >
           <style>{`.section-label-line::after { background: rgba(255,255,255,0.08) !important; }`}</style>
@@ -52,7 +52,7 @@ export function WhyUsSection() {
                   className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
                   style={{ background: "rgba(224,78,40,0.15)" }}
                 >
-                  <Icon className="size-5" style={{ color: "#e04e28" }} aria-hidden />
+                  <Icon className="size-5" style={{ color: "#FB8C33" }} aria-hidden />
                 </div>
                 <div>
                   <h3 className="font-bold text-base text-white mb-1">{item.title}</h3>

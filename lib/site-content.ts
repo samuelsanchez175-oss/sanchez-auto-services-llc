@@ -1,8 +1,13 @@
 import type { ServiceDashKind, ServiceId } from "@/lib/catalog/types";
 
+/**
+ * Canonical NAP — keep identical to Google Business Profile.
+ * WhatsApp uses main line digits only.
+ */
 export const site = {
   name: "Sanchez Auto Services LLC",
-  tagline: "Collision repair, mechanical maintenance, and refinishing — Paterson, NJ.",
+  tagline:
+    "Collision, paint & mechanical — insurance claims welcome. Paterson, NJ.",
   businessType: "Auto repair & body shop",
   phones: [
     { label: "Main line", tel: "+19736094586", display: "(973) 609-4586" },
@@ -15,13 +20,22 @@ export const site = {
     postalCode: "07503",
   },
   mapSearchUrl:
-    "https://www.google.com/maps/search/?api=1&query=101+E+Railway+Ave+Paterson+NJ+07503",
+    "https://www.google.com/maps/search/?api=1&query=Sanchez+Auto+Services+LLC+101+E+Railway+Ave+Paterson+NJ+07503",
+  googleBusinessUrl:
+    "https://www.google.com/maps/search/?api=1&query=Sanchez+Auto+Services+LLC+101+E+Railway+Ave+Paterson+NJ+07503",
   social: {
     facebook: "https://www.facebook.com/SanchezAutoService.LLC/",
   },
-  /** WhatsApp Business — digits only for `https://wa.me/{whatsappPhone}` (matches primary line). */
+  /** WhatsApp Business — digits only; matches main line for GBP consistency. */
   whatsappPhone: "19736094586",
   googleRatingSummary: "~4.8-star average on Google Reviews (public listing).",
+  logo: {
+    src: "/logo-sanchez-auto-services.png",
+    brandSrc: "/brand/sanchez-auto-services-logo.png",
+    width: 1924,
+    height: 1251,
+    alt: "Sanchez Auto Services LLC",
+  },
 };
 
 /** SEO `<meta name="keywords">` source — centralized; avoid repeating in page copy. */

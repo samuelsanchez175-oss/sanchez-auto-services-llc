@@ -26,7 +26,7 @@ export function SiteSubpageShell({
         <section className="border-b bg-gradient-to-b from-white to-muted/35 py-12">
           <div className="mx-auto max-w-4xl px-4 sm:px-6">
             {eyebrow ? (
-              <p className="text-xs font-bold uppercase tracking-[0.38em]" style={{ color: "#e04e28" }}>
+              <p className="text-xs font-bold uppercase tracking-[0.38em]" style={{ color: "#FB8C33" }}>
                 {eyebrow}
               </p>
             ) : null}

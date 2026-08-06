@@ -45,24 +45,24 @@ export const enCatalog: Catalog = {
     ],
   },
   process: {
-    title: "A simple repair experience",
-    lead: "We keep paperwork and surprises to a minimum so you’re never guessing what happens next.",
+    title: "From claim to keys — a clear path",
+    lead: "Insurance claims welcome. We document damage, explain the estimate, and keep you (and your adjuster) in the loop.",
     steps: [
       {
-        title: "Check-in",
-        body: "We listen, photograph damage when needed, and note your priorities (timeline, deductible, OEM vs aftermarket preferences).",
+        title: "Send claim details",
+        body: "WhatsApp us photos, claim number if you have it, and year/make/model. We start a shop-ready file before you even drop off.",
       },
       {
-        title: "Assess & estimate",
-        body: "We inspect, diagnose, and walk you through a clear estimate before we authorize labor or parts ordering.",
+        title: "Inspect & estimate",
+        body: "We inspect thoroughly, write a clear estimate, and support supplements when hidden damage shows up—straight talk on deductible and options.",
       },
       {
         title: "Repair & refinish",
-        body: "Body, paint, and mechanical teams coordinate so your vehicle spends less time parked and more time done right.",
+        body: "Collision, paint, and mechanical work under one roof so your claim stays coordinated and your car spends less time waiting.",
       },
       {
         title: "Quality check & pickup",
-        body: "We verify fit, finish, and function with you—or share photos if you can’t swing by until later.",
+        body: "We review fit, finish, and function with you. Photos available if you need updates for insurance or your schedule.",
       },
     ],
   },
@@ -190,9 +190,10 @@ export const enCatalog: Catalog = {
   },
   testimonials: {
     title: "What neighbors say",
-    googleNote: "~4.8★ average reflects public Google Reviews—figures shift as new reviews arrive.",
+    googleNote:
+      "~4.8★ average from public Google Reviews — ratings update as new reviews arrive. Full review text lives on Google.",
     mapsGalleryNote:
-      "Next: optional Google Places photo & review excerpts once you authorize the nightly sync script (keeps attribution honest).",
+      "Link out to Google Business for attributed reviews; optional Places API sync keeps photos honest.",
     samples: [
       {
         name: "Maria G.",
@@ -221,7 +222,8 @@ export const enCatalog: Catalog = {
     title: "Hours & location",
     mapHeading: "Map",
     directionsLink: "Open directions in Google Maps",
-    sundayNote: "Sunday hours vary across directories—please call ahead so front desk sets expectations.",
+    sundayNote:
+      "Sunday hours vary — always call or WhatsApp ahead before you drive over. We do not guarantee Sunday staffing.",
   },
   scheduleRows: [
     ["Monday – Friday", "9:00 AM – 6:00 PM"],
@@ -230,7 +232,7 @@ export const enCatalog: Catalog = {
   ],
   quote: {
     title: "Request a quote",
-    lead: "SMS-friendly summary is fine—we’ll follow up by phone.",
+    lead: "Tell us the car and the problem — we open WhatsApp with a structured message the shop can act on fast.",
     name: "Name",
     phone: "Phone",
     emailOptional: "Email (optional)",
@@ -242,49 +244,59 @@ export const enCatalog: Catalog = {
       { value: "paint", label: "Paint / refinishing" },
       { value: "other", label: "Other / not sure" },
     ],
-    vehicleOptional: "Vehicle (optional)",
+    vehicleOptional: "Vehicle (year / make / model)",
     message: "What’s going on?",
-    submit: "Submit request",
+    submit: "Open WhatsApp with this quote",
     selectPlaceholder: "Select…",
     noEndpointLead:
-      "Point this form at Formspree, Web3Forms, or Turnstile + email relay—whatever fits your inbox workflow.",
+      "Quotes go straight to the shop WhatsApp with client, vehicle, and issue fields filled in.",
     noEndpointFormspreeHint:
-      "Set NEXT_PUBLIC_FORM_ENDPOINT=https://formspree.io/f/your_id (or equivalent) before deploy.",
+      "No email form endpoint required — WhatsApp is the lead channel.",
     noEndpointPhoneCue: "Prefer the phone?",
   },
   faq: {
     title: "Quick answers",
-    lead: "Save a phone call—these cover what Paterson shoppers ask weekly.",
+    lead: "Common questions from Paterson drivers before they message us on WhatsApp.",
     items: [
       {
-        question: "Do you work directly with insurance on collision?",
+        question: "Do you work with all insurance companies?",
         answer:
-          "Yes. Bring your claim adjuster paperwork and photos—we coordinate supplements and keep you apprised.",
+          "Yes — all major insurers are welcome. You don’t need a “preferred shop” assignment to get a quote. Send claim #, photos, and vehicle info on WhatsApp and we help with adjuster coordination.",
       },
       {
-        question: "Can you source OEM versus aftermarket?",
+        question: "How do WhatsApp quotes work?",
         answer:
-          "Absolutely. Different deductibles demand different budgets; we outline trade-offs clearly per line item.",
+          "Fill name, phone, year/make/model, issue, and optional claim details. WhatsApp opens with a structured shop message — tap Send, then attach 3–6 photos in the chat.",
       },
       {
-        question: "Need a shuttle or tow recommendation?",
+        question: "What photos should I send for a claim?",
         answer:
-          "We maintain local partner lists for rollback tows plus rental counters—tell us urgency and borough.",
+          "All four corners of the vehicle, close-ups of each damage area, and the dashboard if any lights are on. More angles = better first estimate.",
+      },
+      {
+        question: "Can you source OEM vs aftermarket parts?",
+        answer:
+          "Yes. We outline options against your deductible, timeline, and how long you plan to keep the vehicle — no mystery line items.",
+      },
+      {
+        question: "How fast can I drop the car off?",
+        answer:
+          "Message us first with photos. Same-week slots are common; rush jobs depend on bay availability and parts. Sunday hours vary — call or WhatsApp ahead.",
       },
       {
         question: "Spanish-speaking staff?",
         answer:
-          "Toggle ES in the corner for key UI chrome; bilingual staff varies by shift—calling ahead confirms coverage.",
+          "Use the ES toggle on the site. Bilingual help is often available — mention Spanish on WhatsApp and we’ll match who can help.",
       },
       {
-        question: "Payments accepted?",
+        question: "Fleet or commercial vans?",
         answer:
-          "Major cards, cash, and certified checks commonly—call ahead for fleet PO / split-pay edge cases.",
+          "Yes — light fleet and commercial work is welcome. Send unit details on WhatsApp and ask for fleet timing.",
       },
       {
-        question: "Warranty coverage?",
+        question: "What payments do you accept?",
         answer:
-          "Parts carry manufacturer warranties; labor policies depend on repair type—we document both on the invoice.",
+          "Major cards, cash, and certified checks are common. Call ahead for fleet POs or split-pay situations.",
       },
     ],
   },

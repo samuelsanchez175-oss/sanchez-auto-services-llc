@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { Phone, MapPin, ExternalLink } from "lucide-react";
 
@@ -33,20 +34,28 @@ export function Footer() {
   }).join(" · ");
 
   return (
-    <footer style={{ background: "#0d0d0f", color: "#a09cb0" }}>
+    <footer style={{ background: "#001830", color: "#a09cb0" }}>
       {/* Main footer grid */}
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand column */}
           <div className="space-y-4 lg:col-span-1">
-            <div>
-              <p className="text-base font-bold tracking-tight text-white">SANCHEZ AUTO</p>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.22em]" style={{ color: "#e04e28" }}>
-                Services LLC
-              </p>
-            </div>
+            <Link
+              href="/"
+              className="inline-flex max-w-[220px] items-center rounded-lg bg-white px-2.5 py-2 no-underline shadow-sm"
+              aria-label="Sanchez Auto Services LLC — Home"
+            >
+              <Image
+                src={site.logo.src}
+                alt={site.logo.alt}
+                width={site.logo.width}
+                height={site.logo.height}
+                className="h-14 w-auto max-w-full object-contain object-left"
+                sizes="220px"
+              />
+            </Link>
             <div className="flex items-start gap-2 text-sm">
-              <MapPin className="mt-0.5 size-3.5 shrink-0" style={{ color: "#e04e28" }} aria-hidden />
+              <MapPin className="mt-0.5 size-3.5 shrink-0" style={{ color: "#FB8C33" }} aria-hidden />
               <a
                 href={site.mapSearchUrl}
                 target="_blank"
@@ -63,7 +72,7 @@ export function Footer() {
                   key={p.tel}
                   href={p.tel}
                   className="flex items-center gap-2 text-sm font-medium no-underline transition-colors hover:text-white"
-                  style={{ color: "#e04e28" }}
+                  style={{ color: "#FB8C33" }}
                 >
                   <Phone className="size-3.5 shrink-0" aria-hidden />
                   {p.display}

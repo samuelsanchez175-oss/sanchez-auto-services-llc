@@ -7,59 +7,20 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { site } from "@/lib/site-content";
 import { useCatalog } from "@/lib/locale";
+import {
+  buildStructuredWhatsAppMessage,
+  formatVehicle,
+  openWhatsAppWithMessage,
+} from "@/lib/whatsapp-quote";
 
-// WhatsApp number — digits only (no + or spaces)
-const WA_NUMBER = "19736094586";
-
-/** Build a RockAuto catalog URL from a vehicle string like "2018 Toyota Camry" */
-function rockAutoUrl(vehicle: string): string {
-  const parts = vehicle.trim().split(/\s+/);
-  if (parts.length < 2) return "https://www.rockauto.com";
-  const [year, make, ...modelParts] = parts;
-  const model = modelParts.join("+") || "";
+/** Build a RockAuto catalog URL from year/make/model */
+function rockAutoUrl(year: string, make: string, model: string): string {
   const base = "https://www.rockauto.com/en/catalog";
-  if (make && model) return `${base}/${encodeURIComponent(make.toLowerCase())},${encodeURIComponent(year)},${encodeURIComponent(model.toLowerCase())}`;
+  if (make && model && year) {
+    return `${base}/${encodeURIComponent(make.toLowerCase())},${encodeURIComponent(year)},${encodeURIComponent(model.toLowerCase())}`;
+  }
   if (make) return `${base}/${encodeURIComponent(make.toLowerCase())}`;
   return "https://www.rockauto.com";
-}
-
-/** Format the WhatsApp message — readable + structured */
-function buildWhatsAppText(data: {
-  name: string;
-  phone: string;
-  email: string;
-  service: string;
-  vehicle: string;
-  message: string;
-  photoCount: number;
-}): string {
-  const lines: string[] = [
-    "🔧 *QUOTE REQUEST — Sanchez Auto Services*",
-    "",
-    `👤 Name: ${data.name || "—"}`,
-    `📞 Phone: ${data.phone || "—"}`,
-    data.email ? `📧 Email: ${data.email}` : "",
-    "",
-    `🚗 Vehicle: ${data.vehicle || "—"}`,
-    `🔩 Service: ${data.service || "—"}`,
-    data.message ? `📝 Details:\n${data.message}` : "",
-    "",
-  ];
-
-  if (data.vehicle) {
-    lines.push(`🔗 RockAuto parts search:`);
-    lines.push(rockAutoUrl(data.vehicle));
-    lines.push("");
-  }
-
-  if (data.photoCount > 0) {
-    lines.push(`📎 ${data.photoCount} photo(s) attached — customer will share in this chat`);
-    lines.push("");
-  }
-
-  lines.push("_Sent via sanchezauto.com quote form_");
-
-  return lines.filter((l) => l !== null).join("\n").trim();
 }
 
 export function QuoteSection() {
@@ -70,10 +31,16 @@ export function QuoteSection() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [service, setService] = useState("");
-  const [vehicle, setVehicle] = useState("");
+  const [year, setYear] = useState("");
+  const [make, setMake] = useState("");
+  const [model, setModel] = useState("");
   const [message, setMessage] = useState("");
   const [photos, setPhotos] = useState<File[]>([]);
   const [sent, setSent] = useState(false);
+
+  const vehicleLabel = formatVehicle(year, make, model);
+  const serviceLabel =
+    q.serviceOptions.find((o) => o.value === service)?.label ?? service;
 
   function handlePhotos(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
@@ -87,30 +54,39 @@ export function QuoteSection() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    const text = buildWhatsAppText({ name, phone, email, service, vehicle, message, photoCount: photos.length });
-    const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
-
-    window.open(url, "_blank", "noopener,noreferrer");
+    const text = buildStructuredWhatsAppMessage({
+      name,
+      phone,
+      email,
+      year,
+      make,
+      model,
+      service: serviceLabel,
+      issue: serviceLabel,
+      details: message,
+      photoCount: photos.length,
+    });
+    openWhatsAppWithMessage(text);
     setSent(true);
   }
 
   return (
     <section
       id="quote"
-      className="scroll-mt-20 py-16 sm:py-20"
+      className="scroll-mt-20 py-14 sm:py-20"
       style={{ background: "#f5f0eb" }}
     >
       <div className="mx-auto max-w-2xl px-4 sm:px-6">
         {/* Section label */}
         <p
           className="mb-5 text-[9px] font-bold uppercase tracking-[0.28em]"
-          style={{ color: "#C0392B" }}
+          style={{ color: "#FB8C33" }}
           aria-hidden
         >
-          Get a Quote
+          WhatsApp lead
         </p>
 
-        <h2 className="mb-3 text-3xl font-bold tracking-tight sm:text-4xl" style={{ color: "#1a1520" }}>
+        <h2 className="mb-3 text-3xl font-bold tracking-tight sm:text-4xl" style={{ color: "#07253F" }}>
           {q.title}
         </h2>
         <p className="mb-2 text-base leading-relaxed" style={{ color: "#6b6080" }}>
@@ -121,7 +97,7 @@ export function QuoteSection() {
         <div className="mb-8 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold"
           style={{ background: "#dcfce7", color: "#15803d" }}>
           <MessageCircle className="size-3.5" aria-hidden />
-          Sends directly to shop via WhatsApp — we reply fast
+          Opens WhatsApp with client · car · problem pre-filled
         </div>
 
         {sent ? (
@@ -134,20 +110,20 @@ export function QuoteSection() {
               style={{ background: "#dcfce7" }}>
               <MessageCircle className="size-7" style={{ color: "#16a34a" }} aria-hidden />
             </div>
-            <h3 className="text-xl font-bold" style={{ color: "#1a1520" }}>WhatsApp opened!</h3>
+            <h3 className="text-xl font-bold" style={{ color: "#07253F" }}>WhatsApp opened!</h3>
             <p className="text-sm leading-relaxed" style={{ color: "#6b6080" }}>
               Your quote request is pre-filled. Hit <strong>Send</strong> in WhatsApp, then attach any photos of your vehicle damage directly in the chat.
             </p>
-            {vehicle && (
+            {year && make && (
               <a
-                href={rockAutoUrl(vehicle)}
+                href={rockAutoUrl(year, make, model)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-semibold no-underline transition-all hover:bg-gray-50"
-                style={{ color: "#C0392B", borderColor: "#C0392B" }}
+                style={{ color: "#FB8C33", borderColor: "#FB8C33" }}
               >
                 <ExternalLink className="size-4" aria-hidden />
-                Browse parts for your {vehicle} on RockAuto
+                Browse parts for your {vehicleLabel} on RockAuto
               </a>
             )}
             <button
@@ -211,23 +187,41 @@ export function QuoteSection() {
               </select>
             </div>
 
-            {/* Vehicle */}
+            {/* Vehicle: year / make / model (structured for shop WhatsApp) */}
             <div className="grid gap-1.5">
-              <Label htmlFor="vehicle" style={{ color: "#2e2840" }}>
-                {q.vehicleOptional}
-              </Label>
-              <Input
-                id="vehicle"
-                placeholder="e.g. 2018 Toyota Camry"
-                value={vehicle} onChange={(e) => setVehicle(e.target.value)}
-              />
-              {vehicle.trim().split(/\s+/).length >= 2 && (
+              <Label style={{ color: "#2e2840" }}>{q.vehicleOptional}</Label>
+              <div className="grid grid-cols-3 gap-2">
+                <Input
+                  id="year"
+                  placeholder="Year"
+                  inputMode="numeric"
+                  maxLength={4}
+                  required
+                  value={year}
+                  onChange={(e) => setYear(e.target.value.replace(/\D/g, "").slice(0, 4))}
+                />
+                <Input
+                  id="make"
+                  placeholder="Make"
+                  required
+                  value={make}
+                  onChange={(e) => setMake(e.target.value)}
+                />
+                <Input
+                  id="model"
+                  placeholder="Model"
+                  required
+                  value={model}
+                  onChange={(e) => setModel(e.target.value)}
+                />
+              </div>
+              {year && make && (
                 <a
-                  href={rockAutoUrl(vehicle)}
+                  href={rockAutoUrl(year, make, model)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 text-xs no-underline hover:underline"
-                  style={{ color: "#C0392B" }}
+                  style={{ color: "#FB8C33" }}
                 >
                   <ExternalLink className="size-3" aria-hidden />
                   Preview parts on RockAuto →
@@ -282,7 +276,7 @@ export function QuoteSection() {
                         type="button"
                         onClick={() => removePhoto(i)}
                         className="absolute -right-1.5 -top-1.5 flex size-5 items-center justify-center rounded-full text-white"
-                        style={{ background: "#C0392B" }}
+                        style={{ background: "#FB8C33" }}
                         aria-label="Remove photo"
                       >
                         <X className="size-3" aria-hidden />
@@ -324,7 +318,7 @@ export function QuoteSection() {
                   href={p.tel}
                   className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg py-3 text-sm font-bold text-white no-underline transition-all hover:opacity-90"
                   style={{
-                    background: "linear-gradient(135deg, #e04e28 0%, #c03020 100%)",
+                    background: "linear-gradient(135deg, #FB8C33 0%, #E07020 100%)",
                     minWidth: "140px",
                   }}
                 >

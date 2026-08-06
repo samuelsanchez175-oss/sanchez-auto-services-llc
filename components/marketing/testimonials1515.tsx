@@ -7,7 +7,7 @@ function StarRow({ count }: { count: number }) {
   return (
     <div className="flex gap-0.5" aria-label={`${count} out of 5 stars`}>
       {Array.from({ length: count }).map((_, i) => (
-        <svg key={i} className="size-3.5" viewBox="0 0 20 20" fill="#e04e28" aria-hidden>
+        <svg key={i} className="size-3.5" viewBox="0 0 20 20" fill="#FB8C33" aria-hidden>
           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
         </svg>
       ))}
@@ -28,7 +28,7 @@ export function ReviewsSection() {
         {/* Section label */}
         <p
           className="mb-5 text-[9px] font-bold uppercase tracking-[0.28em]"
-          style={{ color: "#C0392B" }}
+          style={{ color: "#FB8C33" }}
           aria-hidden
         >
           Customer Reviews
@@ -36,7 +36,7 @@ export function ReviewsSection() {
 
         <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl" style={{ color: "#1a1520" }}>
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl" style={{ color: "#07253F" }}>
               {c.testimonials.title}
             </h2>
             <p className="mt-2 text-sm" style={{ color: "#6b6080" }}>
@@ -48,7 +48,7 @@ export function ReviewsSection() {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-lg border px-4 py-2 text-sm font-semibold no-underline transition-all hover:bg-white"
-            style={{ color: "#C0392B", borderColor: "#C0392B" }}
+            style={{ color: "#FB8C33", borderColor: "#FB8C33" }}
           >
             See all on Google ↗
           </a>
@@ -60,7 +60,7 @@ export function ReviewsSection() {
           style={{ background: "#ffffff", border: "1.5px solid #e5ddd4" }}
         >
           <div className="flex flex-col items-center gap-1 px-4">
-            <span className="text-4xl font-bold" style={{ color: "#1a1520" }}>4.8</span>
+            <span className="text-4xl font-bold" style={{ color: "#07253F" }}>4.8</span>
             <StarRow count={5} />
             <span className="text-xs" style={{ color: "#6b6080" }}>Google Rating</span>
           </div>
@@ -93,13 +93,13 @@ export function ReviewsSection() {
               >
                 <div
                   className="flex size-8 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
-                  style={{ background: "#C0392B" }}
+                  style={{ background: "#FB8C33" }}
                   aria-hidden
                 >
                   {t.name[0]}
                 </div>
                 <div>
-                  <p className="text-sm font-semibold" style={{ color: "#1a1520" }}>{t.name}</p>
+                  <p className="text-sm font-semibold" style={{ color: "#07253F" }}>{t.name}</p>
                   <p className="text-xs" style={{ color: "#6b6080" }}>{t.location}</p>
                 </div>
               </div>

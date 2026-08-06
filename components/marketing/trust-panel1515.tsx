@@ -18,7 +18,7 @@ export function TrustPanelSection() {
         <div className="space-y-2 sm:col-span-1">
           <p
             className="text-[9px] font-bold uppercase tracking-[0.35em]"
-            style={{ color: "#e04e28" }}
+            style={{ color: "#FB8C33" }}
           >
             {site.name.replace(" LLC", "").toUpperCase()}
           </p>
@@ -45,7 +45,7 @@ export function TrustPanelSection() {
                 boxShadow: "0 2px 8px rgba(26,21,32,0.04)",
               }}
             >
-              <CheckCircle className="mt-0.5 size-4 shrink-0" style={{ color: "#e04e28" }} aria-hidden />
+              <CheckCircle className="mt-0.5 size-4 shrink-0" style={{ color: "#FB8C33" }} aria-hidden />
               <p className="leading-relaxed">{line}</p>
             </div>
           ))}

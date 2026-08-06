@@ -17,7 +17,7 @@ export function ServicesSection() {
         {/* Section label — Harmony Stack style */}
         <p
           className="mb-5 text-[9px] font-bold uppercase tracking-[0.28em]"
-          style={{ color: "#C0392B" }}
+          style={{ color: "#FB8C33" }}
           aria-hidden
         >
           Services
@@ -25,7 +25,7 @@ export function ServicesSection() {
 
         <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl" style={{ color: "#1a1520" }}>
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl" style={{ color: "#07253F" }}>
               {c.services.title === "Services" ? "Everything Your Car Needs" : c.services.title}
             </h2>
             <p className="mt-2 max-w-[520px] text-base leading-relaxed" style={{ color: "#6b6080" }}>
@@ -35,7 +35,7 @@ export function ServicesSection() {
           <a
             href="/services"
             className="shrink-0 text-sm font-semibold no-underline transition-opacity hover:opacity-80"
-            style={{ color: "#C0392B" }}
+            style={{ color: "#FB8C33" }}
           >
             {c.nav.pagesServices} →
           </a>
@@ -47,7 +47,7 @@ export function ServicesSection() {
         <div
           className="mt-8 flex flex-col items-center justify-between gap-4 rounded-xl px-6 py-5 sm:flex-row"
           style={{
-            background: "linear-gradient(165deg, #e06030 0%, #c03020 46%, #a01c10 100%)",
+            background: "linear-gradient(165deg, #e06030 0%, #E07020 46%, #a01c10 100%)",
             boxShadow: "0 4px 24px rgba(192,48,32,0.28)",
           }}
         >

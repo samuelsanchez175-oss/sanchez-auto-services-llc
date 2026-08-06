@@ -49,40 +49,39 @@
 }
 
 :root {
-  /* Warm off-white background inspired by Harmony Stack */
-  --background: oklch(0.965 0.007 75);
-  --foreground: oklch(0.175 0.022 290);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.175 0.022 290);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.175 0.022 290);
-  /* Brand red as primary */
-  --primary: oklch(0.48 0.21 27.325);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.93 0.010 70);
-  --secondary-foreground: oklch(0.175 0.022 290);
-  --muted: oklch(0.93 0.010 70);
-  --muted-foreground: oklch(0.50 0.018 290);
-  --accent: oklch(0.93 0.010 70);
-  --accent-foreground: oklch(0.175 0.022 290);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.88 0.010 70);
-  --input: oklch(0.88 0.010 70);
-  --ring: oklch(0.48 0.21 27.325);
-  --chart-1: oklch(0.48 0.21 27.325);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.5rem;
-  --sidebar: oklch(0.965 0.007 75);
-  --sidebar-foreground: oklch(0.175 0.022 290);
-  --sidebar-primary: oklch(0.48 0.21 27.325);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.93 0.010 70);
-  --sidebar-accent-foreground: oklch(0.175 0.022 290);
-  --sidebar-border: oklch(0.88 0.010 70);
-  --sidebar-ring: oklch(0.48 0.21 27.325);
+  /* Logo palette: navy #07253F · orange #FB8C33 · steel #878D93 · white */
+  --background: #FAFBFC;
+  --foreground: #07253F;
+  --card: #FFFFFF;
+  --card-foreground: #07253F;
+  --popover: #FFFFFF;
+  --popover-foreground: #07253F;
+  --primary: #07253F;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F2F4F6;
+  --secondary-foreground: #07253F;
+  --muted: #F2F4F6;
+  --muted-foreground: #878D93;
+  --accent: #FB8C33;
+  --accent-foreground: #FFFFFF;
+  --destructive: #C45F18;
+  --border: #D8DEE4;
+  --input: #D8DEE4;
+  --ring: #FB8C33;
+  --chart-1: #07253F;
+  --chart-2: #FB8C33;
+  --chart-3: #878D93;
+  --chart-4: #0F2C45;
+  --chart-5: #E07020;
+  --radius: 0.55rem;
+  --sidebar: #FAFBFC;
+  --sidebar-foreground: #07253F;
+  --sidebar-primary: #07253F;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F2F4F6;
+  --sidebar-accent-foreground: #07253F;
+  --sidebar-border: #D8DEE4;
+  --sidebar-ring: #FB8C33;
 }
 
 @layer base {
@@ -98,9 +97,9 @@
 }
 
 /* Brand utility classes */
-.brand-red { color: #C0392B; }
-.brand-red-bg { background-color: #C0392B; }
-.brand-red-gradient { background: linear-gradient(165deg, #e04e28 0%, #c03020 46%, #a02010 100%); }
+.brand-red { color: #FB8C33; }
+.brand-red-bg { background-color: #FB8C33; }
+.brand-red-gradient { background: linear-gradient(165deg, #FB8C33 0%, #E07020 46%, #C45F18 100%); }
 .section-label-line {
   font-size: 9px;
   letter-spacing: 0.28em;

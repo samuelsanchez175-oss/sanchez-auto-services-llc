@@ -10,12 +10,12 @@ export function FaqSection() {
     <section
       id="faq"
       className="scroll-mt-20 py-16 sm:py-20"
-      style={{ background: "#1a1520" }}
+      style={{ background: "#07253F" }}
     >
       <div className="mx-auto max-w-3xl px-4 sm:px-6">
         <p
           className="mb-5 text-[9px] font-bold uppercase tracking-[0.28em]"
-          style={{ color: "#e04e28" }}
+          style={{ color: "#FB8C33" }}
           aria-hidden
         >
           FAQ

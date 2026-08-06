@@ -1,34 +1,35 @@
 "use client";
 
 import Image from "next/image";
-import { MessageCircle, Phone, ChevronDown } from "lucide-react";
+import {
+  MessageCircle,
+  Phone,
+  MapPin,
+  Star,
+  Check,
+  Camera,
+  FileText,
+  Shield,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { useCatalog } from "@/lib/locale";
-import { ServiceQuoteModal } from "@/components/marketing/service-quote-modal1515";
+import { site } from "@/lib/site-content";
+import { useQuoteLead } from "@/lib/quote-lead-context";
+import { brand, brandGradients } from "@/lib/brand";
 
-const WA_NUMBER = "19736094586";
-const WA_GREETING = "Hi! I'd like to get a quote or ask about your services. Can you help me?";
-
-/** Visible time per slide before crossfading to the next. */
 export const HERO_SLIDESHOW_HOLD_MS = 7000;
-/** Crossfade duration; blur eases with opacity via the same transition. */
-export const HERO_SLIDESHOW_TRANSITION_MS = 750;
-/** Peak blur (px) at the midpoint of the crossfade. */
-export const HERO_SLIDESHOW_BLUR_PX = 12;
+export const HERO_SLIDESHOW_TRANSITION_MS = 900;
+export const HERO_SLIDESHOW_BLUR_PX = 8;
 
+/** Prefer real shop gallery + cleaner slides for a calmer, insurance-trust feel */
 const HERO_SLIDE_PATHS = [
-  "/hero-slideshow/slide-01.png",
-  "/hero-slideshow/slide-02.png",
+  "/gallery/shop-1.jpg",
+  "/gallery/shop-3.jpg",
+  "/gallery/shop-2.jpg",
   "/hero-slideshow/slide-03.png",
-  "/hero-slideshow/slide-04.png",
+  "/gallery/shop-4.jpg",
   "/hero-slideshow/slide-05.png",
-  "/hero-slideshow/slide-06.png",
-  "/hero-slideshow/slide-07.png",
 ] as const;
-
-function waUrl(text: string) {
-  return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
-}
 
 function HeroSlideshowBackground() {
   const [state, setState] = useState<{
@@ -65,7 +66,6 @@ function HeroSlideshowBackground() {
   }, []);
 
   const { top, idx0, idx1 } = state;
-
   const layers: { slot: 0 | 1; slideIndex: number }[] = [
     { slot: 0, slideIndex: idx0 },
     { slot: 1, slideIndex: idx1 },
@@ -103,117 +103,303 @@ function HeroSlideshowBackground() {
 
 export function WhatsAppHero() {
   const c = useCatalog();
-  const [quoteOpen, setQuoteOpen] = useState(false);
+  const isEs = c.locale === "es";
+  const { openQuote } = useQuoteLead();
 
-  function scrollToServices() {
-    document.getElementById("services")?.scrollIntoView({ behavior: "smooth" });
-  }
+  const checklist = isEs
+    ? [
+        { icon: FileText, text: "Número de reclamo (si lo tienes)" },
+        { icon: Camera, text: "Fotos del daño" },
+        { icon: Shield, text: "Año, marca y modelo del auto" },
+      ]
+    : [
+        { icon: FileText, text: "Claim number (if you have one)" },
+        { icon: Camera, text: "Photos of the damage" },
+        { icon: Shield, text: "Year, make & model" },
+      ];
 
   return (
-    <>
     <section
       id="home"
-      className="relative flex min-h-[100svh] flex-col overflow-hidden"
+      className="relative flex min-h-[min(100svh,900px)] flex-col overflow-hidden"
+      style={{ background: brand.navyDeep }}
     >
-      {/* ── Hero background slideshow ── */}
       <div className="absolute inset-0 z-0">
         <HeroSlideshowBackground />
-        {/* Multi-layer dark gradient overlay for legibility */}
         <div
-          className="absolute inset-0 z-[1]"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(10,8,16,0.30) 0%, rgba(10,8,16,0.45) 30%, rgba(10,8,16,0.50) 65%, rgba(10,8,16,0.88) 100%)",
-          }}
+          className="absolute inset-0 z-[1] hidden sm:block"
+          style={{ background: brandGradients.heroOverlay }}
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 z-[1] sm:hidden"
+          style={{ background: brandGradients.heroOverlayMobile }}
           aria-hidden
         />
       </div>
 
-      {/* ── Content ── */}
-      <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-5 pt-20 text-center">
+      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-4 pb-12 pt-24 sm:px-6 sm:pb-16 sm:pt-28 lg:px-8">
+        <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-7">
+            {/* Insurance-first badge row */}
+            <div className="mb-5 flex flex-wrap items-center gap-2">
+              <span
+                className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em]"
+                style={{
+                  background: brand.orangeSoft,
+                  color: brand.orange,
+                  border: `1px solid ${brand.orangeBorder}`,
+                }}
+              >
+                <Shield className="size-3.5" aria-hidden />
+                {isEs ? "Seguros bienvenidos" : "Insurance claims welcome"}
+              </span>
+              <span
+                className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em]"
+                style={{
+                  background: "rgba(255,255,255,0.08)",
+                  color: "rgba(255,255,255,0.75)",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                }}
+              >
+                <MapPin className="size-3" style={{ color: brand.orange }} aria-hidden />
+                Paterson, NJ
+              </span>
+              <span
+                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold"
+                style={{
+                  background: "rgba(255,255,255,0.08)",
+                  color: "rgba(255,255,255,0.8)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                }}
+              >
+                <Star
+                  className="size-3 fill-current"
+                  style={{ color: brand.star }}
+                  aria-hidden
+                />
+                4.8 Google
+              </span>
+            </div>
 
-        {/* Badge */}
-        <div
-          className="mb-5 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.22em]"
-          style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.6)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.1)" }}
-        >
-          <span className="size-1.5 rounded-full bg-green-400 inline-block" aria-hidden />
-          {c.locale === "es" ? "Paterson, NJ · Negocio Familiar" : "Paterson, NJ · Family-Owned"}
+            <h1 className="max-w-xl text-[2.35rem] font-black leading-[1.06] tracking-tight text-white sm:text-5xl lg:text-[3.15rem]">
+              {isEs ? (
+                <>
+                  Accidente o daño?
+                  <br />
+                  <span style={{ color: brand.orange }}>Trabajamos con tu seguro</span>
+                  <span className="text-white"> — cotiza por WhatsApp.</span>
+                </>
+              ) : (
+                <>
+                  Accident or damage?
+                  <br />
+                  <span style={{ color: brand.orange }}>We work with your insurance</span>
+                  <span className="text-white"> — quote on WhatsApp.</span>
+                </>
+              )}
+            </h1>
+
+            <p
+              className="mt-4 max-w-lg text-base leading-relaxed sm:text-[1.05rem]"
+              style={{ color: "rgba(232,238,245,0.78)" }}
+            >
+              {isEs
+                ? "Colisiones, pintura y mecánica en Sanchez Auto Services LLC. Coordinamos con ajustadores, documentamos el daño y te mantenemos informado — sin confusión en el proceso del reclamo."
+                : "Collision, paint, and mechanical at Sanchez Auto Services LLC. We coordinate with adjusters, document damage, and keep you informed — less stress on the claim."}
+            </p>
+
+            <ul className="mt-6 space-y-2.5">
+              {checklist.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <li
+                    key={item.text}
+                    className="flex items-center gap-3 text-sm font-medium"
+                    style={{ color: "rgba(255,255,255,0.9)" }}
+                  >
+                    <span
+                      className="flex size-8 shrink-0 items-center justify-center rounded-lg"
+                      style={{
+                        background: brand.orangeSoft,
+                        border: `1px solid ${brand.orangeBorder}`,
+                      }}
+                    >
+                      <Icon className="size-3.5" style={{ color: brand.orange }} aria-hidden />
+                    </span>
+                    {item.text}
+                    <Check
+                      className="ml-auto size-4 sm:ml-2"
+                      style={{ color: brand.whatsapp }}
+                      aria-hidden
+                    />
+                  </li>
+                );
+              })}
+            </ul>
+
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-stretch">
+              <button
+                type="button"
+                onClick={() =>
+                  openQuote(
+                    isEs
+                      ? "Reclamo de seguro / colisión"
+                      : "Insurance claim / collision",
+                  )
+                }
+                className="inline-flex flex-1 cursor-pointer items-center justify-center gap-2.5 rounded-2xl border-0 px-6 py-4 text-base font-black text-white transition-all active:scale-[0.98] sm:flex-none sm:min-w-[280px]"
+                style={{
+                  background: brandGradients.whatsappCta,
+                  boxShadow: "0 10px 36px rgba(37,211,102,0.38)",
+                }}
+              >
+                <MessageCircle className="size-5 shrink-0" aria-hidden />
+                {isEs ? "Cotizar reclamo por WhatsApp" : "Quote my claim on WhatsApp"}
+              </button>
+              <a
+                href={site.phones[0]?.tel}
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-2xl px-5 py-4 text-sm font-bold text-white no-underline transition-all active:scale-[0.98] sm:flex-none"
+                style={{
+                  background: "rgba(255,255,255,0.08)",
+                  border: "1px solid rgba(255,255,255,0.18)",
+                  backdropFilter: "blur(8px)",
+                }}
+              >
+                <Phone className="size-4 shrink-0" style={{ color: brand.orange }} aria-hidden />
+                {site.phones[0]?.display}
+              </a>
+            </div>
+
+            <p
+              className="mt-3 text-[11px] font-medium leading-relaxed"
+              style={{ color: "rgba(232,238,245,0.42)" }}
+            >
+              {isEs
+                ? "Mensaje estructurado al taller · seguro · auto · daño. Tú solo tocas Enviar."
+                : "Structured message to the shop · insurance · vehicle · damage. You just tap Send."}
+            </p>
+          </div>
+
+          {/* Insurance trust card + photo */}
+          <div className="hidden lg:col-span-5 lg:block">
+            <div
+              className="relative overflow-hidden rounded-3xl"
+              style={{
+                border: "1px solid rgba(255,255,255,0.14)",
+                boxShadow: "0 28px 80px rgba(0,0,0,0.5)",
+              }}
+            >
+              <div className="relative aspect-[4/5] w-full">
+                <Image
+                  src="/gallery/shop-3.jpg"
+                  alt="Sanchez Auto body and repair facility in Paterson"
+                  fill
+                  sizes="(min-width: 1024px) 40vw, 0px"
+                  className="object-cover"
+                  priority
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(to top, rgba(6,21,37,0.95) 0%, rgba(6,21,37,0.25) 50%, transparent 72%)",
+                  }}
+                  aria-hidden
+                />
+              </div>
+
+              <div className="absolute inset-x-0 bottom-0 p-5">
+                <div
+                  className="rounded-2xl p-4"
+                  style={{
+                    background: brand.paper,
+                    boxShadow: "0 8px 32px rgba(0,0,0,0.22)",
+                  }}
+                >
+                  <div className="mb-3 flex items-start gap-3">
+                    <div
+                      className="flex size-10 shrink-0 items-center justify-center rounded-xl"
+                      style={{ background: brand.orangeSoft }}
+                    >
+                      <Shield className="size-5" style={{ color: brand.orange }} aria-hidden />
+                    </div>
+                    <div>
+                      <p className="text-sm font-black" style={{ color: brand.navy }}>
+                        {isEs ? "Proceso de seguro simple" : "Simple insurance process"}
+                      </p>
+                      <p className="mt-0.5 text-[12px] leading-snug" style={{ color: brand.steel }}>
+                        {isEs
+                          ? "Estimado documentado · Fotos del daño · Coordinación con el ajustador"
+                          : "Documented estimate · Damage photos · Adjuster coordination"}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mb-3 flex items-center gap-2 rounded-lg bg-white p-2 ring-1 ring-black/5">
+                    <Image
+                      src={site.logo.src}
+                      alt=""
+                      width={100}
+                      height={65}
+                      className="h-8 w-auto object-contain"
+                    />
+                    <p className="text-[11px] font-semibold" style={{ color: brand.steel }}>
+                      101 E Railway Ave
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      openQuote(
+                        isEs
+                          ? "Reclamo de seguro / colisión"
+                          : "Insurance claim / collision",
+                      )
+                    }
+                    className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border-0 py-3 text-sm font-black text-white"
+                    style={{ background: brandGradients.whatsappCta }}
+                  >
+                    <MessageCircle className="size-4" aria-hidden />
+                    {isEs ? "Enviar mi reclamo" : "Send my claim details"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Headline */}
-        <h1
-          className="mb-4 text-[2.6rem] font-black leading-[1.05] tracking-tight sm:text-6xl"
-          style={{ color: "#ffffff" }}
-        >
-          {c.locale === "es" ? (
-            <>Respuestas Rápidas.<br /><span style={{ color: "#e04e28" }}>Cotizaciones Reales.</span></>
-          ) : (
-            <>Fast Answers.<br /><span style={{ color: "#e04e28" }}>Real Quotes.</span></>
-          )}
-        </h1>
-
-        <p
-          className="mb-8 max-w-xs text-sm leading-relaxed sm:max-w-sm sm:text-base"
-          style={{ color: "rgba(255,255,255,0.60)" }}
-        >
-          {c.locale === "es"
-            ? "Reparación de colisiones, pintura, mecánica y más. Envíanos un mensaje por WhatsApp — respondemos rápido."
-            : "Collision repair, painting, engine work, oil changes & more. Message us on WhatsApp — we reply fast."}
-        </p>
-
-        {/* WhatsApp CTA */}
-        <a
-          href={waUrl(WA_GREETING)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mb-3 flex w-full max-w-xs items-center justify-center gap-2.5 rounded-2xl py-4 text-base font-black text-white no-underline transition-all active:scale-[0.97]"
+        {/* Mobile insurance strip */}
+        <div
+          className="mt-8 grid grid-cols-3 gap-2 rounded-2xl p-3 lg:hidden"
           style={{
-            background: "linear-gradient(135deg,#25d366 0%,#128c7e 100%)",
-            boxShadow: "0 6px 28px rgba(37,211,102,0.40)",
-            letterSpacing: "0.01em",
+            background: "rgba(255,255,255,0.06)",
+            border: "1px solid rgba(255,255,255,0.1)",
           }}
         >
-          <MessageCircle className="size-5 shrink-0" aria-hidden />
-          {c.locale === "es" ? "Chatear por WhatsApp" : "Chat with Us on WhatsApp"}
-        </a>
-
-        {/* Quote request (same flow as service tiles in SeoServicesSection) */}
-        <div className="mb-8 flex w-full max-w-xs justify-center">
-          <button
-            type="button"
-            onClick={() => setQuoteOpen(true)}
-            aria-expanded={quoteOpen}
-            aria-haspopup="dialog"
-            className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl border py-3 text-xs font-bold text-white transition-all active:scale-[0.98]"
-            style={{ borderColor: "rgba(255,255,255,0.18)", background: "rgba(255,255,255,0.06)", backdropFilter: "blur(6px)" }}
-          >
-            <Phone className="size-3.5 shrink-0" aria-hidden />
-            {c.quote.title}
-          </button>
+          {(isEs
+            ? [
+                { k: "Seguro", v: "Bienvenido" },
+                { k: "Fotos", v: "Por WhatsApp" },
+                { k: "Taller", v: "Paterson" },
+              ]
+            : [
+                { k: "Insurance", v: "Welcome" },
+                { k: "Photos", v: "Via WhatsApp" },
+                { k: "Shop", v: "Paterson" },
+              ]
+          ).map((cell) => (
+            <div key={cell.k} className="text-center">
+              <p
+                className="text-[10px] font-bold uppercase tracking-wider"
+                style={{ color: "rgba(255,255,255,0.4)" }}
+              >
+                {cell.k}
+              </p>
+              <p className="mt-0.5 text-xs font-bold text-white">{cell.v}</p>
+            </div>
+          ))}
         </div>
-
-        {/* ── See All Services button ── */}
-        <button
-          type="button"
-          onClick={scrollToServices}
-          className="flex flex-col items-center gap-1.5 transition-all active:scale-95"
-          style={{ color: "rgba(255,255,255,0.40)" }}
-          aria-label="Scroll to services"
-        >
-          <span className="text-[10px] font-bold uppercase tracking-[0.22em]">
-            {c.locale === "es" ? "Ver todos los servicios" : "See all services"}
-          </span>
-          <ChevronDown className="size-5 animate-bounce" aria-hidden />
-        </button>
       </div>
     </section>
-    {quoteOpen ? (
-      <ServiceQuoteModal
-        service={c.quote.title}
-        onClose={() => setQuoteOpen(false)}
-      />
-    ) : null}
-    </>
   );
 }

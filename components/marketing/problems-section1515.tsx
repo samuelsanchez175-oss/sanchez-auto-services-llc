@@ -1,8 +1,8 @@
 "use client";
 
-import { AlertTriangle, CheckCircle2, ArrowRight } from "lucide-react";
-import { site } from "@/lib/site-content";
+import { AlertTriangle, CheckCircle2, ArrowRight, MessageCircle } from "lucide-react";
 import { useCatalog } from "@/lib/locale";
+import { useQuoteLead } from "@/lib/quote-lead-context";
 
 const PROBLEMS = [
   {
@@ -46,9 +46,7 @@ const PROBLEMS = [
 export function ProblemsSection() {
   const c = useCatalog();
   const isEs = c.locale === "es";
-  const waUrl = `https://wa.me/${site.whatsappPhone}?text=${encodeURIComponent(
-    isEs ? "Hola, necesito ayuda con mi carro." : "Hi, I need help with my car."
-  )}`;
+  const { openQuote } = useQuoteLead();
 
   return (
     <section className="relative overflow-hidden py-14 sm:py-20" style={{ background: "#090910" }}>
@@ -67,7 +65,7 @@ export function ProblemsSection() {
         <div className="mb-10 text-center">
           <p
             className="mb-2 text-[9px] font-bold uppercase tracking-[0.28em]"
-            style={{ color: "#e04e28" }}
+            style={{ color: "#FB8C33" }}
           >
             {isEs ? "Problemas que resolvemos" : "Problems We Solve"}
           </p>
@@ -110,7 +108,7 @@ export function ProblemsSection() {
               {/* Divider arrow */}
               <div className="flex items-center gap-2 px-1">
                 <div className="h-px flex-1" style={{ background: "rgba(255,255,255,0.08)" }} />
-                <ArrowRight className="size-3 shrink-0" style={{ color: "#e04e28" }} aria-hidden />
+                <ArrowRight className="size-3 shrink-0" style={{ color: "#FB8C33" }} aria-hidden />
                 <div className="h-px flex-1" style={{ background: "rgba(255,255,255,0.08)" }} />
               </div>
 
@@ -129,21 +127,20 @@ export function ProblemsSection() {
           ))}
         </div>
 
-        {/* CTA */}
+        {/* CTA → structured WhatsApp quote */}
         <div className="mt-10 flex justify-center">
-          <a
-            href={waUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2.5 rounded-2xl px-7 py-4 text-sm font-black text-white no-underline transition-all active:scale-[0.97]"
+          <button
+            type="button"
+            onClick={() => openQuote(isEs ? "Problema con mi carro" : "Problem with my car")}
+            className="inline-flex cursor-pointer items-center gap-2.5 rounded-2xl border-0 px-7 py-4 text-sm font-black text-white transition-all active:scale-[0.97]"
             style={{
               background: "linear-gradient(135deg,#25d366,#128c7e)",
               boxShadow: "0 6px 24px rgba(37,211,102,0.30)",
             }}
           >
-            <CheckCircle2 className="size-4" aria-hidden />
-            {isEs ? "Pedir cotización por WhatsApp" : "Get a Free Quote on WhatsApp"}
-          </a>
+            <MessageCircle className="size-4" aria-hidden />
+            {isEs ? "Pedir cotización por WhatsApp" : "Get a free quote on WhatsApp"}
+          </button>
         </div>
       </div>
     </section>

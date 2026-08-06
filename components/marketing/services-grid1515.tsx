@@ -49,10 +49,10 @@ export function ServicesGridDense() {
               className="flex size-10 items-center justify-center rounded-lg shrink-0"
               style={{ background: "rgba(192,57,43,0.08)" }}
             >
-              <Icon className="size-5" style={{ color: "#C0392B" }} aria-hidden />
+              <Icon className="size-5" style={{ color: "#FB8C33" }} aria-hidden />
             </div>
             <div>
-              <p className="font-bold text-sm mb-1" style={{ color: "#1a1520" }}>{title}</p>
+              <p className="font-bold text-sm mb-1" style={{ color: "#07253F" }}>{title}</p>
               <p className="text-xs leading-relaxed" style={{ color: "#6b6080" }}>{description}</p>
             </div>
           </div>

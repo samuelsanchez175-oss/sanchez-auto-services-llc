@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { services, site } from "@/lib/site-content";
 import type { ServiceId } from "@/lib/catalog/types";
 import { useCatalog } from "@/lib/locale";
-import { ServiceQuoteModal } from "@/components/marketing/service-quote-modal1515";
+import { useQuoteLead } from "@/lib/quote-lead-context";
 import { SeoServiceTileIcon } from "@/components/marketing/seo-service-tile-icons";
 import { SeoServiceDashBadge } from "@/components/marketing/seo-service-dash-icons";
 
@@ -72,24 +71,25 @@ function GoogleSnippetStars({
   );
 }
 
+/** Service accents drawn from logo navy / orange / steel only */
 const SERVICE_COLORS: Record<string, string> = {
-  collision:    "#e04e28",
-  paint:        "#3b82f6",
-  engine:       "#f59e0b",
-  mechanics:    "#10b981",
-  brakes:       "#ef4444",
-  diagnostics:  "#8b5cf6",
-  transmission: "#06b6d4",
-  oil:          "#84cc16",
-  suspension:   "#f97316",
-  electrical:   "#facc15",
-  ac:           "#0ea5e9",
-  tires:        "#6366f1",
+  collision:    "#FB8C33",
+  paint:        "#E07020",
+  engine:       "#07253F",
+  mechanics:    "#0F2C45",
+  brakes:       "#C45F18",
+  diagnostics:  "#878D93",
+  transmission: "#0F2C45",
+  oil:          "#FB8C33",
+  suspension:   "#E07020",
+  electrical:   "#878D93",
+  ac:           "#0F2C45",
+  tires:        "#07253F",
 };
 
 export function SeoServicesSection() {
   const c = useCatalog();
-  const [activeService, setActiveService] = useState<string | null>(null);
+  const { openQuote } = useQuoteLead();
   const isEs = c.locale === "es";
 
   return (
@@ -100,7 +100,7 @@ export function SeoServicesSection() {
       >
         {/* Base vertical gradient: full-bleed behind layout width */}
         <div
-          className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-b from-[#000000] via-[#0a1628] to-[#0c4a6e]"
+          className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-b from-[#001830] via-[#07253F] to-[#0F2C45]"
           aria-hidden
         />
         {/* Subtle star field (CSS repeating radial layers) — above gradient, below content */}
@@ -122,14 +122,18 @@ export function SeoServicesSection() {
 
           {/* ── Section header ── */}
           <div className="mb-6">
-            <p className="mb-1 text-[9px] font-bold uppercase tracking-[0.28em]" style={{ color: "#e04e28" }}>
+            <p className="mb-1 text-[9px] font-bold uppercase tracking-[0.28em]" style={{ color: "#FB8C33" }}>
               {isEs ? "Lo que hacemos" : "What We Do"}
             </p>
             <h2 className="text-2xl font-black tracking-tight text-white sm:text-3xl">
-              {isEs ? "12 Servicios. Un Solo Taller." : "12 Services. One Shop."}
+              {isEs
+                ? "Carrocería, pintura y mecánica"
+                : "Body, paint & mechanical"}
             </h2>
             <p className="mt-1.5 text-sm" style={{ color: "rgba(255,255,255,0.40)" }}>
-              {isEs ? "Toca cualquier servicio para pedir una cotización." : "Tap any service tile to request a quote."}
+              {isEs
+                ? "Toca un servicio → cotización estructurada por WhatsApp."
+                : "Tap a service → structured WhatsApp quote (car + issue + your info)."}
             </p>
           </div>
 
@@ -143,7 +147,7 @@ export function SeoServicesSection() {
                 <button
                   key={s.id}
                   type="button"
-                  onClick={() => setActiveService(title)}
+                  onClick={() => openQuote(title)}
                   aria-label={
                     isEs
                       ? `Solicitar cotización: ${title}`
@@ -157,8 +161,8 @@ export function SeoServicesSection() {
                   }}
                   onMouseEnter={(e) => {
                     const el = e.currentTarget as HTMLButtonElement;
-                    el.style.background = `${SERVICE_COLORS[s.id] ?? "#e04e28"}14`;
-                    el.style.borderColor = `${SERVICE_COLORS[s.id] ?? "#e04e28"}55`;
+                    el.style.background = `${SERVICE_COLORS[s.id] ?? "#FB8C33"}14`;
+                    el.style.borderColor = `${SERVICE_COLORS[s.id] ?? "#FB8C33"}55`;
                   }}
                   onMouseLeave={(e) => {
                     const el = e.currentTarget as HTMLButtonElement;
@@ -170,14 +174,14 @@ export function SeoServicesSection() {
                     <div
                       className="flex size-10 shrink-0 items-center justify-center rounded-xl transition-transform group-hover:scale-110"
                       style={{
-                        background: `${SERVICE_COLORS[s.id] ?? "#e04e28"}22`,
-                        border: `1.5px solid ${SERVICE_COLORS[s.id] ?? "#e04e28"}55`,
+                        background: `${SERVICE_COLORS[s.id] ?? "#FB8C33"}22`,
+                        border: `1.5px solid ${SERVICE_COLORS[s.id] ?? "#FB8C33"}55`,
                       }}
                     >
                       <SeoServiceTileIcon
                         serviceId={s.id}
                         className="h-6 w-6 shrink-0"
-                        style={{ color: SERVICE_COLORS[s.id] ?? "#e04e28" }}
+                        style={{ color: SERVICE_COLORS[s.id] ?? "#FB8C33" }}
                       />
                     </div>
                     <div className="flex min-h-10 shrink-0 flex-col items-end justify-start">
@@ -241,7 +245,7 @@ export function SeoServicesSection() {
                   transmisión, diagnóstico y más. Llame al{" "}
                   <a
                     href={site.phones[0].tel}
-                    className="font-semibold text-[#e04e28] no-underline hover:underline"
+                    className="font-semibold text-[#FB8C33] no-underline hover:underline"
                   >
                     {site.phones[0].display}
                   </a>
@@ -262,7 +266,7 @@ export function SeoServicesSection() {
                   service, transmission, diagnostics, A/C, and more. Call{" "}
                   <a
                     href={site.phones[0].tel}
-                    className="font-semibold text-[#e04e28] no-underline hover:underline"
+                    className="font-semibold text-[#FB8C33] no-underline hover:underline"
                   >
                     {site.phones[0].display}
                   </a>{" "}
@@ -272,31 +276,25 @@ export function SeoServicesSection() {
             </p>
           </div>
 
-          {/* ── Gallery strip ── */}
-          <div className="mt-10 grid grid-cols-2 gap-2 sm:grid-cols-4 overflow-hidden rounded-2xl">
-            {["/gallery/shop-1.jpg", "/gallery/shop-2.jpg", "/gallery/shop-3.jpg", "/gallery/shop-4.jpg"].map((src, i) => (
-              <div key={i} className="relative aspect-square overflow-hidden">
-                <img
-                  src={src}
-                  alt={`Sanchez Auto Services shop photo ${i + 1}`}
-                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.18)" }} aria-hidden />
-              </div>
-            ))}
+          {/* Mini CTA under services (full gallery lives lower on the page) */}
+          <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm" style={{ color: "rgba(255,255,255,0.45)" }}>
+              {isEs
+                ? "¿No estás seguro del servicio? Cuéntanos el problema por WhatsApp."
+                : "Not sure which service? Describe the problem on WhatsApp."}
+            </p>
+            <button
+              type="button"
+              onClick={() => openQuote(isEs ? "No estoy seguro del servicio" : "Not sure which service")}
+              className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border-0 px-5 py-3 text-sm font-bold text-white"
+              style={{ background: "linear-gradient(135deg,#25d366,#128c7e)" }}
+            >
+              {isEs ? "Cotizar de todos modos" : "Quote anyway"}
+            </button>
           </div>
 
         </div>
       </section>
-
-      {/* Quote modal */}
-      {activeService && (
-        <ServiceQuoteModal
-          service={activeService}
-          onClose={() => setActiveService(null)}
-        />
-      )}
     </>
   );
 }
