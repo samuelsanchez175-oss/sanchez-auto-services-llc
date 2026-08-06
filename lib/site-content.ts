@@ -38,27 +38,81 @@ export const site = {
   },
 };
 
-/** SEO `<meta name="keywords">` source — centralized; avoid repeating in page copy. */
+/**
+ * SEO keywords — local + service + insurance intent.
+ * Used in meta keywords, JSON-LD knowsAbout, and on-page “areas served” copy.
+ * Primary ranking still comes from titles, H1s, NAP, and Google Business — not meta keywords alone.
+ */
 export const siteSeoKeywords = [
+  // Brand
   "Sanchez Auto Services LLC",
-  "auto repair Paterson NJ",
-  "collision repair Paterson",
+  "Sanchez Auto Paterson",
+  "Sanchez Auto Services Paterson NJ",
+  // Core local
+  "auto body shop Paterson NJ",
   "body shop Paterson NJ",
-  "East Railway Ave auto shop Paterson",
-  "WhatsApp auto repair quote",
-  "commercial van repair Paterson",
-  "fleet vehicle repair Paterson NJ",
-  "brake service near Route 80",
-  "automotive diagnostics Paterson",
+  "collision repair Paterson NJ",
+  "auto repair Paterson NJ",
+  "car accident repair Paterson",
+  "101 E Railway Ave Paterson",
+  "East Railway Ave auto shop",
+  "Passaic County body shop",
+  "auto body near Route 80",
+  "body shop near me Paterson",
+  // Insurance
+  "insurance claim auto body Paterson",
+  "insurance collision repair NJ",
+  "work with insurance body shop Paterson",
+  "free estimate body shop Paterson",
+  "auto body Progressive GEICO State Farm NJ",
+  "NJM auto body shop",
+  // Services
+  "auto paint shop Paterson NJ",
   "paint and refinishing Paterson",
+  "bumper repair Paterson",
+  "dent repair Paterson NJ",
+  "frame straightening Paterson",
+  "brake service Paterson NJ",
+  "check engine light Paterson",
+  "automotive diagnostics Paterson",
   "engine repair Paterson NJ",
   "transmission service Paterson",
   "suspension and alignment Paterson",
   "AC repair auto Paterson",
   "oil change Paterson NJ",
-  "Passaic County auto repair",
+  // Fleet / commercial
+  "fleet vehicle repair Paterson NJ",
+  "commercial van repair Paterson",
+  // Conversion / bilingual
+  "WhatsApp auto body quote NJ",
+  "WhatsApp auto repair quote",
+  "taller de carrocería Paterson",
+  "reparación de colisiones Paterson NJ",
+  "cotización WhatsApp taller",
+  // Nearby cities (local SEO)
+  "body shop Clifton NJ",
+  "collision repair Passaic NJ",
+  "auto body Wayne NJ",
+  "body shop Haledon NJ",
+  "auto repair Totowa NJ",
   "family owned body shop Paterson",
 ] as const satisfies readonly string[];
+
+/** Nearby areas for on-page local SEO (visible + structured data). */
+export const areasServed = [
+  "Paterson",
+  "Clifton",
+  "Passaic",
+  "Wayne",
+  "Haledon",
+  "Prospect Park",
+  "Totowa",
+  "Elmwood Park",
+  "Garfield",
+  "Lodi",
+  "Fair Lawn",
+  "Hawthorne",
+] as const;
 
 /** Google Maps turn-by-turn directions to the shop (single source: `site.address`). */
 export const mapDirectionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(

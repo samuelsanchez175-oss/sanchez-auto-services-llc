@@ -2,28 +2,27 @@
 
 import { MessageCircle, Phone } from "lucide-react";
 import { Header } from "@/components/marketing/header1515";
-import { WhatsAppHero } from "@/components/marketing/whatsapp-hero1515";
-import { StatsBarSection } from "@/components/marketing/stats-bar1515";
-import { HowItWorksSection } from "@/components/marketing/how-it-works1515";
-import { InsuranceChecklistSection } from "@/components/marketing/insurance-checklist1515";
-import { SeoServicesSection } from "@/components/marketing/seo-services1515";
-import { ProcessSection } from "@/components/marketing/process-section1515";
-import { ProblemsSection } from "@/components/marketing/problems-section1515";
-import { ShopGallerySection } from "@/components/marketing/shop-gallery1515";
-import { QuoteSection } from "@/components/marketing/quote-form1515";
-import { WhyUsSection } from "@/components/marketing/why-us-section1515";
-import { ReviewsSection } from "@/components/marketing/reviews1515";
-import { AboutLocalSection } from "@/components/marketing/about-local1515";
-import { FaqSection } from "@/components/marketing/faq-section1515";
-import { HoursMapSection } from "@/components/marketing/hours-map1515";
-import { Footer } from "@/components/marketing/footer1515";
+import { CleanHero } from "@/components/marketing/clean/CleanHero";
+import { CleanTrust } from "@/components/marketing/clean/CleanTrust";
+import { CleanServices } from "@/components/marketing/clean/CleanServices";
+import { CleanInsurance } from "@/components/marketing/clean/CleanInsurance";
+import { CleanReviews } from "@/components/marketing/clean/CleanReviews";
+import { CleanGallery } from "@/components/marketing/clean/CleanGallery";
+import { CleanQuote } from "@/components/marketing/clean/CleanQuote";
+import { CleanLocation } from "@/components/marketing/clean/CleanLocation";
+import { CleanAreasServed } from "@/components/marketing/clean/CleanAreasServed";
+import { CleanFooter } from "@/components/marketing/clean/CleanFooter";
 import { DesktopWhatsAppFloat } from "@/components/marketing/desktop-whatsapp-float";
 import { useQuoteLead } from "@/lib/quote-lead-context";
 import { site } from "@/lib/site-content";
 import { useCatalog } from "@/lib/locale";
 import { trackEvent } from "@/lib/analytics";
-import { brand } from "@/lib/brand";
+import { brand, brandGradients } from "@/lib/brand";
 
+/**
+ * Full visual reset — light “collision clinic” homepage.
+ * Short funnel; WhatsApp structured quote stays the conversion path.
+ */
 export function MarketingHomeShell({
   heroSrc: _heroSrc,
   mapsSlot: _mapsSlot,
@@ -32,69 +31,60 @@ export function MarketingHomeShell({
   mapsSlot: React.ReactNode;
 }) {
   const c = useCatalog();
-  const mainPhone = site.phones[0];
+  const es = c.locale === "es";
   const { openQuote } = useQuoteLead();
-  const isEs = c.locale === "es";
+  const phone = site.phones[0];
 
   return (
     <>
       <Header />
 
-      <main id="main" className="flex-1 pb-20 lg:pb-0">
-        <WhatsAppHero />
-        <StatsBarSection />
-        <HowItWorksSection />
-        <InsuranceChecklistSection />
-        <SeoServicesSection />
-        <ProcessSection />
-        <ProblemsSection />
-        <ShopGallerySection />
-        <QuoteSection />
-        <WhyUsSection />
-        <ReviewsSection />
-        <AboutLocalSection />
-        <FaqSection />
-        <HoursMapSection />
+      <main id="main" className="flex-1 pb-20 lg:pb-0" style={{ background: brand.white }}>
+        <CleanHero />
+        {/* Photos immediately after first section */}
+        <CleanGallery />
+        <CleanTrust />
+        <CleanServices />
+        <CleanInsurance />
+        <CleanReviews />
+        <CleanQuote />
+        <CleanLocation />
+        <CleanAreasServed />
       </main>
 
-      {/* Mobile sticky */}
+      {/* Mobile sticky — simple */}
       <div
-        className="fixed inset-x-0 bottom-0 z-[60] border-t lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-[60] border-t bg-white lg:hidden"
         style={{
-          borderColor: "rgba(251,140,51,0.2)",
-          background: "rgba(0,24,48,0.97)",
-          backdropFilter: "blur(12px)",
+          borderColor: "#E6EAEF",
           paddingBottom: "env(safe-area-inset-bottom, 0px)",
+          boxShadow: "0 -4px 20px rgba(7,37,63,0.06)",
         }}
       >
-        <div className="flex items-stretch gap-2 px-3 py-2.5">
+        <div className="flex gap-2 px-3 py-2.5">
           <button
             type="button"
-            onClick={() => openQuote(isEs ? "Cotización general" : "General quote")}
-            className="flex min-w-0 flex-[1.4] cursor-pointer items-center justify-center gap-2 rounded-xl border-0 py-3.5 text-xs font-bold uppercase tracking-wide text-white"
-            style={{
-              background: "linear-gradient(135deg,#25d366,#128c7e)",
-              boxShadow: "0 4px 16px rgba(37,211,102,0.35)",
-            }}
+            onClick={() => openQuote(es ? "Cotización" : "Free estimate")}
+            className="flex flex-[1.4] items-center justify-center gap-2 rounded-xl border-0 py-3.5 text-xs font-bold uppercase tracking-wide text-white"
+            style={{ background: brandGradients.whatsappCta }}
           >
-            <MessageCircle className="size-4 shrink-0" aria-hidden />
-            {isEs ? "WhatsApp" : "WhatsApp quote"}
+            <MessageCircle className="size-4" />
+            WhatsApp
           </button>
           <a
-            href={mainPhone?.tel}
-            aria-label={mainPhone?.display}
+            href={phone.tel}
             onClick={() => trackEvent("call_click", { source: "sticky" })}
-            className="flex min-w-0 flex-1 items-center justify-center gap-1.5 rounded-xl py-3.5 text-xs font-bold uppercase tracking-wide text-white no-underline"
-            style={{ background: `linear-gradient(135deg,${brand.navyMid},${brand.navy})` }}
+            className="flex flex-1 items-center justify-center gap-2 rounded-xl py-3.5 text-xs font-bold uppercase tracking-wide no-underline"
+            style={{ background: brand.mist, color: brand.navy }}
           >
-            <Phone className="size-4 shrink-0" aria-hidden />
-            {isEs ? "Llamar" : "Call"}
+            <Phone className="size-4" style={{ color: brand.orange }} />
+            {es ? "Llamar" : "Call"}
           </a>
         </div>
       </div>
 
       <DesktopWhatsAppFloat />
-      <Footer />
+      <CleanFooter />
     </>
   );
 }

@@ -19,7 +19,7 @@ export function DesktopWhatsAppFloat() {
         trackEvent("quote_open", { source: "desktop_float" });
         openQuote(isEs ? "Cotización general" : "General quote");
       }}
-      className="fixed bottom-6 right-6 z-[55] hidden cursor-pointer items-center gap-2 rounded-full border-0 px-5 py-3.5 text-sm font-black text-white shadow-xl transition-transform hover:scale-[1.03] active:scale-[0.98] lg:inline-flex"
+      className="fixed bottom-6 right-6 z-[55] hidden cursor-pointer items-center gap-2 rounded-full border-0 px-5 py-3.5 text-sm font-bold text-white shadow-xl transition-transform hover:scale-[1.03] active:scale-[0.98] lg:inline-flex"
       style={{
         background: brandGradients.whatsappCta,
         boxShadow: "0 10px 32px rgba(37,211,102,0.4)",

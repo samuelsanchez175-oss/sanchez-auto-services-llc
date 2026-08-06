@@ -19,14 +19,66 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+  "https://sanchez-auto-llc.vercel.app";
+
+const titleDefault = `${site.name} | Auto Body & Collision Repair Paterson NJ | Insurance Welcome`;
+const descriptionDefault = `Insurance claims welcome at ${site.name}. Collision repair, auto paint, and mechanical service at ${formatAddressInline()}. Free estimates via WhatsApp — call ${site.phones[0].display}. Serving Paterson, Clifton, Passaic & Passaic County.`;
+
 export const metadata: Metadata = {
-  title: `${site.name} | Auto Body & Collision — Paterson, NJ | Insurance Welcome`,
-  description: `Insurance claims welcome. Collision, paint & mechanical at ${formatAddressInline()}. Quote on WhatsApp — ${site.phones[0].display}.`,
-  keywords: [...siteSeoKeywords, "insurance claim auto body Paterson", "WhatsApp auto body quote NJ"],
-  metadataBase:
-    typeof process.env.NEXT_PUBLIC_SITE_URL === "string" && process.env.NEXT_PUBLIC_SITE_URL.length > 0
-      ? new URL(process.env.NEXT_PUBLIC_SITE_URL)
-      : new URL("https://sanchez-auto-llc.vercel.app"),
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: titleDefault,
+    template: `%s | ${site.name}`,
+  },
+  description: descriptionDefault,
+  keywords: [...siteSeoKeywords],
+  authors: [{ name: site.name }],
+  creator: site.name,
+  publisher: site.name,
+  category: "Auto Repair",
+  applicationName: site.name,
+  alternates: {
+    canonical: "/",
+    languages: {
+      "en-US": "/",
+      es: "/?lang=es",
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    alternateLocale: ["es_US"],
+    url: siteUrl,
+    siteName: site.name,
+    title: titleDefault,
+    description: descriptionDefault,
+    images: [
+      {
+        url: site.logo.src,
+        width: site.logo.width,
+        height: site.logo.height,
+        alt: `${site.name} — auto body shop Paterson NJ logo`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: titleDefault,
+    description: descriptionDefault,
+    images: [site.logo.src],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   icons: {
     icon: [
       { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
@@ -34,17 +86,11 @@ export const metadata: Metadata = {
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
-  openGraph: {
-    title: `${site.name} | Insurance-friendly body shop — Paterson, NJ`,
-    description: `All major insurers welcome. Collision, paint & mechanical. WhatsApp quote: ${site.phones[0].display}. ${formatAddressInline()}.`,
-    images: [
-      {
-        url: "/logo-sanchez-auto-services.png",
-        width: 1924,
-        height: 1251,
-        alt: "Sanchez Auto Services LLC",
-      },
-    ],
+  other: {
+    "geo.region": "US-NJ",
+    "geo.placename": "Paterson",
+    "geo.position": "40.8976;-74.1556",
+    ICBM: "40.8976, -74.1556",
   },
 };
 
