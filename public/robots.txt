@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sanchez-auto-llc.vercel.app/sitemap.xml
+Host: https://sanchez-auto-llc.vercel.app
