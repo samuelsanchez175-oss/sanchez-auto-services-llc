@@ -1,10 +1,10 @@
 /**
- * Sanchez Auto brand — colors sampled from the official logo.
+ * Sanchez Auto brand — colors sampled from the official logo PNG.
  *
- * - Navy: SANCHEZ wordmark + car silhouette (~#07253F)
- * - Orange: speed lines + hexagon (~#FB8C33)
+ * - Navy: SANCHEZ wordmark + car silhouette (~#07253F / #082640)
+ * - Orange: speed lines + hexagon (~#FB8628–#FB8C33)
  * - Steel grey: “AUTO SERVICES LLC” (~#878D93)
- * - White: logo field
+ * - White: logo field background (~#F8F8F8) — not pure #FFFFFF
  *
  * WhatsApp green is kept only for chat CTAs (not on the logo).
  */
@@ -22,9 +22,17 @@ export const brand = {
 
   steel: "#878D93",
   steelLight: "#B0B6BC",
-  mist: "#F2F4F6",
-  paper: "#FAFBFC",
-  white: "#FFFFFF",
+  /** Soft surface — slightly cooler than logo white */
+  mist: "#F0F0F0",
+  /** Cards / elevated panels — between mist and logo white */
+  paper: "#F5F5F5",
+  /**
+   * Default page white — sampled from logo field (#F8F8F8).
+   * Use this instead of pure #FFFFFF for backgrounds.
+   */
+  white: "#F8F8F8",
+  /** True white only for high-contrast text/icons on dark navy */
+  pureWhite: "#FFFFFF",
 
   whatsapp: "#25D366",
   whatsappDeep: "#128C7E",

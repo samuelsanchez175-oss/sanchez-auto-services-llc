@@ -49,21 +49,31 @@
 }
 
 :root {
-  /* Logo palette: navy #07253F · orange #FB8C33 · steel #878D93 · white */
-  --background: #FAFBFC;
+  /*
+   * Logo palette (sampled from logo PNG):
+   * navy #07253F · orange #FB8C33 · steel #878D93 · field white #F8F8F8
+   */
+  --brand-white: #F8F8F8;
+  --brand-paper: #F5F5F5;
+  --brand-mist: #F0F0F0;
+  --brand-navy: #07253F;
+  --brand-orange: #FB8C33;
+  --brand-steel: #878D93;
+
+  --background: #F8F8F8;
   --foreground: #07253F;
-  --card: #FFFFFF;
+  --card: #F8F8F8;
   --card-foreground: #07253F;
-  --popover: #FFFFFF;
+  --popover: #F8F8F8;
   --popover-foreground: #07253F;
   --primary: #07253F;
-  --primary-foreground: #FFFFFF;
-  --secondary: #F2F4F6;
+  --primary-foreground: #F8F8F8;
+  --secondary: #F0F0F0;
   --secondary-foreground: #07253F;
-  --muted: #F2F4F6;
+  --muted: #F0F0F0;
   --muted-foreground: #878D93;
   --accent: #FB8C33;
-  --accent-foreground: #FFFFFF;
+  --accent-foreground: #F8F8F8;
   --destructive: #C45F18;
   --border: #D8DEE4;
   --input: #D8DEE4;
@@ -74,11 +84,11 @@
   --chart-4: #0F2C45;
   --chart-5: #E07020;
   --radius: 0.55rem;
-  --sidebar: #FAFBFC;
+  --sidebar: #F8F8F8;
   --sidebar-foreground: #07253F;
   --sidebar-primary: #07253F;
-  --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F2F4F6;
+  --sidebar-primary-foreground: #F8F8F8;
+  --sidebar-accent: #F0F0F0;
   --sidebar-accent-foreground: #07253F;
   --sidebar-border: #D8DEE4;
   --sidebar-ring: #FB8C33;
@@ -90,10 +100,23 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-color: #f8f8f8;
   }
   html {
     @apply font-sans;
+    background-color: #f8f8f8;
   }
+}
+
+/* Tailwind-friendly brand surface: matches logo field white */
+.bg-brand-white {
+  background-color: #f8f8f8;
+}
+.text-brand-white {
+  color: #f8f8f8;
+}
+.border-brand-white {
+  border-color: #f8f8f8;
 }
 
 /* Brand utility classes */
@@ -114,4 +137,558 @@
   flex: 1;
   height: 1.5px;
   background: var(--border);
+}
+
+/* ── Network Auto Body–matched layout system ── */
+.nw-section {
+  padding: 4.5rem 0;
+}
+@media (min-width: 640px) {
+  .nw-section {
+    padding: 5.5rem 0;
+  }
+}
+.nw-wrap {
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 640px) {
+  .nw-wrap {
+    padding-inline: 2rem;
+  }
+}
+.nw-kicker {
+  margin-bottom: 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #fb8c33;
+}
+.nw-h2 {
+  font-size: clamp(1.85rem, 4vw, 2.75rem);
+  font-weight: 900;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: #07253f;
+}
+.nw-lead {
+  margin-top: 1rem;
+  max-width: 38rem;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #5c6570;
+}
+.nw-center {
+  text-align: center;
+}
+.nw-center .nw-lead {
+  margin-inline: auto;
+}
+
+/*
+ * Dark sections (hero, shop/work, expertise band, navy CTAs):
+ * navy titles (#07253F) fail on black/navy — force light type.
+ * Marked via data-arrow-theme="dark" on the section.
+ */
+[data-arrow-theme="dark"] .nw-kicker {
+  color: #fb8c33;
+}
+[data-arrow-theme="dark"] .nw-h2 {
+  color: #f8f8f8; /* logo white */
+}
+[data-arrow-theme="dark"] .nw-lead {
+  color: rgba(248, 248, 248, 0.78);
+}
+/* Explicit helpers if needed outside marked sections */
+.nw-h2--on-dark {
+  color: #f8f8f8 !important;
+}
+.nw-lead--on-dark {
+  color: rgba(248, 248, 248, 0.78) !important;
+}
+/*
+ * Primary CTA = WhatsApp green (all estimate / chat / quote buttons).
+ * Use .nw-btn--orange or .nw-btn--navy for non-WhatsApp actions only.
+ */
+.nw-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 0;
+  border-radius: 0.25rem;
+  padding: 0.95rem 1.75rem;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #fff;
+  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+  box-shadow: 0 8px 22px rgba(37, 211, 102, 0.28);
+  cursor: pointer;
+  transition: filter 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+.nw-btn:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(37, 211, 102, 0.36);
+}
+.nw-btn--ghost {
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  box-shadow: none;
+}
+.nw-btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+  filter: none;
+  box-shadow: none;
+}
+.nw-btn--navy {
+  background: #07253f;
+  box-shadow: 0 8px 22px rgba(7, 37, 63, 0.22);
+}
+.nw-btn--navy:hover {
+  background: #0f2c45;
+  filter: none;
+  box-shadow: 0 10px 26px rgba(7, 37, 63, 0.28);
+}
+.nw-btn--orange {
+  background: #fb8c33;
+  box-shadow: 0 8px 22px rgba(251, 140, 51, 0.28);
+}
+.nw-btn--orange:hover {
+  background: #e07020;
+  filter: none;
+  box-shadow: 0 10px 26px rgba(251, 140, 51, 0.36);
+}
+/* Alias — same as default .nw-btn */
+.nw-btn--wa {
+  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+  box-shadow: 0 8px 22px rgba(37, 211, 102, 0.28);
+}
+.nw-btn--wa:hover {
+  filter: brightness(1.06);
+}
+/* Photo presentation — sharp modern crops like Network */
+.nw-photo {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.25rem;
+  background: #e8ecef;
+}
+.nw-photo img {
+  object-fit: cover;
+}
+.nw-photo--wide {
+  aspect-ratio: 16 / 10;
+}
+.nw-photo--card {
+  aspect-ratio: 3 / 2;
+}
+.nw-photo--portrait {
+  aspect-ratio: 4 / 5;
+}
+.nw-photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.72) 0%,
+    rgba(0, 0, 0, 0.15) 50%,
+    transparent 100%
+  );
+}
+.nw-photo-caption {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  padding: 1.25rem 1.35rem;
+  color: #fff;
+}
+.nw-photo-caption h3 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.nw-photo-caption p {
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.82);
+}
+/* Numbered feature blocks */
+.nw-num {
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #fb8c33;
+}
+/* Feature list with vertical rule (Authorized Repair style) */
+.nw-feature {
+  display: grid;
+  gap: 1.5rem;
+  padding-block: 1.25rem;
+  border-bottom: 1px solid #e6eaef;
+}
+.nw-feature:last-child {
+  border-bottom: 0;
+}
+@media (min-width: 640px) {
+  .nw-feature {
+    grid-template-columns: auto 1fr;
+    gap: 1.75rem;
+    align-items: start;
+  }
+}
+.nw-feature__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  background: #07253f;
+  color: #fb8c33;
+  flex-shrink: 0;
+}
+.nw-feature h3 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #07253f;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.nw-feature p {
+  margin-top: 0.4rem;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #5c6570;
+}
+/* Dark image band CTA */
+.nw-band {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 22rem;
+  display: flex;
+  align-items: center;
+}
+.nw-band__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+.nw-band__bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, rgba(0, 16, 32, 0.92) 0%, rgba(7, 37, 63, 0.78) 55%, rgba(7, 37, 63, 0.45) 100%);
+}
+/* Process steps with connector */
+.nw-steps {
+  display: grid;
+  gap: 2rem;
+}
+@media (min-width: 768px) {
+  .nw-steps {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+}
+.nw-step {
+  text-align: center;
+}
+.nw-step__img {
+  position: relative;
+  margin-inline: auto;
+  width: min(100%, 14rem);
+  aspect-ratio: 5 / 4;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  background: #f2f4f6;
+  margin-bottom: 1.25rem;
+}
+.nw-step h3 {
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #07253f;
+}
+.nw-step p {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: #5c6570;
+}
+/* ── Section arrows (Luzid-style chevrons, bigger + theme-aware) ── */
+.hero-nav-arrows {
+  position: fixed;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 1s ease;
+  pointer-events: none;
+}
+.hero-nav-arrows.is-visible {
+  opacity: 1;
+}
+.nav-arrow {
+  pointer-events: auto;
+  background: transparent;
+  border: none;
+  color: #0a0a0a; /* black on light sections */
+  cursor: pointer;
+  padding: 0.65rem;
+  transition: color 0.25s ease, transform 0.3s ease, opacity 0.3s ease,
+    filter 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Soft halo so black chevrons stay readable on busy photos */
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.55))
+    drop-shadow(0 0 6px rgba(255, 255, 255, 0.35));
+}
+.hero-nav-arrows.is-on-dark .nav-arrow {
+  color: #f8f8f8; /* logo white on dark navy / black bands */
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.55))
+    drop-shadow(0 0 8px rgba(0, 0, 0, 0.35));
+}
+.nav-arrow:hover:not(:disabled) {
+  color: #fb8c33;
+  filter: drop-shadow(0 0 10px rgba(251, 140, 51, 0.45));
+}
+.nav-arrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  filter: none;
+}
+.nav-arrow svg {
+  width: 42px;
+  height: 42px;
+  stroke-width: 2.35;
+}
+.nav-arrow.up:hover:not(:disabled) {
+  transform: translateY(-4px);
+}
+.nav-arrow.down:hover:not(:disabled) {
+  transform: translateY(4px);
+}
+@media (min-width: 768px) {
+  .nav-arrow svg {
+    width: 48px;
+    height: 48px;
+    stroke-width: 2.4;
+  }
+}
+@media (max-width: 640px) {
+  .hero-nav-arrows {
+    right: 0.55rem;
+    top: auto;
+    bottom: calc(5.75rem + env(safe-area-inset-bottom, 0px));
+    transform: none;
+    gap: 0.5rem;
+  }
+  .nav-arrow {
+    padding: 0.45rem;
+  }
+  .nav-arrow svg {
+    width: 36px;
+    height: 36px;
+    stroke-width: 2.25;
+  }
+}
+
+/* ── Network “Top Dealerships” photo carousel — trackpad / drag / swipe ── */
+.dealer-carousel__viewport {
+  --per-view: 4;
+  overflow-x: auto;
+  overflow-y: hidden;
+  /*
+   * Idle: soft proximity snap (mandatory + always-stop fights Mac trackpads).
+   * .is-dragging: snap OFF so two-finger wheel and drag can free-scroll.
+   */
+  scroll-snap-type: x proximity;
+  /* NEVER smooth here — laggy wheel/drag frames */
+  scroll-behavior: auto;
+  -webkit-overflow-scrolling: touch;
+  /*
+   * pan-x: native horizontal (touch + some trackpads).
+   * Vertical page scroll still works when the wheel handler yields axis “y”.
+   */
+  touch-action: pan-x;
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
+  cursor: grab;
+  container-type: inline-size;
+  container-name: dealer-carousel;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.dealer-carousel__viewport::-webkit-scrollbar {
+  display: none;
+}
+.dealer-carousel__viewport.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.dealer-carousel__viewport.is-dragging a,
+.dealer-carousel__viewport.is-dragging img {
+  pointer-events: none;
+}
+.dealer-carousel__track {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+  min-width: 100%;
+}
+.dealer-card {
+  position: relative;
+  flex: 0 0 var(--card-w, calc(100cqw / var(--per-view, 4)));
+  width: var(--card-w, calc(100cqw / var(--per-view, 4)));
+  max-width: var(--card-w, calc(100cqw / var(--per-view, 4)));
+  box-sizing: border-box;
+  aspect-ratio: 400 / 267;
+  overflow: hidden;
+  background: #1a1f24;
+  scroll-snap-align: start;
+  /* “normal” — trackpad can pass cards; “always” was locking every step */
+  scroll-snap-stop: normal;
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-x;
+}
+.dealer-card__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.02);
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+.dealer-card__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(12, 18, 28, 0.45) 0%,
+    rgba(12, 18, 28, 0.55) 40%,
+    rgba(12, 18, 28, 0.78) 100%
+  );
+}
+.dealer-card__content {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem 1rem 1.35rem;
+  text-align: center;
+}
+/* Fixed frame so every brand mark occupies the same visual footprint */
+.dealer-card__logo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 88%;
+  height: clamp(5.25rem, 13.5vw, 8rem);
+  margin-bottom: 0.55rem;
+  flex-shrink: 0;
+}
+.dealer-card__logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  /* Per-brand optical scale via --logo-scale (default 1) */
+  transform: scale(var(--logo-scale, 1));
+  transform-origin: center center;
+  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.45));
+}
+.dealer-card__name {
+  margin: 0;
+  font-size: clamp(0.78rem, 1.5vw, 0.95rem);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+  line-height: 1.25;
+}
+.dealer-card__phone {
+  margin-top: 0.35rem;
+  font-size: clamp(0.78rem, 1.45vw, 0.95rem);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.95);
+  text-decoration: none;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+  letter-spacing: 0.02em;
+}
+.dealer-card__phone:hover {
+  text-decoration: underline;
+  color: #fff;
+}
+.dealer-carousel__arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border: 0;
+  border-radius: 9999px;
+  background: rgba(248, 248, 248, 0.95);
+  color: #1a1a1a;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: background 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+.dealer-carousel__arrow:hover:not(:disabled) {
+  background: #f8f8f8;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.22);
+}
+.dealer-carousel__arrow:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.dealer-carousel__arrow--left {
+  left: 0.65rem;
+}
+.dealer-carousel__arrow--right {
+  right: 0.65rem;
+}
+@media (min-width: 768px) {
+  .dealer-carousel__arrow {
+    width: 2.6rem;
+    height: 2.6rem;
+  }
+  .dealer-carousel__arrow--left {
+    left: 1rem;
+  }
+  .dealer-carousel__arrow--right {
+    right: 1rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dealer-carousel__track {
+    transition: none;
+  }
 }

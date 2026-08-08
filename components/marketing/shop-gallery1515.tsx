@@ -60,8 +60,8 @@ export function ShopGallerySection() {
             </h2>
             <p className="mt-2 text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.45)" }}>
               {isEs
-                ? "En 101 E Railway Ave, Paterson — cerca de la Ruta 80 y el mercado de agricultores."
-                : "At 101 E Railway Ave, Paterson — near Route 80 and the historic farmers market corridor."}
+                ? "En 99 E Railway Ave, Paterson — cerca de la Ruta 80 y el mercado de agricultores."
+                : "At 99 E Railway Ave, Paterson — near Route 80 and the historic farmers market corridor."}
             </p>
           </div>
           <button

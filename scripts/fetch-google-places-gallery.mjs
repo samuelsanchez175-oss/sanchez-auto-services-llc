@@ -25,7 +25,7 @@ import process from "node:process";
 const ROOT = path.join(process.cwd(), "public/google-maps-gallery");
 const SEARCH_QUERY =
   process.env.PLACES_TEXT_QUERY?.trim() ||
-  "Sanchez Auto Services LLC 101 E Railway Ave Paterson NJ 07503";
+  "Sanchez Auto Services LLC 99 E Railway Ave Paterson NJ 07503";
 
 const API_KEY = process.env.GOOGLE_PLACES_API_KEY?.trim();
 

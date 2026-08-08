@@ -43,8 +43,8 @@ export function CleanAreasServed() {
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed sm:text-base" style={{ color: brand.steel }}>
               {es
-                ? "Sanchez Auto Services LLC ofrece reparación de colisiones, pintura automotriz y mecánica en Paterson, NJ (101 E Railway Ave). También atendemos conductores de ciudades cercanas en el condado de Passaic y alrededores — cotizaciones por WhatsApp y seguros bienvenidos."
-                : "Sanchez Auto Services LLC provides collision repair, auto paint, and mechanical service in Paterson, NJ (101 E Railway Ave). We also welcome drivers from nearby Passaic County towns for free estimates on WhatsApp — insurance claims welcome."}
+                ? "Sanchez Auto Services LLC ofrece reparación de colisiones, pintura automotriz y mecánica en Paterson, NJ (99 E Railway Ave). También atendemos conductores de ciudades cercanas en el condado de Passaic y alrededores — cotizaciones por WhatsApp y seguros bienvenidos."
+                : "Sanchez Auto Services LLC provides collision repair, auto paint, and mechanical service in Paterson, NJ (99 E Railway Ave). We also welcome drivers from nearby Passaic County towns for free estimates on WhatsApp — insurance claims welcome."}
             </p>
           </div>
         </div>

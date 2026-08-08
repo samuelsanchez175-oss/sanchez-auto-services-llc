@@ -11,7 +11,12 @@ export function JsonLd() {
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
     "https://sanchez-auto-llc.vercel.app";
 
-  const sameAs = [site.social.facebook, site.mapSearchUrl, site.googleBusinessUrl].filter(
+  const sameAs = [
+    site.social.facebook,
+    site.social.instagram,
+    site.mapSearchUrl,
+    site.googleBusinessUrl,
+  ].filter(
     Boolean,
   );
 

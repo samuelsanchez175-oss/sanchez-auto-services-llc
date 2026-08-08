@@ -24,8 +24,8 @@ const STATS = [
     icon: MapPin,
     valueEn: "Paterson",
     valueEs: "Paterson",
-    labelEn: "101 E Railway Ave",
-    labelEs: "101 E Railway Ave",
+    labelEn: "99 E Railway Ave",
+    labelEs: "99 E Railway Ave",
   },
   {
     icon: MessageCircle,

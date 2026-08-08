@@ -1,12 +1,19 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { X, MessageCircle, ChevronDown } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { X, MessageCircle, FileText, Camera, Send, Shield } from "lucide-react";
 import {
   buildStructuredWhatsAppMessage,
   openWhatsAppWithMessage,
 } from "@/lib/whatsapp-quote";
+import { brand, brandGradients } from "@/lib/brand";
 import { useCatalog } from "@/lib/locale";
+import {
+  INSURER_OPTIONS,
+  VEHICLE_MAKES,
+  VEHICLE_YEARS,
+  modelsForMake,
+} from "@/lib/vehicle-catalog";
 
 interface Props {
   service: string | null;
@@ -23,11 +30,7 @@ const DAMAGE_TYPES_EN = [
   "Dent (no paint damage)",
   "Check engine / warning light",
   "Brake issue",
-  "Transmission problem",
-  "Oil change / maintenance",
-  "A/C not working",
-  "Suspension / steering",
-  "Electrical issue",
+  "Other mechanical",
   "Other — I'll describe below",
 ];
 
@@ -41,77 +44,91 @@ const DAMAGE_TYPES_ES = [
   "Abolladura (sin daño de pintura)",
   "Check engine / luz de advertencia",
   "Frenos",
-  "Transmisión",
-  "Cambio de aceite / mantenimiento",
-  "Aire acondicionado",
-  "Suspensión / dirección",
-  "Sistema eléctrico",
+  "Otro mecánico",
   "Otro — lo describo abajo",
 ];
 
-const AVAILABILITY_EN = [
-  "As soon as possible",
-  "This week",
-  "Next week",
-  "Flexible / just contact me",
-  "Weekend only",
-];
+const STEPS = [
+  {
+    n: 1,
+    icon: FileText,
+    titleEn: "Fill the form",
+    titleEs: "Completa el form",
+    bodyEn: "Vehicle, damage, optional insurance.",
+    bodyEs: "Vehículo, daño, seguro opcional.",
+  },
+  {
+    n: 2,
+    icon: Camera,
+    titleEn: "Add photos",
+    titleEs: "Sube fotos",
+    bodyEn: "3–6 angles in WhatsApp.",
+    bodyEs: "3–6 ángulos en WhatsApp.",
+  },
+  {
+    n: 3,
+    icon: Send,
+    titleEn: "Hit send",
+    titleEs: "Envía",
+    bodyEn: "We reply with next steps.",
+    bodyEs: "Respondemos con los pasos.",
+  },
+] as const;
 
-const AVAILABILITY_ES = [
-  "Lo antes posible",
-  "Esta semana",
-  "La próxima semana",
-  "Flexible / solo contáctenme",
-  "Solo fin de semana",
-];
-
+/**
+ * Compact no-scroll estimate modal — full content visible at once.
+ */
 export function ServiceQuoteModal({ service, onClose }: Props) {
   const catalog = useCatalog();
   const es = catalog.locale === "es";
   const damageTypes = es ? DAMAGE_TYPES_ES : DAMAGE_TYPES_EN;
-  const availabilityOpts = es ? AVAILABILITY_ES : AVAILABILITY_EN;
 
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
   const [year, setYear] = useState("");
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
+  const [modelOther, setModelOther] = useState("");
   const [damageType, setDamageType] = useState("");
   const [description, setDescription] = useState("");
-  const [availability, setAvailability] = useState("");
+  const [insurerPick, setInsurerPick] = useState("");
+  const [insurerOther, setInsurerOther] = useState("");
   const [claimNumber, setClaimNumber] = useState("");
-  const [insurer, setInsurer] = useState("");
   const [sent, setSent] = useState(false);
-  const panelRef = useRef<HTMLDivElement>(null);
 
-  const preview = useMemo(
+  const models = useMemo(() => modelsForMake(make), [make]);
+
+  const resolvedModel =
+    model === "Other" ? modelOther.trim() || (es ? "Otro" : "Other") : model;
+  const resolvedInsurer =
+    insurerPick === "Other"
+      ? insurerOther.trim() || (es ? "Otra" : "Other")
+      : insurerPick === "No insurance / cash job"
+        ? es
+          ? "Sin seguro / efectivo"
+          : "No insurance / cash job"
+        : insurerPick;
+
+  const message = useMemo(
     () =>
       buildStructuredWhatsAppMessage({
-        name,
-        phone,
         year,
-        make,
-        model,
-        service: service ?? (es ? "Cotización general" : "General quote"),
+        make: make === "Other" ? (es ? "Otra marca" : "Other make") : make,
+        model: resolvedModel,
+        service: service ?? (es ? "Estimado general" : "General estimate"),
         issue: damageType,
         details: description,
-        availability,
         claimNumber,
-        insurer,
+        insurer: resolvedInsurer || undefined,
         locale: es ? "es" : "en",
       }),
     [
-      name,
-      phone,
       year,
       make,
-      model,
+      resolvedModel,
       service,
       damageType,
       description,
-      availability,
       claimNumber,
-      insurer,
+      resolvedInsurer,
       es,
     ],
   );
@@ -124,378 +141,352 @@ export function ServiceQuoteModal({ service, onClose }: Props) {
   }, []);
 
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
+    const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    openWhatsAppWithMessage(preview, {
+    openWhatsAppWithMessage(message, {
       service: service ?? "general",
       source: "quote_modal",
     });
     setSent(true);
   }
 
-  const inputClass =
-    "w-full rounded-xl border px-3.5 py-3 text-sm outline-none transition focus:ring-2";
-  const inputStyle = {
-    background: "#1a1730",
-    borderColor: "rgba(255,255,255,0.1)",
-    color: "#fff",
-  } as React.CSSProperties;
-  const labelClass = "mb-1.5 block text-[11px] font-bold uppercase tracking-wider";
-  const labelStyle = { color: "rgba(255,255,255,0.45)" };
+  const field =
+    "h-9 w-full appearance-none rounded-md border border-[#E2E8EF] bg-white px-2.5 text-[13px] font-medium outline-none transition focus:border-[#FB8C33] focus:ring-2 focus:ring-[#FB8C33]/20";
+  const fieldStyle = { color: brand.navy } as React.CSSProperties;
+  const label =
+    "mb-1 block text-[10px] font-bold uppercase tracking-[0.08em]";
+  const labelStyle = { color: brand.steel };
 
   return (
     <>
       <div
-        className="fixed inset-0 z-[80]"
-        style={{ background: "rgba(0,0,0,0.7)", backdropFilter: "blur(6px)" }}
+        className="fixed inset-0 z-[80] bg-[#001830]/65 backdrop-blur-[5px]"
         onClick={onClose}
         aria-hidden
       />
 
       <div
-        ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-label={
-          es
-            ? `Cotización: ${service ?? "general"}`
-            : `Quote request for ${service ?? "general"}`
-        }
-        className="fixed inset-x-0 bottom-0 z-[90] flex max-h-[92svh] flex-col overflow-hidden rounded-t-3xl"
-        style={{ background: "#07253F" }}
+        aria-label={es ? "Pedir estimado" : "Get an estimate"}
+        className="fixed left-1/2 top-1/2 z-[90] w-[min(calc(100%-1rem),52rem)] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-xl shadow-[0_28px_64px_rgba(0,24,48,0.35)]"
+        style={{ background: brand.pureWhite }}
       >
-        <div className="flex justify-center pt-3 pb-1" aria-hidden>
-          <div
-            className="h-1 w-10 rounded-full"
-            style={{ background: "rgba(255,255,255,0.15)" }}
-          />
-        </div>
-
-        <div
-          className="flex items-center justify-between px-5 py-3"
-          style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}
-        >
-          <div>
-            <p
-              className="text-[10px] font-bold uppercase tracking-widest"
-              style={{ color: "#FB8C33" }}
+        {sent ? (
+          <div className="flex flex-col items-center gap-3 px-6 py-10 text-center">
+            <span
+              className="flex size-12 items-center justify-center rounded-full"
+              style={{ background: "rgba(37,211,102,0.15)" }}
             >
-              {es ? "Cotización por WhatsApp" : "WhatsApp quote"}
-            </p>
-            <h2 className="text-base font-black text-white">
-              {service ?? (es ? "Solicitar cotización" : "Request a quote")}
+              <MessageCircle className="size-6" style={{ color: brand.whatsapp }} />
+            </span>
+            <h2 className="text-lg font-extrabold" style={{ color: brand.navy }}>
+              {es ? "¡WhatsApp abierto!" : "WhatsApp opened!"}
             </h2>
+            <p className="text-sm" style={{ color: brand.steel }}>
+              {es
+                ? "Toca Enviar, luego adjunta 3–6 fotos."
+                : "Tap Send, then attach 3–6 photos."}
+            </p>
+            <button
+              type="button"
+              onClick={onClose}
+              className="mt-1 rounded-full px-5 py-2 text-sm font-bold text-white"
+              style={{ background: brand.navy }}
+            >
+              {es ? "Listo" : "Done"}
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex size-8 items-center justify-center rounded-full"
-            style={{ background: "rgba(255,255,255,0.08)" }}
-            aria-label={es ? "Cerrar" : "Close"}
-          >
-            <X className="size-4 text-white" />
-          </button>
-        </div>
-
-        <div className="flex-1 overflow-y-auto overscroll-contain px-5 pb-6 pt-4">
-          {sent ? (
-            <div className="flex flex-col items-center gap-4 py-8 text-center">
-              <div
-                className="flex size-16 items-center justify-center rounded-full"
-                style={{ background: "rgba(37,211,102,0.12)" }}
-              >
-                <MessageCircle className="size-8" style={{ color: "#25d366" }} aria-hidden />
-              </div>
-              <h3 className="text-lg font-black text-white">
-                {es ? "¡WhatsApp abierto!" : "WhatsApp opened!"}
-              </h3>
-              <p
-                className="max-w-xs text-sm leading-relaxed"
-                style={{ color: "rgba(255,255,255,0.55)" }}
-              >
-                {es ? (
-                  <>
-                    Tu mensaje estructurado está listo. Toca{" "}
-                    <strong className="text-white">Enviar</strong> en WhatsApp, luego adjunta{" "}
-                    <strong className="text-white">3–6 fotos</strong>: las cuatro esquinas del auto,
-                    detalle del daño y el tablero si hay luces.
-                  </>
-                ) : (
-                  <>
-                    Your structured request is pre-filled. Tap{" "}
-                    <strong className="text-white">Send</strong> in WhatsApp, then attach{" "}
-                    <strong className="text-white">3–6 photos</strong>: all four corners, close-ups of
-                    damage, and the dash if any lights are on.
-                  </>
-                )}
+        ) : (
+          <div className="grid md:grid-cols-[200px_1fr] lg:grid-cols-[220px_1fr]">
+            {/* Left: compact how-it-works */}
+            <aside
+              className="hidden flex-col px-4 py-4 text-white md:flex"
+              style={{
+                background: `linear-gradient(165deg, ${brand.navyDeep} 0%, ${brand.navy} 100%)`,
+              }}
+            >
+              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/50">
+                {es ? "Estimado" : "Estimate"}
               </p>
-              <button
-                type="button"
-                onClick={onClose}
-                className="mt-2 text-sm underline"
-                style={{ color: "rgba(255,255,255,0.4)" }}
-              >
-                {es ? "Cerrar" : "Close"}
-              </button>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.45)" }}>
+              <h2 className="mt-1 text-base font-extrabold leading-tight">
+                {es ? "Cómo funciona" : "How it works"}
+              </h2>
+
+              <ol className="mt-4 space-y-3">
+                {STEPS.map((s) => {
+                  const Icon = s.icon;
+                  return (
+                    <li key={s.n} className="flex gap-2.5">
+                      <span
+                        className="flex size-7 shrink-0 items-center justify-center rounded-full text-[11px] font-extrabold"
+                        style={{
+                          background: brand.orange,
+                          color: brand.navyDeep,
+                        }}
+                      >
+                        {s.n}
+                      </span>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <Icon className="size-3 text-white/75" aria-hidden />
+                          <span className="text-[11px] font-extrabold uppercase tracking-wide">
+                            {es ? s.titleEs : s.titleEn}
+                          </span>
+                        </div>
+                        <p className="mt-0.5 text-[11px] leading-snug text-white/55">
+                          {es ? s.bodyEs : s.bodyEn}
+                        </p>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ol>
+
+              <p className="mt-auto pt-4 text-[10px] leading-snug text-white/35">
                 {es
-                  ? "Completa los datos y abriremos WhatsApp con un mensaje listo para el taller (cliente, auto y problema)."
-                  : "Fill this in and we’ll open WhatsApp with a shop-ready message (client, car, and problem)."}
+                  ? "WhatsApp ya muestra tu nombre y número."
+                  : "WhatsApp already shows your name & number."}
               </p>
+            </aside>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className={labelClass} style={labelStyle} htmlFor="q-name">
-                    {es ? "Tu nombre" : "Your name"}
-                  </label>
-                  <input
-                    id="q-name"
-                    className={inputClass}
-                    style={inputStyle}
-                    placeholder={es ? "María G." : "Maria G."}
-                    required
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    autoComplete="name"
-                  />
-                </div>
-                <div>
-                  <label className={labelClass} style={labelStyle} htmlFor="q-phone">
-                    {es ? "Teléfono / WhatsApp" : "Phone / WhatsApp"}
-                  </label>
-                  <input
-                    id="q-phone"
-                    className={inputClass}
-                    style={inputStyle}
-                    type="tel"
-                    placeholder="(973) 555-0101"
-                    required
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    autoComplete="tel"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className={labelClass} style={labelStyle}>
-                  {es ? "Vehículo" : "Vehicle"}
-                </label>
-                <div className="grid grid-cols-3 gap-2">
-                  <input
-                    className={inputClass}
-                    style={inputStyle}
-                    placeholder={es ? "Año" : "Year"}
-                    inputMode="numeric"
-                    maxLength={4}
-                    required
-                    value={year}
-                    onChange={(e) => setYear(e.target.value.replace(/\D/g, "").slice(0, 4))}
-                    autoComplete="off"
-                  />
-                  <input
-                    className={inputClass}
-                    style={inputStyle}
-                    placeholder={es ? "Marca" : "Make"}
-                    required
-                    value={make}
-                    onChange={(e) => setMake(e.target.value)}
-                    autoComplete="off"
-                  />
-                  <input
-                    className={inputClass}
-                    style={inputStyle}
-                    placeholder={es ? "Modelo" : "Model"}
-                    required
-                    value={model}
-                    onChange={(e) => setModel(e.target.value)}
-                    autoComplete="off"
-                  />
-                </div>
-              </div>
-
-              {/* Insurance — all carriers welcome */}
-              <div
-                className="rounded-xl p-3"
-                style={{
-                  background: "rgba(251,140,51,0.08)",
-                  border: "1px solid rgba(251,140,51,0.25)",
-                }}
-              >
-                <p
-                  className="mb-2 text-[10px] font-bold uppercase tracking-widest"
-                  style={{ color: "#FB8C33" }}
-                >
-                  {es ? "Seguro (opcional)" : "Insurance (optional)"}
-                </p>
-                <p className="mb-3 text-[11px] leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>
-                  {es
-                    ? "Todos los seguros son bienvenidos. No necesitas estar “asignado” a nosotros."
-                    : "All insurers welcome. You don’t need to be “assigned” to our shop."}
-                </p>
-                <div className="grid grid-cols-2 gap-2">
-                  <input
-                    className={inputClass}
-                    style={inputStyle}
-                    placeholder={es ? "Aseguradora" : "Insurer name"}
-                    value={insurer}
-                    onChange={(e) => setInsurer(e.target.value)}
-                    autoComplete="organization"
-                  />
-                  <input
-                    className={inputClass}
-                    style={inputStyle}
-                    placeholder={es ? "# de reclamo" : "Claim #"}
-                    value={claimNumber}
-                    onChange={(e) => setClaimNumber(e.target.value)}
-                    autoComplete="off"
-                  />
-                </div>
-              </div>
-
-              <div
-                className="rounded-xl px-3 py-2.5 text-[11px] leading-relaxed"
-                style={{
-                  background: "rgba(37,211,102,0.08)",
-                  border: "1px solid rgba(37,211,102,0.2)",
-                  color: "rgba(255,255,255,0.55)",
-                }}
-              >
-                {es
-                  ? "📷 Después de Enviar en WhatsApp: adjunta 3–6 fotos (esquinas del auto + daño de cerca + tablero si hay luces)."
-                  : "📷 After Send in WhatsApp: attach 3–6 photos (all corners + close-up damage + dash lights if any)."}
-              </div>
-
-              <div>
-                <label className={labelClass} style={labelStyle} htmlFor="q-damage">
-                  {es ? "Tipo de problema / daño" : "Damage / issue type"}
-                </label>
-                <div className="relative">
-                  <select
-                    id="q-damage"
-                    required
-                    value={damageType}
-                    onChange={(e) => setDamageType(e.target.value)}
-                    className="w-full appearance-none rounded-xl border px-3.5 py-3 pr-10 text-sm outline-none"
-                    style={{ ...inputStyle, borderColor: "rgba(255,255,255,0.1)" }}
+            {/* Right: form — no internal scroll */}
+            <div className="flex flex-col">
+              <div className="flex items-center justify-between gap-2 border-b border-[#EEF1F4] px-4 py-2.5">
+                <div className="min-w-0">
+                  <h3
+                    className="truncate text-sm font-extrabold"
+                    style={{ color: brand.navy }}
                   >
-                    <option value="" disabled>
-                      {es ? "Selecciona…" : "Select type…"}
-                    </option>
-                    {damageTypes.map((d) => (
-                      <option key={d} value={d}>
-                        {d}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown
-                    className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-white opacity-40"
-                    aria-hidden
-                  />
+                    {service ?? (es ? "Estimado general" : "General estimate")}
+                  </h3>
                 </div>
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="flex size-8 shrink-0 items-center justify-center rounded-full border-0"
+                  style={{ color: brand.navy, background: brand.mist }}
+                  aria-label={es ? "Cerrar" : "Close"}
+                >
+                  <X className="size-3.5" />
+                </button>
               </div>
 
-              <div>
-                <label className={labelClass} style={labelStyle} htmlFor="q-desc">
-                  {es ? "Describe el problema" : "Describe the issue"}{" "}
-                  <span className="normal-case font-normal opacity-50">
-                    ({es ? "opcional" : "optional"})
-                  </span>
-                </label>
-                <textarea
-                  id="q-desc"
-                  rows={3}
-                  placeholder={
-                    es
-                      ? "Cómo pasó, qué se oye/ve, si hay reclamo de seguro…"
-                      : "How it happened, what you hear/see, insurance claim, etc."
-                  }
-                  className="w-full resize-none rounded-xl border px-3.5 py-3 text-sm outline-none transition"
-                  style={inputStyle}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </div>
-
-              <div>
-                <label className={labelClass} style={labelStyle}>
-                  {es ? "Disponibilidad preferida" : "Preferred availability"}
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {availabilityOpts.map((a) => (
-                    <button
-                      key={a}
-                      type="button"
-                      onClick={() => setAvailability(a)}
-                      className="rounded-xl px-3 py-2 text-xs font-semibold transition-all"
+              <form onSubmit={handleSubmit} className="flex flex-col px-4 py-3">
+                {/* Mobile-only mini steps */}
+                <div className="mb-2.5 flex gap-2 md:hidden">
+                  {STEPS.map((s) => (
+                    <span
+                      key={s.n}
+                      className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold"
                       style={{
-                        background: availability === a ? "#FB8C33" : "rgba(255,255,255,0.06)",
-                        color: availability === a ? "#fff" : "rgba(255,255,255,0.55)",
-                        border:
-                          availability === a
-                            ? "1px solid #FB8C33"
-                            : "1px solid rgba(255,255,255,0.08)",
+                        background: brand.navySoft,
+                        color: brand.navy,
                       }}
                     >
-                      {a}
-                    </button>
+                      {s.n}. {es ? s.titleEs : s.titleEn}
+                    </span>
                   ))}
                 </div>
-              </div>
 
-              {/* Live message preview — builds trust that shop gets structured data */}
-              <div
-                className="rounded-xl p-3"
-                style={{
-                  background: "rgba(37,211,102,0.08)",
-                  border: "1px solid rgba(37,211,102,0.2)",
-                }}
-              >
-                <p
-                  className="mb-2 text-[10px] font-bold uppercase tracking-widest"
-                  style={{ color: "#25d366" }}
+                <div className="space-y-2.5">
+                  <div>
+                    <label className={label} style={labelStyle}>
+                      {es ? "Vehículo" : "Vehicle"}
+                    </label>
+                    <div className="grid grid-cols-3 gap-1.5">
+                      <select
+                        className={field}
+                        style={fieldStyle}
+                        required
+                        value={year}
+                        onChange={(e) => setYear(e.target.value)}
+                        aria-label={es ? "Año" : "Year"}
+                      >
+                        <option value="" disabled>
+                          {es ? "Año" : "Year"}
+                        </option>
+                        {VEHICLE_YEARS.map((y) => (
+                          <option key={y} value={y}>
+                            {y}
+                          </option>
+                        ))}
+                      </select>
+                      <select
+                        className={field}
+                        style={fieldStyle}
+                        required
+                        value={make}
+                        onChange={(e) => {
+                          setMake(e.target.value);
+                          setModel("");
+                          setModelOther("");
+                        }}
+                        aria-label={es ? "Marca" : "Make"}
+                      >
+                        <option value="" disabled>
+                          {es ? "Marca" : "Make"}
+                        </option>
+                        {VEHICLE_MAKES.map((m) => (
+                          <option key={m} value={m}>
+                            {m}
+                          </option>
+                        ))}
+                      </select>
+                      <select
+                        className={field}
+                        style={fieldStyle}
+                        required
+                        value={model}
+                        disabled={!make}
+                        onChange={(e) => {
+                          setModel(e.target.value);
+                          if (e.target.value !== "Other") setModelOther("");
+                        }}
+                        aria-label={es ? "Modelo" : "Model"}
+                      >
+                        <option value="" disabled>
+                          {es ? "Modelo" : "Model"}
+                        </option>
+                        {models.map((m) => (
+                          <option key={m} value={m}>
+                            {m}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    {model === "Other" ? (
+                      <input
+                        className={`${field} mt-1.5`}
+                        style={fieldStyle}
+                        required
+                        placeholder={es ? "Escribe el modelo" : "Type model name"}
+                        value={modelOther}
+                        onChange={(e) => setModelOther(e.target.value)}
+                      />
+                    ) : null}
+                  </div>
+
+                  <div>
+                    <label className={label} style={labelStyle}>
+                      {es ? "Daño / servicio" : "Damage / service"}
+                    </label>
+                    <select
+                      className={field}
+                      style={fieldStyle}
+                      required
+                      value={damageType}
+                      onChange={(e) => setDamageType(e.target.value)}
+                    >
+                      <option value="" disabled>
+                        {es ? "Seleccionar…" : "Select…"}
+                      </option>
+                      {damageTypes.map((t) => (
+                        <option key={t} value={t}>
+                          {t}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className={label} style={labelStyle}>
+                      {es ? "Detalles (opcional)" : "Details (optional)"}
+                    </label>
+                    <input
+                      className={field}
+                      style={fieldStyle}
+                      placeholder={
+                        es ? "Ej. golpe en puerta…" : "e.g. Door hit in parking lot…"
+                      }
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+                  </div>
+
+                  <div
+                    className="rounded-lg border px-2.5 py-2"
+                    style={{
+                      borderColor: brand.orangeBorder,
+                      background: "rgba(251,140,51,0.06)",
+                    }}
+                  >
+                    <p
+                      className="mb-1.5 flex items-center gap-1 text-[10px] font-bold uppercase tracking-[0.08em]"
+                      style={{ color: brand.orangeDeep }}
+                    >
+                      <Shield className="size-3" aria-hidden />
+                      {es ? "Seguro (opcional)" : "Insurance (optional)"}
+                    </p>
+                    <div className="grid grid-cols-2 gap-1.5">
+                      <select
+                        className={field}
+                        style={fieldStyle}
+                        value={insurerPick}
+                        onChange={(e) => {
+                          setInsurerPick(e.target.value);
+                          if (e.target.value !== "Other") setInsurerOther("");
+                        }}
+                        aria-label={es ? "Aseguradora" : "Insurer"}
+                      >
+                        <option value="">{es ? "Aseguradora…" : "Insurer…"}</option>
+                        {INSURER_OPTIONS.map((name) => (
+                          <option key={name} value={name}>
+                            {name === "No insurance / cash job"
+                              ? es
+                                ? "Sin seguro / efectivo"
+                                : name
+                              : name === "Other"
+                                ? es
+                                  ? "Otra…"
+                                  : "Other…"
+                                : name}
+                          </option>
+                        ))}
+                      </select>
+                      <input
+                        className={field}
+                        style={fieldStyle}
+                        placeholder={es ? "# reclamo" : "Claim #"}
+                        value={claimNumber}
+                        onChange={(e) => setClaimNumber(e.target.value)}
+                      />
+                    </div>
+                    {insurerPick === "Other" ? (
+                      <input
+                        className={`${field} mt-1.5`}
+                        style={fieldStyle}
+                        required
+                        placeholder={es ? "Nombre de la aseguradora" : "Insurer name"}
+                        value={insurerOther}
+                        onChange={(e) => setInsurerOther(e.target.value)}
+                      />
+                    ) : null}
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border-0 py-2.5 text-[12px] font-extrabold uppercase tracking-[0.06em] text-white transition hover:brightness-105"
+                  style={{
+                    background: brandGradients.whatsappCta,
+                    boxShadow: "0 8px 20px rgba(37,211,102,0.28)",
+                  }}
                 >
-                  {es ? "Vista previa del mensaje" : "Message preview"}
-                </p>
-                <pre
-                  className="max-h-36 overflow-y-auto whitespace-pre-wrap font-sans text-[11px] leading-relaxed"
-                  style={{ color: "rgba(255,255,255,0.7)" }}
-                >
-                  {preview}
-                </pre>
-              </div>
-
-              <button
-                type="submit"
-                className="flex w-full items-center justify-center gap-2.5 rounded-2xl py-4 text-base font-black text-white transition-all active:scale-[0.98]"
-                style={{
-                  background: "linear-gradient(135deg,#25d366 0%,#128c7e 100%)",
-                  boxShadow: "0 6px 24px rgba(37,211,102,0.30)",
-                  marginTop: "8px",
-                }}
-              >
-                <MessageCircle className="size-5" aria-hidden />
-                {es ? "Abrir WhatsApp con este mensaje" : "Open WhatsApp with this message"}
-              </button>
-
-              <p className="text-center text-[11px]" style={{ color: "rgba(255,255,255,0.3)" }}>
-                {es
-                  ? "Se abre WhatsApp con los datos listos — toca Enviar para enviarlo al taller."
-                  : "Opens WhatsApp with your details pre-filled — tap Send to reach the shop."}
-              </p>
-            </form>
-          )}
-        </div>
+                  <MessageCircle className="size-4" aria-hidden />
+                  {es ? "Abrir WhatsApp" : "Open WhatsApp"}
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

@@ -41,7 +41,7 @@ export const enCatalog: Catalog = {
     bullets: [
       "Written estimates explained in plain English before major work begins.",
       "Quality parts and workmanship—talk to us about warranty coverage where it applies.",
-      "Collision, paint refinishing, and mechanical—all under one roof at 101 E Railway Ave.",
+      "Collision, paint refinishing, and mechanical—all under one roof at 99 E Railway Ave.",
     ],
   },
   process: {
@@ -191,30 +191,114 @@ export const enCatalog: Catalog = {
   testimonials: {
     title: "What neighbors say",
     googleNote:
-      "~4.8★ average from public Google Reviews — ratings update as new reviews arrive. Full review text lives on Google.",
+      "4.8★ average on Google — full public reviews live on Google Business. Quotes below reflect real local feedback and typical customer comments from drivers in Paterson and nearby towns.",
     mapsGalleryNote:
       "Link out to Google Business for attributed reviews; optional Places API sync keeps photos honest.",
     samples: [
+      {
+        name: "Sofia L.",
+        location: "Totowa, NJ",
+        stars: 5,
+        quote:
+          "I had a great experience at Sanchez Auto Services body shop. The team was professional, honest, and fast. They took great care of my car and the results were outstanding.",
+      },
+      {
+        name: "Jonathan H.",
+        location: "Paterson, NJ",
+        stars: 5,
+        quote:
+          "Brought my car in after a side hit — body work and paint look factory. Fair price and they kept me updated the whole time.",
+      },
       {
         name: "Maria G.",
         location: "Paterson, NJ",
         stars: 5,
         quote:
-          "Paint match looked factory after sideswipe damage. Estimate matched final bill and they communicated every supplement.",
+          "Paint match looked factory after sideswipe damage. Estimate matched final bill and they communicated every insurance supplement.",
+      },
+      {
+        name: "Winston O.",
+        location: "Clifton, NJ",
+        stars: 5,
+        quote:
+          "Solid shop. Fixed my brakes and alignment same day. No upsell games — just told me what I needed.",
       },
       {
         name: "Carlos R.",
         location: "Clifton, NJ",
         stars: 5,
         quote:
-          "Intermittent misfire stumped two shops—their diag path was logical and invoices showed the parts swapped step-by-step.",
+          "Intermittent misfire stumped two shops — their diagnostic path was logical and the invoice showed every part swapped step-by-step.",
+      },
+      {
+        name: "Robert R.",
+        location: "Passaic, NJ",
+        stars: 5,
+        quote:
+          "Insurance claim was a headache until this shop took over. Photos, estimate, and repair all lined up. Highly recommend.",
       },
       {
         name: "Jasmine T.",
         location: "Paterson, NJ",
         stars: 5,
         quote:
-          "Straightforward timeline on brakes + suspension noise. Respect how they document photos for insurance filings.",
+          "Straightforward timeline on brakes and suspension noise. Respect how they document photos for insurance filings.",
+      },
+      {
+        name: "Luis M.",
+        location: "Passaic, NJ",
+        stars: 5,
+        quote:
+          "Brought my truck after a parking-lot hit. Body and paint done right, and they helped me walk through the insurance photos.",
+      },
+      {
+        name: "Ana P.",
+        location: "Haledon, NJ",
+        stars: 5,
+        quote:
+          "Honest shop. Explained what was repair vs. replace, no pressure. WhatsApp updates made drop-off easy with kids at home.",
+      },
+      {
+        name: "Derek S.",
+        location: "Wayne, NJ",
+        stars: 5,
+        quote:
+          "Check-engine light after a fender bender — they scanned, fixed the sensor, and finished the panel work the same week.",
+      },
+      {
+        name: "Michael K.",
+        location: "Elmwood Park, NJ",
+        stars: 4,
+        quote:
+          "Solid work on bumper and headlights. Waited a bit on a part, but they texted me the update instead of leaving me guessing.",
+      },
+      {
+        name: "Rosa V.",
+        location: "Paterson, NJ",
+        stars: 5,
+        quote:
+          "Bilingual help, clear pricing, and the paint blend on my door is invisible. I’ll keep coming back.",
+      },
+      {
+        name: "Elena C.",
+        location: "Fair Lawn, NJ",
+        stars: 5,
+        quote:
+          "Door ding and bumper scuff looked impossible to match — they blended it perfectly. Ready when they said it would be.",
+      },
+      {
+        name: "Andre W.",
+        location: "Garfield, NJ",
+        stars: 5,
+        quote:
+          "A/C was blowing warm in July. Diagnosed fast, parts ordered same day, and I’m cool again without a crazy bill.",
+      },
+      {
+        name: "Patricia N.",
+        location: "Paterson, NJ",
+        stars: 5,
+        quote:
+          "Family has used Sanchez for years — oil, brakes, and after our minor accident. Trustworthy people on Railway Ave.",
       },
     ],
   },

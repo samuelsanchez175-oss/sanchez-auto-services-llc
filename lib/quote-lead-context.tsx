@@ -12,7 +12,10 @@ import { ServiceQuoteModal } from "@/components/marketing/service-quote-modal151
 import { trackEvent } from "@/lib/analytics";
 
 type QuoteLeadContextValue = {
-  /** Open structured WhatsApp quote sheet, optionally pre-labeling the service/issue. */
+  /**
+   * Open the estimate form (vehicle + damage).
+   * After submit, WhatsApp opens with the filled message block.
+   */
   openQuote: (serviceLabel?: string) => void;
 };
 

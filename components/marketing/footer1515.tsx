@@ -132,6 +132,20 @@ export function Footer() {
                   {c.footer.facebook}
                 </Link>
               </li>
+              {site.social.instagram ? (
+                <li>
+                  <Link
+                    href={site.social.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 no-underline transition-colors hover:text-white"
+                    style={{ color: "inherit" }}
+                  >
+                    <ExternalLink className="size-3.5" aria-hidden />
+                    Instagram
+                  </Link>
+                </li>
+              ) : null}
               <li>
                 <Link
                   href={site.mapSearchUrl}

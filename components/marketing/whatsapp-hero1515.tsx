@@ -344,7 +344,7 @@ export function WhatsAppHero() {
                       className="h-8 w-auto object-contain"
                     />
                     <p className="text-[11px] font-semibold" style={{ color: brand.steel }}>
-                      101 E Railway Ave
+                      99 E Railway Ave
                     </p>
                   </div>
                   <button

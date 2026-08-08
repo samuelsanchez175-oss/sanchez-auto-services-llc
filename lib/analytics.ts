@@ -7,11 +7,12 @@ export type AnalyticsEvent =
   | "quote_open"
   | "whatsapp_outbound"
   | "call_click"
-  | "directions_click";
+  | "directions_click"
+  | "instagram_click";
 
 export function trackEvent(
   name: AnalyticsEvent,
-  props?: Record<string, string | number | boolean | undefined>,
+  props?: Record<string, string | number | boolean | undefined | null>,
 ): void {
   const payload = { ...props, t: Date.now() };
 
