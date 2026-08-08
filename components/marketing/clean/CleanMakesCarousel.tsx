@@ -9,23 +9,24 @@ import { trackEvent } from "@/lib/analytics";
 /**
  * Optical scale so every Simple Icons mark fills the logo frame similarly.
  */
+/** Optical scale inside the smaller logo frame (keep relative balance). */
 const LOGO_SCALE: Record<string, number> = {
-  Honda: 1.12,
-  MINI: 1.55,
-  BMW: 1.0,
-  Subaru: 1.48,
-  Toyota: 1.12,
-  Mercedes: 1.05,
-  Acura: 1.15,
-  Audi: 1.28,
-  Jeep: 1.32,
-  Lexus: 1.2,
-  Nissan: 1.18,
-  Hyundai: 1.2,
-  Kia: 1.35,
-  Ford: 1.25,
-  Chevy: 1.22,
-  Volkswagen: 1.15,
+  Honda: 0.95,
+  MINI: 1.2,
+  BMW: 0.88,
+  Subaru: 1.15,
+  Toyota: 0.95,
+  Mercedes: 0.9,
+  Acura: 0.98,
+  Audi: 1.05,
+  Jeep: 1.08,
+  Lexus: 1.0,
+  Nissan: 0.98,
+  Hyundai: 1.0,
+  Kia: 1.1,
+  Ford: 1.05,
+  Chevy: 1.02,
+  Volkswagen: 0.95,
 };
 
 const DRAG_THRESHOLD = 8;
@@ -57,7 +58,8 @@ function perViewForWidth(w: number) {
 export function CleanMakesCarousel() {
   const { locale } = useCatalog();
   const es = locale === "es";
-  const dealers = localDealerships;
+  /** Cap carousel length for performance / focus (first 8 listings). */
+  const dealers = localDealerships.slice(0, 8);
   const n = dealers.length;
 
   const scrollerRef = useRef<HTMLDivElement>(null);
@@ -444,13 +446,13 @@ export function CleanMakesCarousel() {
           className="text-[1.75rem] font-black leading-[1.15] tracking-tight text-black sm:text-4xl lg:text-[2.65rem]"
         >
           {es
-            ? "Taller exclusivo para concesionarios de confianza"
-            : "Exclusive Body Shop For Top Dealerships"}
+            ? "Marcas que reparamos a diario"
+            : "Brands we service every day"}
         </h2>
         <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-relaxed text-[#333] sm:text-base">
           {es
-            ? "Sanchez Auto Services LLC repara vehículos de concesionarios del norte de Jersey — Honda, MINI, BMW, Subaru y más — con estimados claros y ayuda con seguros."
-            : "Sanchez Auto Services LLC has partnered with passionate dealers who are not only experts in their market but who also share our vision of nurturing a purposeful way of doing business."}
+            ? "Honda, MINI, BMW, Subaru y más — las marcas que más vemos en el norte de Jersey. Nombres y teléfonos de referencia de concesionarios cercanos; no son afiliaciones de fábrica."
+            : "Honda, MINI, BMW, Subaru, and more — brands we see most in North Jersey. Nearby dealer names & phones for reference only; not factory certifications or exclusive partnerships."}
         </p>
       </div>
 
@@ -502,7 +504,7 @@ export function CleanMakesCarousel() {
                     className="dealer-card__logo-wrap"
                     style={
                       {
-                        ["--logo-scale" as string]: String(LOGO_SCALE[d.brand] ?? 1.15),
+                        ["--logo-scale" as string]: String(LOGO_SCALE[d.brand] ?? 0.95),
                       } as React.CSSProperties
                     }
                   >
@@ -539,8 +541,8 @@ export function CleanMakesCarousel() {
 
       <p className="mx-auto mt-6 max-w-3xl px-5 text-center text-xs text-[#999] sm:px-8">
         {es
-          ? "Desliza con dos dedos, arrastra o usa las flechas · referencia — no afiliación oficial."
-          : "Two-finger swipe, drag, or use arrows · public names & phones for reference — not official affiliations."}
+          ? "Desliza o usa las flechas · referencia pública — no afiliación oficial."
+          : "Swipe or use arrows · public reference only — not official affiliations."}
       </p>
     </section>
   );

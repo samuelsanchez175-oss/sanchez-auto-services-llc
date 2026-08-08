@@ -5,32 +5,23 @@ import { Header } from "@/components/marketing/header1515";
 import { CleanHero } from "@/components/marketing/clean/CleanHero";
 import { CleanMakesCarousel } from "@/components/marketing/clean/CleanMakesCarousel";
 import { CleanHistory } from "@/components/marketing/clean/CleanHistory";
-import { CleanPillars } from "@/components/marketing/clean/CleanPillars";
 import { CleanWork } from "@/components/marketing/clean/CleanWork";
 import { CleanServices } from "@/components/marketing/clean/CleanServices";
-import { CleanExpertiseCta } from "@/components/marketing/clean/CleanExpertiseCta";
-import { CleanProcess } from "@/components/marketing/clean/CleanProcess";
 import { CleanReviews } from "@/components/marketing/clean/CleanReviews";
-import { CleanFaq } from "@/components/marketing/clean/CleanFaq";
-import { CleanQuote } from "@/components/marketing/clean/CleanQuote";
+import { CleanBookAppointment } from "@/components/marketing/clean/CleanBookAppointment";
 import { CleanLocation } from "@/components/marketing/clean/CleanLocation";
-import { CleanAreasServed } from "@/components/marketing/clean/CleanAreasServed";
-import { CleanBottomCta } from "@/components/marketing/clean/CleanBottomCta";
 import { CleanFooter } from "@/components/marketing/clean/CleanFooter";
-import { DesktopWhatsAppFloat } from "@/components/marketing/desktop-whatsapp-float";
-import { SectionArrows } from "@/components/marketing/section-arrows";
 import { useQuoteLead } from "@/lib/quote-lead-context";
 import { site } from "@/lib/site-content";
 import { useCatalog } from "@/lib/locale";
 import { trackEvent } from "@/lib/analytics";
 import { brand, brandGradients } from "@/lib/brand";
-import { openWhatsAppChat } from "@/lib/whatsapp-quote";
 
 /**
- * Homepage section order mirrors Network Auto Body:
- * Hero → Dealerships → About/image → Pillars → Authorized features →
- * Work photos → Services → Expertise band → Estimate process →
- * Reviews → FAQ → Quote → Location → Areas
+ * Lean homepage — one clear path, minimal chrome.
+ * Hero → Dealers → About → Services → Work → Reviews → Book → Location
+ * Careers + newsletter only in footer (not full page sections).
+ * No section arrows, no desktop float (sticky mobile Estimate/Call only).
  */
 export function MarketingHomeShell({
   heroSrc: _heroSrc,
@@ -52,19 +43,11 @@ export function MarketingHomeShell({
         <CleanHero />
         <CleanMakesCarousel />
         <CleanHistory />
-        {/* Network: certified technicians 01–03 + authorized repair split */}
-        <CleanPillars />
-        <CleanWork />
         <CleanServices />
-        <CleanExpertiseCta />
-        <CleanProcess />
+        <CleanWork />
         <CleanReviews />
-        <CleanFaq />
-        <CleanQuote />
+        <CleanBookAppointment />
         <CleanLocation />
-        <CleanAreasServed />
-        {/* Network-style bottom: gray covered strip → strong logo blue → black footer */}
-        <CleanBottomCta />
       </main>
 
       <div
@@ -84,22 +67,13 @@ export function MarketingHomeShell({
             style={{ background: brandGradients.whatsappCta, borderRadius: "0.25rem" }}
           >
             <MessageCircle className="size-4" />
-            {es ? "Cotizar" : "Quote"}
-          </button>
-          <button
-            type="button"
-            onClick={() => openWhatsAppChat("sticky_plain")}
-            className="flex min-w-0 flex-1 flex-col items-center justify-center gap-0.5 border-0 py-2.5 text-[10px] font-bold uppercase tracking-wide text-white"
-            style={{ background: brandGradients.whatsappCta, borderRadius: "0.25rem" }}
-          >
-            <MessageCircle className="size-4" />
-            Chat
+            {es ? "Estimado" : "Estimate"}
           </button>
           <a
             href={phone.tel}
             onClick={() => trackEvent("call_click", { source: "sticky" })}
             className="flex min-w-0 flex-1 flex-col items-center justify-center gap-0.5 py-2.5 text-[10px] font-bold uppercase tracking-wide no-underline"
-            style={{ background: "#F2F4F6", color: brand.navy, borderRadius: "0.25rem" }}
+            style={{ background: brand.navy, color: "#fff", borderRadius: "0.25rem" }}
           >
             <Phone className="size-4" style={{ color: brand.orange }} />
             {es ? "Llamar" : "Call"}
@@ -107,8 +81,6 @@ export function MarketingHomeShell({
         </div>
       </div>
 
-      <SectionArrows />
-      <DesktopWhatsAppFloat />
       <CleanFooter />
     </>
   );

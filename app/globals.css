@@ -606,9 +606,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 88%;
-  height: clamp(5.25rem, 13.5vw, 8rem);
-  margin-bottom: 0.55rem;
+  width: 72%;
+  height: clamp(3rem, 7.5vw, 4.25rem);
+  margin-bottom: 0.45rem;
   flex-shrink: 0;
 }
 .dealer-card__logo {
@@ -619,7 +619,7 @@
   /* Per-brand optical scale via --logo-scale (default 1) */
   transform: scale(var(--logo-scale, 1));
   transform-origin: center center;
-  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.45));
+  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.4));
 }
 .dealer-card__name {
   margin: 0;

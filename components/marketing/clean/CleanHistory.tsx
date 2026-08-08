@@ -6,8 +6,7 @@ import { useCatalog } from "@/lib/locale";
 import { useQuoteLead } from "@/lib/quote-lead-context";
 
 /**
- * Network “One Of The Best Auto Body Shops for Collision Repair” —
- * large headline + body left, large shop photo right.
+ * Short about — one paragraph + shop photo.
  */
 export function CleanHistory() {
   const { locale } = useCatalog();
@@ -19,26 +18,18 @@ export function CleanHistory() {
     <section id="history" className="nw-section scroll-mt-28" style={{ background: "#F8F8F8" }}>
       <div className="nw-wrap grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
         <div>
-          <p className="nw-kicker">{es ? "Nuestra historia" : "Our story"}</p>
+          <p className="nw-kicker">{es ? "Nosotros" : "About"}</p>
           <h2 className="nw-h2">
             {es ? (
-              <>
-                Uno de los mejores talleres de carrocería
-                <br />
-                para reparación de colisiones
-              </>
+              <>Taller de colisión en Paterson desde {site.foundedYear}</>
             ) : (
-              <>
-                One of the best auto body shops
-                <br />
-                for collision repair
-              </>
+              <>Collision body shop in Paterson since {site.foundedYear}</>
             )}
           </h2>
           <p className="nw-lead" style={{ maxWidth: "100%" }}>
             {es
-              ? `Reparar vehículos dañados en choques es “reparación de colisión”: paneles, piezas mecánicas y eléctricas. En ${site.name} usamos equipo moderno y técnicos experimentados para devolver seguridad, estructura y apariencia. Desde ${site.foundedYear} en ${site.address.line1}, Paterson — ${years}+ años sirviendo al condado de Passaic.`
-              : `Repairing vehicles damaged in crashes is “collision repair” — body panels plus mechanical and electrical parts. At ${site.name} we use modern equipment and experienced technicians to restore safety, structure, and appearance. Since ${site.foundedYear} at ${site.address.line1}, Paterson — ${years}+ years serving Passaic County.`}
+              ? `${site.name} — ${years}+ años en ${site.address.line1}. Carrocería, pintura y mecánica con estimados claros. Seguros bienvenidos.`
+              : `${site.name} — ${years}+ years at ${site.address.line1}. Body, paint, and mechanical with clear estimates. Insurance claims welcome.`}
           </p>
           <button
             type="button"
@@ -49,13 +40,14 @@ export function CleanHistory() {
           </button>
         </div>
 
-        <div className="nw-photo nw-photo--wide min-h-[280px] sm:min-h-[360px]">
+        <div className="nw-photo nw-photo--wide min-h-[240px] sm:min-h-[320px]">
           <Image
             src="/gallery/shop-1.jpg"
-            alt="Sanchez Auto Services collision and body shop floor in Paterson"
+            alt={`${site.name} shop floor, Paterson NJ`}
             fill
             className="object-cover"
             sizes="(max-width: 1024px) 100vw, 50vw"
+            loading="lazy"
           />
         </div>
       </div>

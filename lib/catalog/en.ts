@@ -191,7 +191,7 @@ export const enCatalog: Catalog = {
   testimonials: {
     title: "What neighbors say",
     googleNote:
-      "4.8★ average on Google — full public reviews live on Google Business. Quotes below reflect real local feedback and typical customer comments from drivers in Paterson and nearby towns.",
+      "4.8★ average on Google. Sample quotes below reflect common local feedback — full attributed reviews live on Google Business.",
     mapsGalleryNote:
       "Link out to Google Business for attributed reviews; optional Places API sync keeps photos honest.",
     samples: [
@@ -236,69 +236,6 @@ export const enCatalog: Catalog = {
         stars: 5,
         quote:
           "Insurance claim was a headache until this shop took over. Photos, estimate, and repair all lined up. Highly recommend.",
-      },
-      {
-        name: "Jasmine T.",
-        location: "Paterson, NJ",
-        stars: 5,
-        quote:
-          "Straightforward timeline on brakes and suspension noise. Respect how they document photos for insurance filings.",
-      },
-      {
-        name: "Luis M.",
-        location: "Passaic, NJ",
-        stars: 5,
-        quote:
-          "Brought my truck after a parking-lot hit. Body and paint done right, and they helped me walk through the insurance photos.",
-      },
-      {
-        name: "Ana P.",
-        location: "Haledon, NJ",
-        stars: 5,
-        quote:
-          "Honest shop. Explained what was repair vs. replace, no pressure. WhatsApp updates made drop-off easy with kids at home.",
-      },
-      {
-        name: "Derek S.",
-        location: "Wayne, NJ",
-        stars: 5,
-        quote:
-          "Check-engine light after a fender bender — they scanned, fixed the sensor, and finished the panel work the same week.",
-      },
-      {
-        name: "Michael K.",
-        location: "Elmwood Park, NJ",
-        stars: 4,
-        quote:
-          "Solid work on bumper and headlights. Waited a bit on a part, but they texted me the update instead of leaving me guessing.",
-      },
-      {
-        name: "Rosa V.",
-        location: "Paterson, NJ",
-        stars: 5,
-        quote:
-          "Bilingual help, clear pricing, and the paint blend on my door is invisible. I’ll keep coming back.",
-      },
-      {
-        name: "Elena C.",
-        location: "Fair Lawn, NJ",
-        stars: 5,
-        quote:
-          "Door ding and bumper scuff looked impossible to match — they blended it perfectly. Ready when they said it would be.",
-      },
-      {
-        name: "Andre W.",
-        location: "Garfield, NJ",
-        stars: 5,
-        quote:
-          "A/C was blowing warm in July. Diagnosed fast, parts ordered same day, and I’m cool again without a crazy bill.",
-      },
-      {
-        name: "Patricia N.",
-        location: "Paterson, NJ",
-        stars: 5,
-        quote:
-          "Family has used Sanchez for years — oil, brakes, and after our minor accident. Trustworthy people on Railway Ave.",
       },
     ],
   },

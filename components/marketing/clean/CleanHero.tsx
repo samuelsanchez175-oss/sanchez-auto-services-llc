@@ -1,35 +1,17 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { MessageCircle, Phone } from "lucide-react";
-import { site } from "@/lib/site-content";
+import { MessageCircle, Phone, Star, MapPin, Navigation } from "lucide-react";
+import { formatAddressInline, mapDirectionsUrl, site } from "@/lib/site-content";
 import { brand, brandGradients } from "@/lib/brand";
 import { useCatalog } from "@/lib/locale";
 import { useQuoteLead } from "@/lib/quote-lead-context";
 import { trackEvent } from "@/lib/analytics";
-import { openWhatsAppChat } from "@/lib/whatsapp-quote";
-
-function InstagramIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-    </svg>
-  );
-}
+import { getShopOpenStatus } from "@/lib/shop-hours";
 
 /**
- * Network Auto Body hero — full-bleed shop photo + even 4-button CTA grid.
+ * Calm hero — one proof line, open status, Estimate + Call only.
  */
 export function CleanHero() {
   const { locale } = useCatalog();
@@ -37,20 +19,26 @@ export function CleanHero() {
   const { openQuote } = useQuoteLead();
   const phone = site.phones[0];
   const years = Math.max(1, new Date().getFullYear() - site.foundedYear);
+  const [status, setStatus] = useState(() => getShopOpenStatus());
 
-  const ctaClass =
-    "inline-flex h-full min-h-[52px] w-full items-center justify-center gap-2 rounded-sm border-0 px-4 py-3.5 text-center text-[0.85rem] font-extrabold uppercase tracking-[0.04em] text-white no-underline transition hover:brightness-110 sm:text-[0.9rem]";
+  useEffect(() => {
+    const id = window.setInterval(() => setStatus(getShopOpenStatus()), 60_000);
+    return () => window.clearInterval(id);
+  }, []);
+
+  const cta =
+    "inline-flex min-h-[52px] flex-1 items-center justify-center gap-2 rounded-sm border-0 px-5 py-3.5 text-center text-[0.85rem] font-extrabold uppercase tracking-[0.04em] text-white no-underline transition hover:brightness-110 sm:text-[0.9rem]";
 
   return (
     <section
       id="home"
       data-arrow-theme="dark"
-      className="relative isolate flex min-h-[min(92vh,720px)] items-center overflow-hidden"
+      className="relative isolate flex min-h-[min(85vh,640px)] items-center overflow-hidden"
     >
       <div className="absolute inset-0 -z-10">
         <Image
           src="/gallery/shop-3.jpg"
-          alt=""
+          alt={`${site.name} body shop, Paterson NJ`}
           fill
           priority
           className="object-cover object-center"
@@ -66,37 +54,60 @@ export function CleanHero() {
         />
       </div>
 
-      <div className="nw-wrap w-full pb-16 pt-[8.5rem] sm:pb-20 sm:pt-[9.5rem]">
-        <div className="max-w-3xl text-white">
-          <p className="mb-4 text-xs font-bold uppercase tracking-[0.28em] text-white/70">
-            {es
-              ? `Desde ${site.foundedYear} · Paterson, NJ`
-              : `Since ${site.foundedYear} · Paterson, NJ`}
-          </p>
+      <div className="nw-wrap w-full pb-14 pt-[8.25rem] sm:pb-18 sm:pt-[9rem]">
+        <div className="max-w-2xl text-white">
+          <div className="mb-4 flex flex-wrap items-center gap-2">
+            <span
+              className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold"
+              style={{
+                background: status.isOpen
+                  ? "rgba(37,211,102,0.2)"
+                  : "rgba(255,255,255,0.12)",
+                color: status.isOpen ? "#6EE7A8" : "rgba(255,255,255,0.85)",
+                border: `1px solid ${status.isOpen ? "rgba(37,211,102,0.45)" : "rgba(255,255,255,0.2)"}`,
+              }}
+            >
+              <span
+                className="size-1.5 rounded-full"
+                style={{ background: status.isOpen ? "#25D366" : "#9CA3AF" }}
+              />
+              {es ? status.labelEs : status.labelEn}
+            </span>
+          </div>
 
-          <h1 className="text-[2.35rem] font-black leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.35rem]">
+          <h1 className="text-[2.2rem] font-black leading-[1.1] tracking-tight sm:text-4xl lg:text-[3rem]">
             {es ? (
               <>
-                Más de {years} años de reparaciones de colisión en tu taller de confianza
+                Más de {years} años de reparaciones de colisión en Paterson
               </>
             ) : (
               <>
-                Over {years} years of collision repairs at your trusted auto body shop
+                Over {years} years of collision repair in Paterson
               </>
             )}
           </h1>
 
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-white/85 sm:text-lg">
+          <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-white/85 sm:text-base">
             {es
-              ? `${site.name} — carrocería, pintura y mecánica. Estimados claros, ayuda con seguros y WhatsApp directo.`
-              : `${site.name} — collision, paint, and mechanical. Clear estimates, insurance help, and direct WhatsApp.`}
+              ? "Carrocería, pintura y mecánica. Estimados claros por WhatsApp. Seguros bienvenidos."
+              : "Body, paint, and mechanical. Clear estimates on WhatsApp. Insurance welcome."}
           </p>
 
-          {/* Even 2×2 grid on sm+; stacked on phone */}
-          <div className="mt-9 grid w-full max-w-xl grid-cols-1 gap-3 sm:grid-cols-2">
+          <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] font-semibold text-white/75">
+            <span className="inline-flex items-center gap-1">
+              <Star className="size-3.5 fill-current" style={{ color: brand.star }} aria-hidden />
+              {site.googleRating}★ Google
+            </span>
+            <span className="text-white/30">·</span>
+            <span>{es ? `Desde ${site.foundedYear}` : `Since ${site.foundedYear}`}</span>
+            <span className="text-white/30">·</span>
+            <span>{es ? "Seguros OK" : "Insurance OK"}</span>
+          </p>
+
+          <div className="mt-8 flex w-full max-w-lg flex-col gap-3 sm:flex-row">
             <button
               type="button"
-              className={`${ctaClass}`}
+              className={cta}
               style={{
                 background: brandGradients.whatsappCta,
                 boxShadow: "0 10px 28px rgba(37, 211, 102, 0.35)",
@@ -106,53 +117,40 @@ export function CleanHero() {
               <MessageCircle className="size-5 shrink-0" aria-hidden />
               {es ? "Pedir estimado" : "Get an estimate"}
             </button>
-
-            <button
-              type="button"
-              className={ctaClass}
-              style={{
-                background: brandGradients.whatsappCta,
-                boxShadow: "0 10px 28px rgba(37, 211, 102, 0.35)",
-              }}
-              onClick={() => openWhatsAppChat("hero_plain")}
-            >
-              <MessageCircle className="size-5 shrink-0" aria-hidden />
-              WhatsApp
-            </button>
-
-            {site.social.instagram ? (
-              <a
-                href={site.social.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={ctaClass}
-                style={{
-                  background:
-                    "linear-gradient(135deg, #f58529 0%, #dd2a7b 45%, #8134af 75%, #515bd4 100%)",
-                  boxShadow: "0 10px 28px rgba(221, 42, 123, 0.35)",
-                }}
-                onClick={() => trackEvent("instagram_click", { source: "hero" })}
-                aria-label="Instagram @francisco4704"
-              >
-                <InstagramIcon className="size-5 shrink-0" />
-                Instagram
-              </a>
-            ) : (
-              <span className="hidden sm:block" aria-hidden />
-            )}
-
             <a
               href={phone.tel}
-              className={ctaClass}
+              className={cta}
               style={{
                 background: brand.navy,
-                boxShadow: "0 10px 28px rgba(0, 0, 0, 0.28)",
                 border: "1px solid rgba(255,255,255,0.2)",
               }}
               onClick={() => trackEvent("call_click", { source: "hero" })}
             >
               <Phone className="size-5 shrink-0" style={{ color: brand.orange }} aria-hidden />
               {es ? "Llamar" : "Call"}
+            </a>
+          </div>
+
+          {/* Address + directions early — no need to scroll to Location */}
+          <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4">
+            <p className="inline-flex items-start gap-2 text-sm text-white/85">
+              <MapPin className="mt-0.5 size-4 shrink-0 text-white/70" aria-hidden />
+              <span>
+                {formatAddressInline()}
+                <span className="mt-0.5 block text-xs text-white/55">
+                  {es ? "Paterson · cerca de la Ruta 80" : "Paterson · near Route 80"}
+                </span>
+              </span>
+            </p>
+            <a
+              href={mapDirectionsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackEvent("directions_click", { source: "hero" })}
+              className="inline-flex w-fit items-center gap-2 rounded-sm border border-white/35 bg-white/10 px-4 py-2.5 text-xs font-extrabold uppercase tracking-[0.06em] text-white no-underline transition hover:bg-white/15"
+            >
+              <Navigation className="size-3.5" aria-hidden />
+              {es ? "Cómo llegar" : "Get directions"}
             </a>
           </div>
         </div>

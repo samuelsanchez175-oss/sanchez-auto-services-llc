@@ -11,6 +11,7 @@ import { useQuoteLead } from "@/lib/quote-lead-context";
 import { brand, brandGradients } from "@/lib/brand";
 import { openWhatsAppChat } from "@/lib/whatsapp-quote";
 import { NAV_SECTION_IDS, scrollToSection } from "@/lib/nav-sections";
+import { trackEvent } from "@/lib/analytics";
 
 type NavLink = { href: string; id: string; label: string };
 
@@ -93,34 +94,26 @@ export function Header() {
     return () => observer.disconnect();
   }, [onHome]);
 
-  /** Network-style: lots to click and read from the top bar */
+  /** Slim top bar — core path only */
   const primaryLinks: NavLink[] = useMemo(
     () =>
       es
         ? [
             { href: `${root}#home`, id: "home", label: "Inicio" },
             { href: `${root}#dealerships`, id: "dealerships", label: "Marcas" },
-            { href: `${root}#history`, id: "history", label: "Historia" },
-            { href: `${root}#insurance`, id: "insurance", label: "Seguros" },
-            { href: `${root}#work`, id: "work", label: "Trabajos" },
+            { href: `${root}#history`, id: "history", label: "Nosotros" },
             { href: `${root}#services`, id: "services", label: "Servicios" },
-            { href: `${root}#process`, id: "process", label: "Proceso" },
+            { href: `${root}#work`, id: "work", label: "Taller" },
             { href: `${root}#reviews`, id: "reviews", label: "Reseñas" },
-            { href: `${root}#faq`, id: "faq", label: "FAQ" },
-            { href: `${root}#quote`, id: "quote", label: "Cotizar" },
             { href: `${root}#hours`, id: "hours", label: "Ubicación" },
           ]
         : [
             { href: `${root}#home`, id: "home", label: "Home" },
             { href: `${root}#dealerships`, id: "dealerships", label: "Dealers" },
             { href: `${root}#history`, id: "history", label: "About" },
-            { href: `${root}#insurance`, id: "insurance", label: "Insurance" },
-            { href: `${root}#work`, id: "work", label: "Shop" },
             { href: `${root}#services`, id: "services", label: "Services" },
-            { href: `${root}#process`, id: "process", label: "Estimate" },
+            { href: `${root}#work`, id: "work", label: "Shop" },
             { href: `${root}#reviews`, id: "reviews", label: "Reviews" },
-            { href: `${root}#faq`, id: "faq", label: "FAQ" },
-            { href: `${root}#quote`, id: "quote", label: "Quote" },
             { href: `${root}#hours`, id: "hours", label: "Location" },
           ],
     [es, root],
@@ -274,16 +267,20 @@ export function Header() {
               style={{ background: brandGradients.whatsappCta }}
             >
               <MessageCircle className="size-3.5" />
-              {es ? "Cotizar" : "Estimate"}
+              {es ? "Estimado" : "Estimate"}
             </button>
-            <button
-              type="button"
-              onClick={() => openWhatsAppChat("header_plain")}
-              className="hidden items-center gap-1 rounded-full border-0 px-2.5 py-1.5 text-xs font-bold text-white md:inline-flex"
-              style={{ background: brandGradients.whatsappCta }}
-            >
-              Chat
-            </button>
+            {site.social.instagram ? (
+              <a
+                href={site.social.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden items-center gap-1 rounded-full px-2.5 py-1.5 text-xs font-bold no-underline md:inline-flex"
+                style={{ color: brand.navy, background: brand.mist }}
+                onClick={() => trackEvent("instagram_click", { source: "header" })}
+              >
+                Instagram
+              </a>
+            ) : null}
 
             <button
               type="button"

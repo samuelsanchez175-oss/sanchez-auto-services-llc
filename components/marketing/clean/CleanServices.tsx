@@ -1,142 +1,73 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, Shield } from "lucide-react";
 import { useCatalog } from "@/lib/locale";
 import { useQuoteLead } from "@/lib/quote-lead-context";
 import { brand } from "@/lib/brand";
 
 /**
- * Expanded services — body shop, paint shop, and diagnostic / mechanical teams.
- * Each department lists concrete job types customers can quote on WhatsApp.
+ * Core services only — body, paint, diagnostics/mechanical + insurance line.
  */
-const DEPARTMENTS = [
+const CORE = [
   {
-    id: "body",
+    id: "collision",
     src: "/gallery/shop-1.jpg",
-    titleEn: "Body shop",
-    titleEs: "Carrocería",
-    kickerEn: "Collision & structural",
-    kickerEs: "Colisión y estructura",
-    bodyEn:
-      "After an accident or parking-lot hit, we restore structure, panels, and safety systems so the car is solid again.",
-    bodyEs:
-      "Después de un choque o golpe en el estacionamiento, restauramos estructura, paneles y sistemas de seguridad.",
+    titleEn: "Collision & body",
+    titleEs: "Colisión y carrocería",
+    bodyEn: "Accident and parking-lot damage — structure, panels, and safety systems.",
+    bodyEs: "Daños de choque o estacionamiento — estructura, paneles y seguridad.",
     itemsEn: [
-      "Front-end & rear-end collision repair",
-      "Side-impact / T-bone panel repair",
-      "Door, fender & quarter panel replacement",
-      "Hood, decklid & roof panel work",
-      "Bumper cover, fascia & grille repair",
-      "Frame / unibody measuring & straightening",
-      "Dent repair (paintless when possible)",
-      "Rust repair & panel sectioning",
-      "Welded structural replacements",
-      "Plastic bumper welding & re-tabbing",
-      "Glass: windshield & door glass (coordination)",
-      "Post-collision reassembly & alignment setup",
+      "Front & rear collision repair",
+      "Door, fender & quarter panels",
+      "Bumper & fascia repair",
+      "Frame / unibody straightening",
     ],
     itemsEs: [
       "Colisión delantera y trasera",
-      "Impacto lateral / paneles de costado",
-      "Cambio de puerta, guardafango y panel trasero",
-      "Capó, tapa de maletero y techo",
-      "Parachoques, fascia y parrilla",
-      "Medición y enderezado de chasis / unibody",
-      "Abolladuras (sin pintura cuando se puede)",
-      "Reparación de óxido y seccionamiento",
-      "Reemplazos estructurales soldados",
-      "Soldadura y pestañas de parachoques plásticos",
-      "Cristales: parabrisas y puertas (coordinación)",
-      "Reensamblaje y preparación de alineación",
+      "Puerta, guardafango y panel trasero",
+      "Parachoques y fascia",
+      "Enderezado de chasis / unibody",
     ],
   },
   {
     id: "paint",
     src: "/gallery/shop-3.jpg",
-    titleEn: "Paint shop",
-    titleEs: "Pintura",
-    kickerEn: "Refinish & color match",
-    kickerEs: "Acabado y color",
-    bodyEn:
-      "Color-matched refinish so repaired panels blend with the rest of the car — prep, base, and clear done carefully.",
-    bodyEs:
-      "Pintura igualada para que los paneles reparados combinen con el resto del auto — prep, base y clear con cuidado.",
+    titleEn: "Paint & refinish",
+    titleEs: "Pintura y acabado",
+    bodyEn: "Color-matched refinish so repaired panels blend with the rest of the car.",
+    bodyEs: "Pintura igualada para que los paneles reparados combinen con el resto del auto.",
     itemsEn: [
-      "Single-panel respray",
-      "Multi-panel blend & color match",
-      "Full vehicle respray",
-      "Clear coat peeling / fade repair",
+      "Single- & multi-panel respray",
+      "Blend & color match",
       "Scratch, scuff & chip repair",
-      "Bumper & plastic trim paint match",
-      "Metallic, pearl & tri-coat colors",
-      "Spot refinish for door dings",
-      "Wheel refinishing (as available)",
-      "Paint correction & buffing",
-      "Underbody / jamb refinish when needed",
-      "Insurance refinish documentation photos",
+      "Clear coat & paint correction",
     ],
     itemsEs: [
-      "Repintado de un solo panel",
-      "Mezcla multi-panel e igualación de color",
-      "Repintado completo del vehículo",
-      "Clear dañado o descolorido",
+      "Repintado de uno o varios paneles",
+      "Mezcla e igualación de color",
       "Rayones, roces y desconchones",
-      "Pintura de parachoques y molduras plásticas",
-      "Colores metalizados, perla y tri-capa",
-      "Retoque de golpes de puerta",
-      "Refinish de rines (según disponibilidad)",
-      "Corrección de pintura y pulido",
-      "Pintura de bastidor / marcos cuando aplica",
-      "Fotos de documentación para el seguro",
+      "Clear y corrección de pintura",
     ],
   },
   {
-    id: "diagnostics",
+    id: "mechanical",
     src: "/gallery/shop-2.jpg",
     titleEn: "Diagnostics & mechanical",
     titleEs: "Diagnóstico y mecánica",
-    kickerEn: "Scan, fix & road-ready",
-    kickerEs: "Escanear, reparar y listo",
-    bodyEn:
-      "Check-engine lights, brakes, and post-collision mechanical — so it drives, stops, and shifts right when you leave.",
-    bodyEs:
-      "Check-engine, frenos y mecánica post-colisión — para que ruede, frene y cambie bien al salir.",
+    bodyEn: "Check-engine, brakes, and post-collision mechanical so it drives right.",
+    bodyEs: "Check-engine, frenos y mecánica post-colisión para que ruede bien.",
     itemsEn: [
-      "Computer diagnostics & scan tools",
-      "Check-engine light diagnosis",
-      "ABS / airbag / TPMS warning lights",
-      "Post-collision sensor & camera reset",
-      "ADAS / radar & camera calibration (as equipped)",
-      "Brake pads, rotors & calipers",
-      "Brake fluid flush & line repair",
-      "Suspension, struts & control arms",
-      "Wheel alignment after bodywork",
-      "Steering rack & tie-rod service",
-      "Battery, charging & electrical",
-      "A/C diagnosis & recharge",
-      "Oil change & maintenance services",
-      "Transmission service & diagnostics",
-      "Cooling system & radiator",
-      "Exhaust & emission-related repairs",
+      "Computer diagnostics",
+      "Brakes & suspension",
+      "Alignment after bodywork",
+      "A/C, battery & maintenance",
     ],
     itemsEs: [
-      "Diagnóstico por computadora y escáner",
-      "Diagnóstico de luz check-engine",
-      "Luces ABS / airbag / TPMS",
-      "Reset de sensores y cámaras post-colisión",
-      "Calibración ADAS / radar y cámara (según equipo)",
-      "Pastillas, discos y calipers",
-      "Cambio de líquido de frenos y líneas",
-      "Suspensión, struts y brazos",
+      "Diagnóstico por computadora",
+      "Frenos y suspensión",
       "Alineación después de carrocería",
-      "Cremallera y terminales de dirección",
-      "Batería, carga y electricidad",
-      "Diagnóstico y recarga de A/C",
-      "Cambio de aceite y mantenimiento",
-      "Servicio y diagnóstico de transmisión",
-      "Sistema de enfriamiento y radiador",
-      "Escape y reparaciones de emisiones",
+      "A/C, batería y mantenimiento",
     ],
   },
 ] as const;
@@ -149,24 +80,21 @@ export function CleanServices() {
   return (
     <section id="services" className="nw-section scroll-mt-28" style={{ background: "#F8F8F8" }}>
       <div className="nw-wrap">
-        <div className="nw-center mx-auto mb-12 max-w-3xl">
+        <div className="nw-center mx-auto mb-10 max-w-2xl">
           <p className="nw-kicker">{es ? "Servicios" : "Services"}</p>
           <h2 className="nw-h2">
-            {es
-              ? "Carrocería, pintura y diagnóstico — más tipos de trabajo"
-              : "Body, paint & diagnostics — more kinds of work"}
+            {es ? "Carrocería, pintura y mecánica" : "Body, paint & mechanical"}
           </h2>
           <p className="nw-lead">
             {es
-              ? "Tres equipos bajo un techo en Paterson: taller de carrocería, cabina de pintura y mecánica / diagnóstico. Toca un servicio o cotiza todo el departamento por WhatsApp."
-              : "Three teams under one roof in Paterson: body shop, paint booth, and mechanical / diagnostics. Tap a job type or quote the whole department on WhatsApp."}
+              ? "Lo esencial bajo un techo en Paterson. Toca un servicio para cotizar por WhatsApp."
+              : "The essentials under one roof in Paterson. Tap a service to quote on WhatsApp."}
           </p>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-3">
-          {DEPARTMENTS.map((dept) => {
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {CORE.map((dept) => {
             const title = es ? dept.titleEs : dept.titleEn;
-            const kicker = es ? dept.kickerEs : dept.kickerEn;
             const body = es ? dept.bodyEs : dept.bodyEn;
             const items = es ? dept.itemsEs : dept.itemsEn;
 
@@ -183,6 +111,7 @@ export function CleanServices() {
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 100vw, 33vw"
+                    loading="lazy"
                   />
                   <div
                     className="absolute inset-0"
@@ -192,59 +121,33 @@ export function CleanServices() {
                     }}
                     aria-hidden
                   />
-                  <div className="absolute inset-x-0 bottom-0 p-5">
-                    <p
-                      className="text-[11px] font-bold uppercase tracking-[0.16em]"
-                      style={{ color: brand.orange }}
-                    >
-                      {kicker}
-                    </p>
-                    <h3 className="mt-1 text-xl font-extrabold text-white sm:text-2xl">
-                      {title}
-                    </h3>
+                  <div className="absolute inset-x-0 bottom-0 p-4">
+                    <h3 className="text-xl font-extrabold text-white">{title}</h3>
                   </div>
                 </div>
 
-                <div className="flex flex-1 flex-col p-5 sm:p-6">
+                <div className="flex flex-1 flex-col p-5">
                   <p className="text-sm leading-relaxed" style={{ color: "#5c6570" }}>
                     {body}
                   </p>
-
-                  <p
-                    className="mb-3 mt-5 text-[11px] font-bold uppercase tracking-wider"
-                    style={{ color: brand.steelLight }}
-                  >
-                    {es ? "Ejemplos de trabajos" : "Examples of work we do"}
-                  </p>
-
-                  <ul className="mb-6 flex-1 space-y-2">
+                  <ul className="mb-5 mt-4 flex-1 space-y-2">
                     {items.map((item) => (
-                      <li key={item}>
-                        <button
-                          type="button"
-                          onClick={() => openQuote(`${title} — ${item}`)}
-                          className="group flex w-full items-start gap-2 border-0 bg-transparent p-0 text-left text-sm leading-snug"
-                          style={{ color: brand.navy }}
-                        >
-                          <Check
-                            className="mt-0.5 size-3.5 shrink-0"
-                            style={{ color: brand.orange }}
-                            aria-hidden
-                          />
-                          <span className="underline-offset-2 group-hover:underline">
-                            {item}
-                          </span>
-                        </button>
+                      <li key={item} className="flex items-start gap-2 text-sm" style={{ color: brand.navy }}>
+                        <Check
+                          className="mt-0.5 size-3.5 shrink-0"
+                          style={{ color: brand.orange }}
+                          aria-hidden
+                        />
+                        {item}
                       </li>
                     ))}
                   </ul>
-
                   <button
                     type="button"
                     onClick={() => openQuote(title)}
                     className="nw-btn nw-btn--wa w-full"
                   >
-                    {es ? `Cotizar ${title.toLowerCase()}` : `Quote ${title.toLowerCase()}`}
+                    {es ? "Cotizar" : "Get estimate"}
                     <ArrowRight className="size-4" aria-hidden />
                   </button>
                 </div>
@@ -253,10 +156,19 @@ export function CleanServices() {
           })}
         </div>
 
-        <p className="mx-auto mt-10 max-w-2xl text-center text-sm" style={{ color: brand.steel }}>
+        {/* Insurance one-liner */}
+        <p
+          className="mx-auto mt-8 max-w-2xl text-center text-sm leading-relaxed"
+          style={{ color: brand.steel }}
+        >
+          <Shield
+            className="mr-1.5 inline size-4 align-[-2px]"
+            style={{ color: brand.orange }}
+            aria-hidden
+          />
           {es
-            ? "¿No ves tu trabajo en la lista? Escríbenos igual — carrocería, pintura y diagnóstico atienden más casos de los que caben aquí."
-            : "Don’t see your job listed? Message us anyway — body, paint, and diagnostics handle more than we can fit on one page."}
+            ? "Seguros bienvenidos — Progressive, GEICO, State Farm, NJM y más."
+            : "Insurance welcome — Progressive, GEICO, State Farm, NJM & more."}
         </p>
       </div>
     </section>

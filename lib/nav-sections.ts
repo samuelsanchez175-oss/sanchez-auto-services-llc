@@ -1,18 +1,13 @@
 /**
- * Homepage sections that appear in the top bar — scroll order.
- * IDs must match section `id` attributes in clean/* components.
+ * Slim top-bar sections only (Book / Careers / Newsletter live in footer).
  */
 export const NAV_SECTION_IDS = [
   "home",
   "dealerships",
   "history",
-  "insurance",
-  "work",
   "services",
-  "process",
+  "work",
   "reviews",
-  "faq",
-  "quote",
   "hours",
 ] as const;
 
@@ -22,7 +17,6 @@ export function scrollToSection(id: string) {
   const el = document.getElementById(id);
   if (!el) return;
   el.scrollIntoView({ behavior: "smooth", block: "start" });
-  // Keep URL hash in sync without a hard jump
   if (typeof history !== "undefined") {
     history.replaceState(null, "", `#${id}`);
   }

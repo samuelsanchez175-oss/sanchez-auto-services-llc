@@ -3,7 +3,13 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { MapPin, Clock, Phone, Navigation } from "lucide-react";
-import { formatAddressInline, mapDirectionsUrl, site, schedule } from "@/lib/site-content";
+import {
+  areasServed,
+  formatAddressInline,
+  mapDirectionsUrl,
+  site,
+  schedule,
+} from "@/lib/site-content";
 import { useCatalog } from "@/lib/locale";
 import { getShopOpenStatus } from "@/lib/shop-hours";
 import { trackEvent } from "@/lib/analytics";
@@ -149,6 +155,35 @@ export function CleanLocation() {
               />
             </div>
           </div>
+        </div>
+
+        {/* Areas served — folded in from standalone section */}
+        <div className="mt-10 border-t pt-8" style={{ borderColor: "#E6EAEF" }}>
+          <p className="text-xs font-bold uppercase tracking-[0.16em]" style={{ color: "#FB8C33" }}>
+            {es ? "Área de servicio" : "Service area"}
+          </p>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed" style={{ color: "#5c6570" }}>
+            {es
+              ? "Atendemos Paterson y ciudades cercanas en el condado de Passaic — cotizaciones por WhatsApp y seguros bienvenidos."
+              : "Serving Paterson and nearby Passaic County towns — WhatsApp estimates and insurance claims welcome."}
+          </p>
+          <ul className="mt-4 flex flex-wrap gap-2" aria-label={es ? "Ciudades" : "Cities served"}>
+            {areasServed.map((city) => (
+              <li key={city}>
+                <span
+                  className="inline-block rounded-full px-3 py-1 text-xs font-bold"
+                  style={{
+                    background: "#fff",
+                    color: "#07253F",
+                    border: "1px solid #E6EAEF",
+                  }}
+                >
+                  {city}
+                  {city === "Paterson" ? ", NJ" : ""}
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>

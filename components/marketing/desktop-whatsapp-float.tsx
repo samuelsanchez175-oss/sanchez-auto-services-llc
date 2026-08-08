@@ -24,10 +24,10 @@ export function DesktopWhatsAppFloat() {
         background: brandGradients.whatsappCta,
         boxShadow: "0 10px 32px rgba(37,211,102,0.4)",
       }}
-      aria-label={isEs ? "Cotizar por WhatsApp" : "WhatsApp quote"}
+      aria-label={isEs ? "Pedir estimado" : "Get an estimate"}
     >
       <MessageCircle className="size-5" aria-hidden />
-      {isEs ? "WhatsApp" : "WhatsApp quote"}
+      {isEs ? "Pedir estimado" : "Get an estimate"}
     </button>
   );
 }

@@ -191,7 +191,7 @@ export const esCatalog: Catalog = {
   testimonials: {
     title: "Voces cercanas",
     googleNote:
-      "4.8★ en Google — las reseñas públicas están en Google Business. Las citas abajo reflejan comentarios reales y típicos de vecinos en Paterson y alrededores.",
+      "4.8★ en Google. Las citas de muestra abajo reflejan comentarios típicos locales — las reseñas completas están en Google Business.",
     mapsGalleryNote:
       "Sección siguiente puede mostrar fotos reales desde Places API después de ejecutar sincronización.",
     samples: [
@@ -236,69 +236,6 @@ export const esCatalog: Catalog = {
         stars: 5,
         quote:
           "El reclamo del seguro era un dolor de cabeza hasta que este taller se encargó. Fotos, estimado y reparación alineados. Muy recomendado.",
-      },
-      {
-        name: "Jasmine T.",
-        location: "Paterson, NJ",
-        stars: 5,
-        quote:
-          "Todo claro en frenos y suspensión. Respeto cómo documentan fotos para el seguro.",
-      },
-      {
-        name: "Luis M.",
-        location: "Passaic, NJ",
-        stars: 5,
-        quote:
-          "Llevé la camioneta tras un golpe en el estacionamiento. Carrocería y pintura bien hechas, y me ayudaron con las fotos del seguro.",
-      },
-      {
-        name: "Ana P.",
-        location: "Haledon, NJ",
-        stars: 5,
-        quote:
-          "Taller honesto. Explicaron qué reparar vs. cambiar, sin presión. WhatsApp facilitó dejar el auto.",
-      },
-      {
-        name: "Derek S.",
-        location: "Wayne, NJ",
-        stars: 5,
-        quote:
-          "Check-engine después de un toque — escanearon, arreglaron el sensor y terminaron el panel la misma semana.",
-      },
-      {
-        name: "Michael K.",
-        location: "Elmwood Park, NJ",
-        stars: 4,
-        quote:
-          "Buen trabajo en parachoques y luces. Hubo espera de una parte, pero me avisaron por mensaje.",
-      },
-      {
-        name: "Rosa V.",
-        location: "Paterson, NJ",
-        stars: 5,
-        quote:
-          "Ayuda en español, precios claros y el blend de pintura en la puerta es invisible. Vuelvo.",
-      },
-      {
-        name: "Elena C.",
-        location: "Fair Lawn, NJ",
-        stars: 5,
-        quote:
-          "Un abollón en la puerta y el parachoques parecían imposibles de igualar — lo fundieron perfecto y listo a tiempo.",
-      },
-      {
-        name: "Andre W.",
-        location: "Garfield, NJ",
-        stars: 5,
-        quote:
-          "El A/C soplaba caliente en julio. Diagnosticaron rápido, pidieron la pieza el mismo día y ya estoy fresco sin una factura loca.",
-      },
-      {
-        name: "Patricia N.",
-        location: "Paterson, NJ",
-        stars: 5,
-        quote:
-          "La familia usa Sanchez hace años — aceite, frenos y después de un accidente menor. Gente de confianza en Railway Ave.",
       },
     ],
   },

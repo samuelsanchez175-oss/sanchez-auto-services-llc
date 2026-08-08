@@ -55,8 +55,8 @@ export function CleanWork() {
             </h2>
             <p className="nw-lead">
               {es
-                ? "Fotos reales de las instalaciones — presentación visual al estilo Network Auto Body. Cuando tengamos antes/después, se suman aquí."
-                : "Real facility photos — Network Auto Body–style visual presentation. Before/after job shots can be added here anytime."}
+                ? "Fotos reales del taller en 99 E Railway Ave — carrocería, pintura y mecánica. (Antes/después de trabajos se suman aquí.)"
+                : "Real photos from our shop at 99 E Railway Ave — body, paint, and mechanical bays. (Job before/after shots belong here next.)"}
             </p>
           </div>
           <button
