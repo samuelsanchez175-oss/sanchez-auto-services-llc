@@ -31,7 +31,7 @@ export function CleanLocation() {
   return (
     <section id="hours" className="nw-section scroll-mt-28" style={{ background: "#F8F8F8" }}>
       <div className="nw-wrap">
-        <div className="nw-center mx-auto mb-12 max-w-2xl">
+        <div className="nw-center mx-auto mb-6 max-w-2xl">
           <p className="nw-kicker">{es ? "Ubicación" : "Location"}</p>
           <h2 className="nw-h2">
             {es
@@ -158,7 +158,7 @@ export function CleanLocation() {
         </div>
 
         {/* Areas served — folded in from standalone section */}
-        <div className="mt-10 border-t pt-8" style={{ borderColor: "#E6EAEF" }}>
+        <div className="mt-6 border-t pt-5" style={{ borderColor: "#E6EAEF" }}>
           <p className="text-xs font-bold uppercase tracking-[0.16em]" style={{ color: "#FB8C33" }}>
             {es ? "Área de servicio" : "Service area"}
           </p>

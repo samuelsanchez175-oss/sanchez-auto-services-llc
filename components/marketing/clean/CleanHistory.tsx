@@ -16,7 +16,7 @@ export function CleanHistory() {
 
   return (
     <section id="history" className="nw-section scroll-mt-28" style={{ background: "#F8F8F8" }}>
-      <div className="nw-wrap grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+      <div className="nw-wrap grid items-center gap-6 lg:grid-cols-2 lg:gap-10">
         <div>
           <p className="nw-kicker">{es ? "Nosotros" : "About"}</p>
           <h2 className="nw-h2">

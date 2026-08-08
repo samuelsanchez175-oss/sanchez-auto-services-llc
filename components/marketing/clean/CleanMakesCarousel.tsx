@@ -436,7 +436,7 @@ export function CleanMakesCarousel() {
   return (
     <section
       id="dealerships"
-      className="scroll-mt-28 py-14 sm:py-20"
+      className="scroll-mt-28 py-8 sm:py-12"
       style={{ background: "#F8F8F8" }}
       aria-labelledby="makes-carousel-heading"
     >
@@ -456,7 +456,7 @@ export function CleanMakesCarousel() {
         </p>
       </div>
 
-      <div className="relative mt-10 sm:mt-14">
+      <div className="relative mt-6 sm:mt-8">
         <button
           type="button"
           onClick={prev}

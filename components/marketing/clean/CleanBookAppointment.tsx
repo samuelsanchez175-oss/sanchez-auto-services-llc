@@ -14,22 +14,21 @@ import { openWhatsAppWithMessage } from "@/lib/whatsapp-quote";
 import { trackEvent } from "@/lib/analytics";
 
 const SERVICES_EN = [
-  "Collision estimate / drop-off",
+  "Collision / drop-off",
   "Paint / refinish",
-  "Mechanical / diagnostics",
-  "Insurance claim visit",
-  "General consultation",
+  "Mechanical",
+  "Insurance visit",
+  "Other",
 ];
 
 const SERVICES_ES = [
-  "Estimado de colisión / entrega",
-  "Pintura / acabado",
-  "Mecánica / diagnóstico",
-  "Visita por reclamo de seguro",
-  "Consulta general",
+  "Colisión / entrega",
+  "Pintura",
+  "Mecánica",
+  "Visita seguro",
+  "Otro",
 ];
 
-/** Next 14 days of slots (shop Mon–Sat style: 9–17). */
 function defaultDate() {
   const d = new Date();
   d.setDate(d.getDate() + 1);
@@ -38,8 +37,7 @@ function defaultDate() {
 }
 
 /**
- * Book an appointment — generates iCal (.ics) + Google Calendar link for the user,
- * and pings the shop on WhatsApp with the same details.
+ * Compact drop-off request — .ics + Google Calendar + WhatsApp notify.
  */
 export function CleanBookAppointment() {
   const { locale } = useCatalog();
@@ -48,28 +46,23 @@ export function CleanBookAppointment() {
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
   const [service, setService] = useState("");
   const [date, setDate] = useState(defaultDate);
   const [time, setTime] = useState("10:00");
-  const [notes, setNotes] = useState("");
   const [done, setDone] = useState(false);
   const [gcalUrl, setGcalUrl] = useState("");
 
   const minDate = useMemo(() => new Date().toISOString().slice(0, 10), []);
 
   const field =
-    "h-11 w-full rounded-md border border-[#E2E8EF] bg-white px-3 text-sm outline-none transition focus:border-[#FB8C33] focus:ring-2 focus:ring-[#FB8C33]/25";
-  const label = "mb-1 block text-[10px] font-bold uppercase tracking-[0.08em]";
-  const labelStyle = { color: brand.steel };
+    "h-10 w-full rounded-md border border-[#E2E8EF] bg-white px-2.5 text-[13px] outline-none focus:border-[#FB8C33] focus:ring-2 focus:ring-[#FB8C33]/20";
+  const label = "mb-0.5 block text-[10px] font-bold uppercase tracking-wide";
 
   function buildPayload(): AppointmentPayload {
     return {
       name: name.trim(),
       phone: phone.trim(),
-      email: email.trim() || undefined,
-      service: service || (es ? "Consulta general" : "General consultation"),
-      notes: notes.trim() || undefined,
+      service: service || (es ? "Otro" : "Other"),
       date,
       time,
       durationMin: 60,
@@ -88,28 +81,22 @@ export function CleanBookAppointment() {
 
     const wa = es
       ? [
-          "📅 *SOLICITUD DE CITA — Sanchez Auto*",
+          "📅 *ENTREGA / CITA — Sanchez Auto*",
           `Nombre: ${p.name}`,
           `Tel: ${p.phone}`,
-          p.email ? `Email: ${p.email}` : null,
           `Servicio: ${p.service}`,
-          `Fecha: ${p.date}`,
-          `Hora: ${p.time} (hora NJ)`,
-          p.notes ? `Notas: ${p.notes}` : null,
+          `Fecha: ${p.date} · ${p.time}`,
           `Lugar: ${formatAddressInline()}`,
         ]
       : [
-          "📅 *APPOINTMENT REQUEST — Sanchez Auto*",
+          "📅 *DROP-OFF REQUEST — Sanchez Auto*",
           `Name: ${p.name}`,
           `Phone: ${p.phone}`,
-          p.email ? `Email: ${p.email}` : null,
           `Service: ${p.service}`,
-          `Date: ${p.date}`,
-          `Time: ${p.time} (NJ time)`,
-          p.notes ? `Notes: ${p.notes}` : null,
+          `Date: ${p.date} · ${p.time}`,
           `Location: ${formatAddressInline()}`,
         ];
-    openWhatsAppWithMessage(wa.filter(Boolean).join("\n"), {
+    openWhatsAppWithMessage(wa.join("\n"), {
       source: "book_appointment",
       service: p.service,
     });
@@ -118,84 +105,75 @@ export function CleanBookAppointment() {
   return (
     <section
       id="book"
-      className="nw-section scroll-mt-28"
+      className="scroll-mt-28 py-6 sm:py-8"
       style={{ background: brand.white }}
     >
       <div className="nw-wrap">
-        <div className="mx-auto max-w-2xl text-center">
-          <p className="nw-kicker">{es ? "Citas" : "Appointments"}</p>
-          <h2 className="nw-h2">
-            {es ? "Agendar entrega o visita" : "Schedule a drop-off"}
-          </h2>
-          <p className="nw-lead">
-            {es
-              ? "Solicitud de hora — el taller confirma por WhatsApp. Recibes .ics + Google Calendar."
-              : "Request a time — the shop confirms on WhatsApp. You get .ics + Google Calendar."}
-          </p>
-        </div>
-
         <div
-          className="mx-auto mt-10 max-w-xl border p-5 sm:p-7"
+          className="mx-auto max-w-xl border px-4 py-5 sm:px-5 sm:py-6"
           style={{
             borderColor: "#E6EAEF",
             background: brand.paper,
             borderRadius: "0.35rem",
           }}
         >
+          <div className="mb-4 text-center">
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: brand.orange }}>
+              {es ? "Agenda" : "Schedule"}
+            </p>
+            <h2 className="mt-1 text-xl font-extrabold tracking-tight sm:text-2xl" style={{ color: brand.navy }}>
+              {es ? "Agendar entrega" : "Schedule a drop-off"}
+            </h2>
+            <p className="mt-1 text-xs leading-snug" style={{ color: brand.steel }}>
+              {es
+                ? "Solicitud — el taller confirma · .ics + Google Calendar"
+                : "Request — shop confirms · .ics + Google Calendar"}
+            </p>
+          </div>
+
           {done ? (
             <div className="text-center">
-              <CalendarPlus
-                className="mx-auto size-10"
-                style={{ color: brand.orange }}
-                aria-hidden
-              />
-              <h3 className="mt-3 text-lg font-extrabold" style={{ color: brand.navy }}>
-                {es ? "¡Cita lista para tu calendario!" : "Appointment ready for your calendar!"}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed" style={{ color: brand.steel }}>
-                {es
-                  ? "Se descargó un archivo .ics. Ábrelo en Apple Calendar, Outlook o Google. WhatsApp se abrió para avisar al taller."
-                  : "An .ics file downloaded. Open it in Apple Calendar, Outlook, or Google. WhatsApp opened so the shop is notified."}
+              <CalendarPlus className="mx-auto size-8" style={{ color: brand.orange }} aria-hidden />
+              <p className="mt-2 text-sm font-extrabold" style={{ color: brand.navy }}>
+                {es ? "Calendario listo · WhatsApp abierto" : "Calendar ready · WhatsApp opened"}
               </p>
-              <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-center">
+              <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:justify-center">
                 {gcalUrl ? (
                   <a
                     href={gcalUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-sm font-bold text-white no-underline"
+                    className="inline-flex items-center justify-center gap-1.5 rounded-md px-4 py-2.5 text-xs font-bold text-white no-underline"
                     style={{ background: brand.navy }}
                   >
-                    <ExternalLink className="size-4" aria-hidden />
-                    {es ? "Abrir en Google Calendar" : "Open in Google Calendar"}
+                    <ExternalLink className="size-3.5" aria-hidden />
+                    Google Calendar
                   </a>
                 ) : null}
                 <button
                   type="button"
-                  className="inline-flex items-center justify-center gap-2 rounded-md border px-5 py-3 text-sm font-bold"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-md border px-4 py-2.5 text-xs font-bold"
                   style={{ borderColor: "#E6EAEF", color: brand.navy, background: "#fff" }}
-                  onClick={() => {
-                    downloadIcs(buildPayload(), es ? "es" : "en");
-                  }}
+                  onClick={() => downloadIcs(buildPayload(), es ? "es" : "en")}
                 >
-                  <Download className="size-4" aria-hidden />
-                  {es ? "Descargar .ics otra vez" : "Download .ics again"}
+                  <Download className="size-3.5" aria-hidden />
+                  .ics
                 </button>
               </div>
               <button
                 type="button"
-                className="mt-4 text-sm font-bold underline"
+                className="mt-3 text-xs font-bold underline"
                 style={{ color: brand.orangeDeep }}
                 onClick={() => setDone(false)}
               >
-                {es ? "Reservar otra cita" : "Book another time"}
+                {es ? "Otra hora" : "Another time"}
               </button>
             </div>
           ) : (
-            <form onSubmit={onSubmit} className="space-y-3.5">
-              <div className="grid gap-3 sm:grid-cols-2">
+            <form onSubmit={onSubmit} className="space-y-2.5">
+              <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className={label} style={labelStyle} htmlFor="appt-name">
+                  <label className={label} style={{ color: brand.steel }} htmlFor="appt-name">
                     {es ? "Nombre" : "Name"}
                   </label>
                   <input
@@ -209,8 +187,8 @@ export function CleanBookAppointment() {
                   />
                 </div>
                 <div>
-                  <label className={label} style={labelStyle} htmlFor="appt-phone">
-                    {es ? "Teléfono" : "Phone"}
+                  <label className={label} style={{ color: brand.steel }} htmlFor="appt-phone">
+                    {es ? "Tel" : "Phone"}
                   </label>
                   <input
                     id="appt-phone"
@@ -225,21 +203,7 @@ export function CleanBookAppointment() {
                 </div>
               </div>
               <div>
-                <label className={label} style={labelStyle} htmlFor="appt-email">
-                  {es ? "Email (opcional)" : "Email (optional)"}
-                </label>
-                <input
-                  id="appt-email"
-                  type="email"
-                  className={field}
-                  style={{ color: brand.navy }}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  autoComplete="email"
-                />
-              </div>
-              <div>
-                <label className={label} style={labelStyle} htmlFor="appt-service">
+                <label className={label} style={{ color: brand.steel }} htmlFor="appt-service">
                   {es ? "Servicio" : "Service"}
                 </label>
                 <select
@@ -260,9 +224,9 @@ export function CleanBookAppointment() {
                   ))}
                 </select>
               </div>
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className={label} style={labelStyle} htmlFor="appt-date">
+                  <label className={label} style={{ color: brand.steel }} htmlFor="appt-date">
                     {es ? "Fecha" : "Date"}
                   </label>
                   <input
@@ -277,7 +241,7 @@ export function CleanBookAppointment() {
                   />
                 </div>
                 <div>
-                  <label className={label} style={labelStyle} htmlFor="appt-time">
+                  <label className={label} style={{ color: brand.steel }} htmlFor="appt-time">
                     {es ? "Hora" : "Time"}
                   </label>
                   <input
@@ -294,33 +258,16 @@ export function CleanBookAppointment() {
                   />
                 </div>
               </div>
-              <div>
-                <label className={label} style={labelStyle} htmlFor="appt-notes">
-                  {es ? "Notas (opcional)" : "Notes (optional)"}
-                </label>
-                <input
-                  id="appt-notes"
-                  className={field}
-                  style={{ color: brand.navy }}
-                  placeholder={es ? "Ej. traigo el auto con seguro…" : "e.g. bringing car with insurance…"}
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                />
-              </div>
-              <p className="text-[11px] leading-relaxed" style={{ color: brand.steelLight }}>
-                {es
-                  ? `Citas tentativas · ${site.address.line1}, Paterson. El taller confirma por WhatsApp o teléfono.`
-                  : `Requested times are tentative · ${site.address.line1}, Paterson. Shop confirms by WhatsApp or phone.`}
+              <p className="text-[10px]" style={{ color: brand.steelLight }}>
+                {site.address.line1}, Paterson · {es ? "confirma el taller" : "shop confirms"}
               </p>
               <button
                 type="submit"
-                className="flex w-full items-center justify-center gap-2 rounded-md border-0 py-3.5 text-xs font-extrabold uppercase tracking-[0.08em] text-white"
+                className="flex w-full items-center justify-center gap-2 rounded-md border-0 py-2.5 text-[11px] font-extrabold uppercase tracking-[0.06em] text-white"
                 style={{ background: brandGradients.whatsappCta }}
               >
-                <MessageCircle className="size-4" aria-hidden />
-                {es
-                  ? "Reservar · calendario + WhatsApp"
-                  : "Book · calendar + WhatsApp"}
+                <MessageCircle className="size-3.5" aria-hidden />
+                {es ? "Agendar · calendario + WA" : "Schedule · calendar + WA"}
               </button>
             </form>
           )}

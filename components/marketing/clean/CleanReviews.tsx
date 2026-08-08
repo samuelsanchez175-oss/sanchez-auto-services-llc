@@ -24,7 +24,7 @@ export function CleanReviews() {
   return (
     <section id="reviews" className="nw-section scroll-mt-28" style={{ background: brand.white }}>
       <div className="nw-wrap">
-        <div className="mb-10 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div className="min-w-0 flex-1">
             <p className="nw-kicker">{c.nav.reviews}</p>
             <h2 className="nw-h2">{c.testimonials.title}</h2>

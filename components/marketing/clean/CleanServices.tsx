@@ -80,7 +80,7 @@ export function CleanServices() {
   return (
     <section id="services" className="nw-section scroll-mt-28" style={{ background: "#F8F8F8" }}>
       <div className="nw-wrap">
-        <div className="nw-center mx-auto mb-10 max-w-2xl">
+        <div className="nw-center mx-auto mb-6 max-w-2xl">
           <p className="nw-kicker">{es ? "Servicios" : "Services"}</p>
           <h2 className="nw-h2">
             {es ? "Carrocería, pintura y mecánica" : "Body, paint & mechanical"}

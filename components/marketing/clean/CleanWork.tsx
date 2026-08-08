@@ -47,7 +47,7 @@ export function CleanWork() {
   return (
     <section id="work" data-arrow-theme="dark" className="nw-section scroll-mt-28 bg-[#0c1218]">
       <div className="nw-wrap">
-        <div className="mb-10 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-xl">
             <p className="nw-kicker">{es ? "Trabajos / taller" : "Our work / shop"}</p>
             <h2 className="nw-h2">

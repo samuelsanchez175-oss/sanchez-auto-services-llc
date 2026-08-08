@@ -64,7 +64,7 @@ export function CleanFooter() {
 
   return (
     <footer className="bg-black text-white" data-arrow-theme="dark">
-      <div className="mx-auto grid max-w-6xl gap-8 border-b border-white/10 px-5 py-12 sm:px-8 lg:grid-cols-3 lg:gap-10">
+      <div className="mx-auto grid max-w-6xl gap-6 border-b border-white/10 px-5 py-8 sm:px-8 lg:grid-cols-3 lg:gap-8">
         <div className="text-center lg:text-left">
           <Link href="/" className="inline-block">
             <Image
