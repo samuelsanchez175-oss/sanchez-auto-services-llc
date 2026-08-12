@@ -6,7 +6,7 @@ import { animate, createTimeline, stagger } from "animejs";
 import { MessageCircle, Phone, Star, MapPin, Navigation } from "lucide-react";
 import { formatAddressInline, mapDirectionsUrl, site } from "@/lib/site-content";
 import { brand, brandGradients } from "@/lib/brand";
-import { useCatalog } from "@/lib/locale";
+import { useCatalog, useLocaleActions } from "@/lib/locale";
 import { useQuoteLead } from "@/lib/quote-lead-context";
 import { trackEvent } from "@/lib/analytics";
 import { getShopOpenStatus } from "@/lib/shop-hours";
@@ -17,6 +17,7 @@ import { getShopOpenStatus } from "@/lib/shop-hours";
  */
 export function CleanHero() {
   const { locale } = useCatalog();
+  const { setLocale } = useLocaleActions();
   const es = locale === "es";
   const { openQuote } = useQuoteLead();
   const phone = site.phones[0];
@@ -174,6 +175,17 @@ export function CleanHero() {
             <span>{es ? "Seguros OK" : "Insurance OK"}</span>
           </p>
 
+          {!status.isOpen ? (
+            <p
+              data-hero-enter
+              className="mt-4 max-w-lg rounded-sm border border-white/20 bg-white/10 px-3 py-2 text-[12px] leading-snug text-white/90"
+            >
+              {es
+                ? "Estamos cerrados ahora — envía un estimado por WhatsApp y agendamos la entrega para el próximo horario."
+                : "We're closed right now — send a WhatsApp estimate and we'll schedule drop-off for the next open slot."}
+            </p>
+          ) : null}
+
           <div ref={ctaRowRef} className="mt-8 flex w-full max-w-lg flex-col gap-3 sm:flex-row">
             <button
               type="button"
@@ -183,10 +195,27 @@ export function CleanHero() {
                 background: brandGradients.whatsappCta,
                 boxShadow: "0 10px 28px rgba(37, 211, 102, 0.35)",
               }}
-              onClick={() => openQuote(es ? "Estimado general" : "General estimate")}
+              onClick={() => {
+                if (!status.isOpen) trackEvent("after_hours_cta", { source: "hero" });
+                openQuote(
+                  status.isOpen
+                    ? es
+                      ? "Estimado general"
+                      : "General estimate"
+                    : es
+                      ? "Estimado — fuera de horario / entrega mañana"
+                      : "Estimate — after hours / tomorrow drop-off",
+                );
+              }}
             >
               <MessageCircle className="size-5 shrink-0" aria-hidden />
-              {es ? "Pedir estimado" : "Get an estimate"}
+              {status.isOpen
+                ? es
+                  ? "Pedir estimado"
+                  : "Get an estimate"
+                : es
+                  ? "Texto para entrega mañana"
+                  : "Text for tomorrow drop-off"}
             </button>
             <a
               href={phone.tel}
@@ -200,6 +229,42 @@ export function CleanHero() {
               <Phone className="size-5 shrink-0" style={{ color: brand.orange }} aria-hidden />
               {es ? "Llamar" : "Call"}
             </a>
+          </div>
+
+          <div data-hero-enter className="mt-5 flex flex-wrap items-center gap-2">
+            <span className="text-[11px] font-semibold text-white/55">
+              {es ? "Idioma" : "Language"}
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                setLocale("en");
+                trackEvent("locale_toggle", { to: "en", source: "hero" });
+              }}
+              className="rounded-full border px-3 py-1 text-[11px] font-extrabold uppercase tracking-wide"
+              style={{
+                borderColor: !es ? brand.orange : "rgba(255,255,255,0.25)",
+                background: !es ? brand.orange : "transparent",
+                color: !es ? brand.navyDeep : "rgba(255,255,255,0.9)",
+              }}
+            >
+              EN
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setLocale("es");
+                trackEvent("locale_toggle", { to: "es", source: "hero" });
+              }}
+              className="rounded-full border px-3 py-1 text-[11px] font-extrabold uppercase tracking-wide"
+              style={{
+                borderColor: es ? brand.orange : "rgba(255,255,255,0.25)",
+                background: es ? brand.orange : "transparent",
+                color: es ? brand.navyDeep : "rgba(255,255,255,0.9)",
+              }}
+            >
+              Español
+            </button>
           </div>
 
           {/* Address + directions early — no need to scroll to Location */}

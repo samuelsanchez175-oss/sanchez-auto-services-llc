@@ -5,9 +5,13 @@ export const NAV_SECTION_IDS = [
   "home",
   "dealerships",
   "history",
+  "how-it-works",
   "services",
   "work",
+  "gallery",
+  "faq",
   "reviews",
+  "book",
   "hours",
 ] as const;
 

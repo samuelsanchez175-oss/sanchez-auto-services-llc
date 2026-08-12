@@ -9,6 +9,8 @@ import { CleanWork } from "@/components/marketing/clean/CleanWork";
 import { CleanServices } from "@/components/marketing/clean/CleanServices";
 import { CleanExplainer } from "@/components/marketing/clean/CleanExplainer";
 import { CleanMapsProof } from "@/components/marketing/clean/CleanMapsProof";
+import { CleanWorkGallery } from "@/components/marketing/clean/CleanWorkGallery";
+import { CleanInsuranceFaq } from "@/components/marketing/clean/CleanInsuranceFaq";
 import { CleanReviews } from "@/components/marketing/clean/CleanReviews";
 import { CleanBookAppointment } from "@/components/marketing/clean/CleanBookAppointment";
 import { CleanLocation } from "@/components/marketing/clean/CleanLocation";
@@ -45,8 +47,10 @@ export function MarketingHomeShell({
         <CleanHistory />
         <CleanExplainer />
         <CleanServices />
+        <CleanWorkGallery />
         <CleanWork />
         <CleanMapsProof />
+        <CleanInsuranceFaq />
         <CleanReviews />
         <CleanBookAppointment />
         <CleanLocation />

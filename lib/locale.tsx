@@ -39,11 +39,17 @@ export function LocaleProvider({
   const [locale, setLocaleState] = useState<Locale>(boot);
 
   useEffect(() => {
+    // URL ?lang=es | ?lang=en wins once, then localStorage
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get("lang");
+    const fromQuery: Locale | null = q === "es" || q === "en" ? q : null;
     const persisted = readStoredLocale();
-    if (!persisted) return undefined;
+    const next = fromQuery ?? persisted;
+    if (!next) return undefined;
 
     const handle = window.setTimeout(() => {
-      setLocaleState(persisted);
+      setLocaleState(next);
+      if (fromQuery) window.localStorage.setItem(STORAGE_KEY, fromQuery);
     }, 0);
 
     return () => window.clearTimeout(handle);

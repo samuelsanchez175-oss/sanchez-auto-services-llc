@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight, Check, Shield, Zap } from "lucide-react";
 import { useCatalog } from "@/lib/locale";
 import { useQuoteLead } from "@/lib/quote-lead-context";
@@ -14,6 +15,7 @@ import { trackEvent } from "@/lib/analytics";
 const CORE = [
   {
     id: "collision",
+    href: "/services/collision",
     popular: true,
     src: "/gallery/shop-1.jpg",
     titleEn: "Collision & body",
@@ -41,6 +43,7 @@ const CORE = [
   },
   {
     id: "paint",
+    href: "/services/paint",
     popular: false,
     src: "/gallery/shop-3.jpg",
     titleEn: "Paint & refinish",
@@ -68,6 +71,7 @@ const CORE = [
   },
   {
     id: "mechanical",
+    href: "/services/mechanical",
     popular: false,
     src: "/gallery/shop-2.jpg",
     titleEn: "Diagnostics & mechanical",
@@ -208,17 +212,26 @@ export function CleanServices() {
                       </li>
                     ))}
                   </ul>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      trackEvent("quote_click", { source: "services", service: dept.id });
-                      openQuote(title);
-                    }}
-                    className="nw-btn nw-btn--wa w-full"
-                  >
-                    {cta}
-                    <ArrowRight className="size-4" aria-hidden />
-                  </button>
+                  <div className="flex flex-col gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        trackEvent("quote_click", { source: "services", service: dept.id });
+                        openQuote(title);
+                      }}
+                      className="nw-btn nw-btn--wa w-full"
+                    >
+                      {cta}
+                      <ArrowRight className="size-4" aria-hidden />
+                    </button>
+                    <Link
+                      href={dept.href}
+                      className="text-center text-[11px] font-bold uppercase tracking-wide no-underline"
+                      style={{ color: brand.steel }}
+                    >
+                      {es ? "Más sobre este servicio →" : "More about this service →"}
+                    </Link>
+                  </div>
                 </div>
               </article>
             );

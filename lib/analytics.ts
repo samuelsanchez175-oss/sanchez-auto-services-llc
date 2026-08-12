@@ -12,7 +12,11 @@ export type AnalyticsEvent =
   | "instagram_click"
   | "explainer_play"
   | "maps_listing_click"
-  | "write_review_click";
+  | "write_review_click"
+  | "gallery_compare"
+  | "photo_attach"
+  | "locale_toggle"
+  | "after_hours_cta";
 
 export function trackEvent(
   name: AnalyticsEvent,

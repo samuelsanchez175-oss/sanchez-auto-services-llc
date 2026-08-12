@@ -47,6 +47,19 @@ export function CleanReviews() {
             <p className="mt-2 max-w-xl text-sm leading-relaxed" style={{ color: brand.steel }}>
               {c.testimonials.googleNote}
             </p>
+            <p className="mt-2 text-[11px] font-semibold" style={{ color: brand.steel }}>
+              {es
+                ? "Citas de muestra en el sitio · reseñas atribuidas y actualizadas en Google Business."
+                : "Sample quotes on-site · full attributed reviews stay on Google Business."}{" "}
+              <a
+                href={googleReviews}
+                {...EXTERNAL}
+                className="font-bold no-underline"
+                style={{ color: brand.orangeDeep }}
+              >
+                {es ? "Ver reseñas oficiales →" : "See official reviews →"}
+              </a>
+            </p>
           </div>
 
           {/* External CTAs — full-width on mobile, fixed height, no wrap overflow */}

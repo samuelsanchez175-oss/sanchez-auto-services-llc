@@ -14,6 +14,7 @@ import {
   VEHICLE_YEARS,
   modelsForMake,
 } from "@/lib/vehicle-catalog";
+import { trackEvent } from "@/lib/analytics";
 
 interface Props {
   service: string | null;
@@ -93,6 +94,8 @@ export function ServiceQuoteModal({ service, onClose }: Props) {
   const [insurerOther, setInsurerOther] = useState("");
   const [claimNumber, setClaimNumber] = useState("");
   const [sent, setSent] = useState(false);
+  const [photoNames, setPhotoNames] = useState<string[]>([]);
+  const [photoCount, setPhotoCount] = useState(0);
 
   const models = useMemo(() => modelsForMake(make), [make]);
 
@@ -107,31 +110,43 @@ export function ServiceQuoteModal({ service, onClose }: Props) {
           : "No insurance / cash job"
         : insurerPick;
 
-  const message = useMemo(
-    () =>
-      buildStructuredWhatsAppMessage({
-        year,
-        make: make === "Other" ? (es ? "Otra marca" : "Other make") : make,
-        model: resolvedModel,
-        service: service ?? (es ? "Estimado general" : "General estimate"),
-        issue: damageType,
-        details: description,
-        claimNumber,
-        insurer: resolvedInsurer || undefined,
-        locale: es ? "es" : "en",
-      }),
-    [
+  const message = useMemo(() => {
+    const base = buildStructuredWhatsAppMessage({
       year,
-      make,
-      resolvedModel,
-      service,
-      damageType,
-      description,
+      make: make === "Other" ? (es ? "Otra marca" : "Other make") : make,
+      model: resolvedModel,
+      service: service ?? (es ? "Estimado general" : "General estimate"),
+      issue: damageType,
+      details: description,
       claimNumber,
-      resolvedInsurer,
-      es,
-    ],
-  );
+      insurer: resolvedInsurer || undefined,
+      locale: es ? "es" : "en",
+    });
+    if (photoCount <= 0) return base;
+    const photoLine = es
+      ? `\n\n📷 *Fotos listas en el teléfono:* ${photoCount} (adjúntalas en este chat — WhatsApp no permite enviarlas automático desde el sitio).`
+      : `\n\n📷 *Photos ready on my phone:* ${photoCount} (attach them in this chat — WhatsApp links cannot auto-send files).`;
+    const names =
+      photoNames.length > 0
+        ? `\n${photoNames
+            .slice(0, 6)
+            .map((n) => `• ${n}`)
+            .join("\n")}`
+        : "";
+    return base + photoLine + names;
+  }, [
+    year,
+    make,
+    resolvedModel,
+    service,
+    damageType,
+    description,
+    claimNumber,
+    resolvedInsurer,
+    es,
+    photoCount,
+    photoNames,
+  ]);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -409,6 +424,38 @@ export function ServiceQuoteModal({ service, onClose }: Props) {
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                     />
+                  </div>
+
+                  <div>
+                    <label className={label} style={labelStyle}>
+                      <Camera className="mr-1 inline size-3 align-[-1px]" aria-hidden />
+                      {es ? "Fotos del daño (recomendado)" : "Damage photos (recommended)"}
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      capture="environment"
+                      className="block w-full text-[12px] file:mr-3 file:rounded-md file:border-0 file:bg-[#07253F] file:px-3 file:py-2 file:text-[11px] file:font-bold file:uppercase file:text-white"
+                      style={{ color: brand.navy }}
+                      onChange={(e) => {
+                        const files = Array.from(e.target.files ?? []);
+                        setPhotoCount(files.length);
+                        setPhotoNames(files.map((f) => f.name));
+                        if (files.length) {
+                          trackEvent("photo_attach", { count: files.length });
+                        }
+                      }}
+                    />
+                    <p className="mt-1 text-[11px] leading-snug" style={{ color: brand.steel }}>
+                      {photoCount > 0
+                        ? es
+                          ? `${photoCount} foto(s) seleccionada(s). Al abrir WhatsApp, adjunta las mismas desde el carrete.`
+                          : `${photoCount} photo(s) selected. When WhatsApp opens, attach the same files from your camera roll.`
+                        : es
+                          ? "WhatsApp no permite adjuntar automático desde la web — eliges las fotos aquí y las pegas en el chat."
+                          : "WhatsApp cannot auto-attach from the web — pick photos here, then attach them in chat."}
+                    </p>
                   </div>
 
                   <div
