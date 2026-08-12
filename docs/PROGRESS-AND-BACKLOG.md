@@ -1,6 +1,6 @@
 # Sanchez Auto LLC — Progress & Backlog
 
-_Last updated: **2026-08-12** · Path: `~/dev/CLAUDE WORLD/08 sanchez-auto-llc`_
+_Last updated: **2026-08-12** (tiers pushed) · Path: `~/dev/CLAUDE WORLD/08 sanchez-auto-llc`_
 
 Use this file to resume work **ASAP**. Local verify: `npm run build && npm run preview:site` → http://127.0.0.1:4173/
 
@@ -10,9 +10,10 @@ Use this file to resume work **ASAP**. Local verify: `npm run build && npm run p
 
 | Track | State |
 |-------|--------|
-| **Last push to GitHub/Vercel** | `1128379` — 5 conversion upgrades (Anime.js, explainer video, maps, why-book, SEO) |
-| **Tier 1–3 batch (local)** | **Built & previewed** · **NOT committed / NOT pushed** (~27 dirty paths) |
-| **Live URL** | https://sanchez-auto-llc.vercel.app/ (does **not** include Tier 1–3 until push) |
+| **Last push to GitHub/Vercel** | **`1a79ff7`** — Tier 1–3 shipped (IG before/after, landings, FAQ, photos, after-hours, ES) |
+| **Prior feature pack** | `1128379` — Anime.js, explainer video, maps, why-book, SEO |
+| **Working tree** | Clean after push (docs may lag until this note is committed) |
+| **Live URL** | https://sanchez-auto-llc.vercel.app/ (Vercel auto-deploys `main`) |
 | **Custom domain** | None yet — guide in [[CUSTOM-DOMAIN.md]] |
 
 ---
@@ -35,61 +36,31 @@ Use this file to resume work **ASAP**. Local verify: `npm run build && npm run p
 
 ---
 
-## DONE LOCALLY — not committed (verify then push)
+## DONE & PUSHED — Tier 1–3 (`1a79ff7`)
 
 ### Tier 1
 - [x] Reviews section: stronger “official Google” link / sample disclaimer
-- [x] Estimate modal: **photo multi-select** + WA copy listing file names/count (web can’t auto-attach to WhatsApp)
+- [x] Estimate modal: **photo multi-select** + WA copy listing file names/count
 - [x] **After-hours hero CTA** — “Text for tomorrow drop-off” when shop closed
 - [x] Domain how-to: `docs/CUSTOM-DOMAIN.md`
 
 ### Tier 2
-- [x] **Before/after gallery** from Instagram **@francisco4704** → `public/before-after/` (12 images) + `CleanWorkGallery` drag-compare
+- [x] **Before/after gallery** from Instagram **@francisco4704** → `public/before-after/` + `CleanWorkGallery`
 - [x] Service landings: `/services/collision`, `/paint`, `/mechanical`
 - [x] **Insurance & claims FAQ** section (`CleanInsuranceFaq`)
-- [x] Hero **EN / Español** chips + `?lang=es` boot in `lib/locale.tsx`
+- [x] Hero **EN / Español** chips + `?lang=es` boot
 - [x] Service cards link “More about this service →”
 
 ### Tier 3
-- [x] Compressed IG images (~2.3MB set)
-- [x] Removed public clutter (default SVGs, logo `.bak`, `__photo_preview.html`)
-- [x] Analytics events: `gallery_compare`, `photo_attach`, `locale_toggle`, `after_hours_cta`, …
-- [x] Sitemap entries for service landings
-
-### Key files (uncommitted)
-```
-app/services/[slug]/page.tsx
-components/marketing/clean/CleanWorkGallery.tsx
-components/marketing/clean/CleanInsuranceFaq.tsx
-components/marketing/service-landing-view.tsx
-components/marketing/clean/CleanHero.tsx          (modified)
-components/marketing/service-quote-modal1515.tsx  (photos)
-lib/work-gallery.ts
-lib/service-landings.ts
-public/before-after/*
-docs/CUSTOM-DOMAIN.md
-docs/PROGRESS-AND-BACKLOG.md   (this file)
-public/sitemap.xml
-```
-
-### ASAP resume command
-```bash
-cd ~/dev/CLAUDE\ WORLD/08\ sanchez-auto-llc
-git status -sb
-# if local looks good:
-git add -A && git commit -m "feat: tiers 1–3 — IG before/after, service landings, FAQ, photos, after-hours"
-git push origin main
-# Vercel auto-deploys
-```
+- [x] Compressed IG images · public clutter cleanup · analytics events · sitemap
 
 ---
 
-## NOT DONE / open backlog (do ASAP)
+## NOT DONE / open backlog (next ASAP)
 
-### P0 — ship the local batch
-- [ ] **User verify** local preview (home, work gallery pairs, estimate photos, ES, service pages)
-- [ ] **Commit + push** Tier 1–3 so Vercel matches localhost
-- [ ] **Re-check** before/after **pairs** on IG — only Amazon van pair was human-confirmed; other pairs are sequential stage guesses (re-pair if wrong)
+### P0 — polish after deploy
+- [ ] **Smoke live site** after Vercel finishes (home, work gallery, estimate photos, ES, service pages)
+- [ ] **Re-check** before/after **pairs** on IG — only Amazon van pair was human-confirmed; re-pair if wrong
 
 ### P1 — content & trust
 - [ ] **Real Google reviews sync** — `GOOGLE_PLACES_API_KEY` + `npm run gallery:pull` → fill `public/google-maps-gallery/` (still empty)
