@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "preview:site": "npx --yes serve@14 -l 4173 out",
     "gallery:pull": "node scripts/fetch-google-places-gallery.mjs",
@@ -13,6 +13,7 @@
   "dependencies": {
     "@base-ui/react": "^1.4.1",
     "@vercel/analytics": "^2.0.1",
+    "animejs": "^4.5.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.14.0",

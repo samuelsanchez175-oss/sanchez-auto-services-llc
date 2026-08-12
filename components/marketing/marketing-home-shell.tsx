@@ -7,6 +7,8 @@ import { CleanMakesCarousel } from "@/components/marketing/clean/CleanMakesCarou
 import { CleanHistory } from "@/components/marketing/clean/CleanHistory";
 import { CleanWork } from "@/components/marketing/clean/CleanWork";
 import { CleanServices } from "@/components/marketing/clean/CleanServices";
+import { CleanExplainer } from "@/components/marketing/clean/CleanExplainer";
+import { CleanMapsProof } from "@/components/marketing/clean/CleanMapsProof";
 import { CleanReviews } from "@/components/marketing/clean/CleanReviews";
 import { CleanBookAppointment } from "@/components/marketing/clean/CleanBookAppointment";
 import { CleanLocation } from "@/components/marketing/clean/CleanLocation";
@@ -18,10 +20,8 @@ import { trackEvent } from "@/lib/analytics";
 import { brand, brandGradients } from "@/lib/brand";
 
 /**
- * Lean homepage — one clear path, minimal chrome.
- * Hero → Dealers → About → Services → Work → Reviews → Book → Location
- * Careers + newsletter only in footer (not full page sections).
- * No section arrows, no desktop float (sticky mobile Estimate/Call only).
+ * Lean homepage — one clear conversion path.
+ * Hero → Makes → About → How-it-works → Services → Work → Gallery/Maps → Reviews → Book → Location
  */
 export function MarketingHomeShell({
   heroSrc: _heroSrc,
@@ -43,8 +43,10 @@ export function MarketingHomeShell({
         <CleanHero />
         <CleanMakesCarousel />
         <CleanHistory />
+        <CleanExplainer />
         <CleanServices />
         <CleanWork />
+        <CleanMapsProof />
         <CleanReviews />
         <CleanBookAppointment />
         <CleanLocation />

@@ -27,7 +27,13 @@ export function JsonLd() {
     name: site.name,
     alternateName: ["Sanchez Auto", "Sanchez Auto Services"],
     url,
-    image: `${url}${site.logo.src}`,
+    image: [
+      `${url}${site.logo.src}`,
+      `${url}/gallery/shop-1.jpg`,
+      `${url}/gallery/shop-2.jpg`,
+      `${url}/gallery/shop-3.jpg`,
+      `${url}/gallery/shop-4.jpg`,
+    ],
     logo: `${url}${site.logo.src}`,
     description: site.tagline,
     telephone: site.phones.map((p) => p.tel),
@@ -47,6 +53,13 @@ export function JsonLd() {
       longitude: -74.1556,
     },
     hasMap: site.mapSearchUrl,
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: site.googleRating,
+      reviewCount: site.googleReviewCount,
+      bestRating: 5,
+      worstRating: 1,
+    },
     sameAs,
     openingHoursSpecification: [
       {

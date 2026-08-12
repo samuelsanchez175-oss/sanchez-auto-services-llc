@@ -5,10 +5,14 @@
  */
 export type AnalyticsEvent =
   | "quote_open"
+  | "quote_click"
   | "whatsapp_outbound"
   | "call_click"
   | "directions_click"
-  | "instagram_click";
+  | "instagram_click"
+  | "explainer_play"
+  | "maps_listing_click"
+  | "write_review_click";
 
 export function trackEvent(
   name: AnalyticsEvent,

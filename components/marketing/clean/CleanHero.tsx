@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { animate, createTimeline, stagger } from "animejs";
 import { MessageCircle, Phone, Star, MapPin, Navigation } from "lucide-react";
 import { formatAddressInline, mapDirectionsUrl, site } from "@/lib/site-content";
 import { brand, brandGradients } from "@/lib/brand";
@@ -12,6 +13,7 @@ import { getShopOpenStatus } from "@/lib/shop-hours";
 
 /**
  * Calm hero — one proof line, open status, Estimate + Call only.
+ * Anime.js entrance on title + primary CTAs (respects reduced motion).
  */
 export function CleanHero() {
   const { locale } = useCatalog();
@@ -20,11 +22,70 @@ export function CleanHero() {
   const phone = site.phones[0];
   const years = Math.max(1, new Date().getFullYear() - site.foundedYear);
   const [status, setStatus] = useState(() => getShopOpenStatus());
+  const heroCopyRef = useRef<HTMLDivElement>(null);
+  const ctaRowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const id = window.setInterval(() => setStatus(getShopOpenStatus()), 60_000);
     return () => window.clearInterval(id);
   }, []);
+
+  useEffect(() => {
+    const reduce =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return;
+
+    const copy = heroCopyRef.current;
+    const ctas = ctaRowRef.current;
+    if (!copy || !ctas) return;
+
+    const kids = copy.querySelectorAll<HTMLElement>("[data-hero-enter]");
+    kids.forEach((el) => {
+      el.style.opacity = "0";
+      el.style.transform = "translateY(18px)";
+    });
+    Array.from(ctas.children).forEach((el) => {
+      const h = el as HTMLElement;
+      h.style.opacity = "0";
+      h.style.transform = "translateY(22px) scale(0.97)";
+    });
+
+    const tl = createTimeline({ defaults: { ease: "out(3)" } });
+    tl.add(kids, {
+      opacity: [0, 1],
+      translateY: [18, 0],
+      duration: 650,
+      delay: stagger(90),
+    }).add(
+      ctas.children,
+      {
+        opacity: [0, 1],
+        translateY: [22, 0],
+        scale: [0.97, 1],
+        duration: 520,
+        delay: stagger(110),
+      },
+      "-=280",
+    );
+
+    // Soft pulse on primary estimate CTA once after entrance
+    const primary = ctas.querySelector<HTMLElement>("[data-hero-cta-primary]");
+    let pulse: ReturnType<typeof animate> | undefined;
+    if (primary) {
+      pulse = animate(primary, {
+        scale: [1, 1.03, 1],
+        duration: 900,
+        delay: 1100,
+        ease: "inOut(2)",
+      });
+    }
+
+    return () => {
+      tl.pause();
+      pulse?.pause();
+    };
+  }, [locale]);
 
   const cta =
     "inline-flex min-h-[52px] flex-1 items-center justify-center gap-2 rounded-sm border-0 px-5 py-3.5 text-center text-[0.85rem] font-extrabold uppercase tracking-[0.04em] text-white no-underline transition hover:brightness-110 sm:text-[0.9rem]";
@@ -55,8 +116,8 @@ export function CleanHero() {
       </div>
 
       <div className="nw-wrap w-full pb-14 pt-[8.25rem] sm:pb-18 sm:pt-[9rem]">
-        <div className="max-w-2xl text-white">
-          <div className="mb-4 flex flex-wrap items-center gap-2">
+        <div ref={heroCopyRef} className="max-w-2xl text-white">
+          <div className="mb-4 flex flex-wrap items-center gap-2" data-hero-enter>
             <span
               className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold"
               style={{
@@ -75,7 +136,10 @@ export function CleanHero() {
             </span>
           </div>
 
-          <h1 className="text-[2.2rem] font-black leading-[1.1] tracking-tight sm:text-4xl lg:text-[3rem]">
+          <h1
+            data-hero-enter
+            className="text-[2.2rem] font-black leading-[1.1] tracking-tight sm:text-4xl lg:text-[3rem]"
+          >
             {es ? (
               <>
                 Más de {years} años de reparaciones de colisión en Paterson
@@ -87,13 +151,19 @@ export function CleanHero() {
             )}
           </h1>
 
-          <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-white/85 sm:text-base">
+          <p
+            data-hero-enter
+            className="mt-4 max-w-lg text-[15px] leading-relaxed text-white/85 sm:text-base"
+          >
             {es
               ? "Carrocería, pintura y mecánica. Estimados claros por WhatsApp. Seguros bienvenidos."
               : "Body, paint, and mechanical. Clear estimates on WhatsApp. Insurance welcome."}
           </p>
 
-          <p className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] font-semibold text-white/75">
+          <p
+            data-hero-enter
+            className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] font-semibold text-white/75"
+          >
             <span className="inline-flex items-center gap-1">
               <Star className="size-3.5 fill-current" style={{ color: brand.star }} aria-hidden />
               {site.googleRating}★ Google
@@ -104,9 +174,10 @@ export function CleanHero() {
             <span>{es ? "Seguros OK" : "Insurance OK"}</span>
           </p>
 
-          <div className="mt-8 flex w-full max-w-lg flex-col gap-3 sm:flex-row">
+          <div ref={ctaRowRef} className="mt-8 flex w-full max-w-lg flex-col gap-3 sm:flex-row">
             <button
               type="button"
+              data-hero-cta-primary
               className={cta}
               style={{
                 background: brandGradients.whatsappCta,

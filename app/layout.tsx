@@ -24,7 +24,7 @@ const siteUrl =
   "https://sanchez-auto-llc.vercel.app";
 
 const titleDefault = `${site.name} | Auto Body & Collision Repair Paterson NJ | Insurance Welcome`;
-const descriptionDefault = `Insurance claims welcome at ${site.name}. Collision repair, auto paint, and mechanical service at ${formatAddressInline()}. Free estimates via WhatsApp — call ${site.phones[0].display}. Serving Paterson, Clifton, Passaic & Passaic County.`;
+const descriptionDefault = `Insurance claims welcome at ${site.name}, ${formatAddressInline()}. Collision repair, auto paint & mechanical — free WhatsApp estimates. Call ${site.phones[0].display}. Serving Paterson, Clifton, Passaic, Wayne & Passaic County near Route 80.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -56,6 +56,12 @@ export const metadata: Metadata = {
     description: descriptionDefault,
     images: [
       {
+        url: "/gallery/shop-1.jpg",
+        width: 1600,
+        height: 900,
+        alt: `${site.name} body shop floor — Paterson NJ collision repair`,
+      },
+      {
         url: site.logo.src,
         width: site.logo.width,
         height: site.logo.height,
@@ -67,7 +73,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: titleDefault,
     description: descriptionDefault,
-    images: [site.logo.src],
+    images: ["/gallery/shop-1.jpg"],
   },
   robots: {
     index: true,
